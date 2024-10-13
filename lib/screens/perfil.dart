@@ -9,14 +9,16 @@
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/appinformacion.dart';
 import 'package:skincanbe/screens/configuracion.dart';
+import 'package:skincanbe/screens/inicio_sesion.dart';
 //import 'package:skincanbe/screens/pantalla_entrada.dart';
-import 'package:skincanbe/screens/pantalla_principal.dart';
-import 'package:skincanbe/screens/politcas.dart';
 
-void main() => runApp(const Perfil());
+import 'package:skincanbe/screens/politcas.dart';
+import 'package:skincanbe/services/AuthenticationService.dart';
+
+
 
 class Perfil extends StatefulWidget {
-  const Perfil({super.key});
+  Perfil({super.key});
 
   @override
   _PerfilState createState () => _PerfilState();
@@ -86,14 +88,44 @@ class _PerfilState extends State<Perfil>{
           },
                 ),
                 ListTile(
-          leading: Icon(Icons.exit_to_app),
-          title: Text('Cerrar sesión'),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) 
-            => const PantallaPrincipal()));
-          },
-                ),
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Cerrar sesión'),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  // Mostrar un diálogo de confirmación
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Cerrar sesión'),
+                        content: Text('¿Estás seguro de que deseas cerrar sesión?'),
+                       actions: [
+                          TextButton(
+                            child: Text('Cancelar'),
+                            onPressed: () {
+                              Navigator.of(context).pop();  // Cierra el diálogo sin cerrar sesión
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Cerrar sesión'),
+                            onPressed: () async {
+                              final authService = AuthenticationService();
+                              Navigator.of(context).pop();  // Cierra el diálogo
+                              // Llama a la función logout y redirige a InicioDeSesion
+                             await authService.logout();  // Asegúrate de haber instanciado _authService antes
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                               MaterialPageRoute(builder: (context) => InicioDeSesion()),  // Redirigir a la pantalla de inicio de sesión
+                                (Route<dynamic> route) => false,  // Elimina todas las pantallas anteriores
+                              );
+                            },
+                         ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
               ],
             ),
         )

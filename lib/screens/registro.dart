@@ -8,11 +8,15 @@
  */
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:skincanbe/model/Usuario.dart';
+import 'package:skincanbe/screens/EsperaConfirmacionCorreo.dart';
 import 'package:skincanbe/screens/inicio_sesion.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
 import 'package:skincanbe/widgets/boton_enviar.dart';
 import 'package:skincanbe/widgets/input_personalizado.dart';
-import 'package:skincanbe/widgets/selector_fecha.dart';
+import 'package:skincanbe/services/UserServices.dart';
+//import 'package:skincanbe/widgets/selector_fecha.dart';
 
 /**
  * Esta pantalla es la correspondiente al Registro del usuario, de la forma tradicional, ya que tambie existira la opcion 
@@ -34,8 +38,24 @@ class Registrarse extends StatefulWidget {
 
 
 class _RegistrarseState extends State<Registrarse> {
-  String _date = "Selecciona tu fecha de nacimiento";  //Variable String con una oracion que ayudara despues
-  bool? _isChecked = false; //Variable Booleana la cual puede o no estar inicializada (?), pero en esta caso, si lo esta.
+  UserService userService = UserService("http://192.168.100.63:8080/");
+  //String _date = "Selecciona tu fecha de nacimiento";  //Variable String con una oracion que ayudara despues
+  bool _isChecked = false; //Variable Booleana la cual puede o no estar inicializada (?), pero en esta caso, si lo esta.
+  String tipoUsuario = "Paciente";
+  bool mostrarCedula = false;
+
+  final TextEditingController nombreControlador= TextEditingController();
+  final TextEditingController apellidosControlador  = TextEditingController();
+  final TextEditingController correoControlador = TextEditingController();
+  final TextEditingController edadControlador = TextEditingController();
+  final TextEditingController passwordControlador = TextEditingController();
+  final TextEditingController tipoUsuarioControlador = TextEditingController();
+  final TextEditingController cedulaControlador = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+
+
+
 
 
   @override
@@ -91,41 +111,135 @@ class _RegistrarseState extends State<Registrarse> {
                       )                    
                     ]),
                   child: Form( //Este widget se usa para hacer formularios de edicion.
+                    key: _formKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction, //Sirve para poder validar la informacion que el usuario esta ingresando
                     child: Column(
                     children: [
                       CustomInputField( //Campo para que el usuario ingrese su nombre
-                        hint: "Juan Pérez", label: "Introduzca su nombre completo", icon: Icon(Icons.person_outline_outlined)),
+                        hint: "Juan", label: "Introduzca su nombre(s)", icon: Icon(Icons.person_outline_outlined),
+                        controller: nombreControlador, // Asignar el controlador aquí
+                        validator: (value) {
+                        if (value == null || value.isEmpty) {
+                        return 'Por favor, ingresa tu nombre';
+                        }
+                        return null;
+                      },
+                      ),
+                     SizedBox(height: 20,),
+                     CustomInputField( //Campo para que el usuario ingrese su nombre
+                        hint: "Pérez Perez", label: "Introduzca sus apellidos", icon: Icon(Icons.person_outline_outlined),
+                        controller: apellidosControlador, // Asignar el controlador aquí
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, ingresa tu apellido';
+                          }
+                          return null;
+                        },
+                        ),
                      SizedBox(height: 20,),
                     CustomInputField( //Campo para que el usuario ingrese su correo electronico
-                      hint: "correo@hotmail.com", label: "Introduzca su correo electrónico", icon: Icon(Icons.email_outlined),
+                      hint: "correo@hotmail.com", label: "Introduzca su correo electrónico", icon: Icon(Icons.email_outlined), keyboardType: TextInputType.emailAddress,
+                      controller: correoControlador,
                     validator: (value) {
                           return EmailValidator.validate( //Funcion que valida si el correo es correcto, si no manda un error.
                             value.toString()) ? null : 'Correo incorrecto, por favor, ingresa un correo existente';
                         },
                     ),
                       SizedBox(height: 20,),
-                      DatePickerField(date: _date, onConfirm: (date) { //Este widget es para el selector de fecha, el cual esta en un widget aparte.
+                      CustomInputField(hint: "18", label: "Introduzca su edad", icon: Icon(Icons.add_box_outlined),
+                      controller: edadControlador,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly, // Asegura que solo se ingresen dígitos
+                      ],
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa tu edad';
+                        }
+                        int? valor;
+                        try {
+                          valor = int.parse(value); // Convertir a int si no hay error
+                        } catch (e) {
+                          return 'Por favor ingresa un número válido'; // Captura errores de conversión
+                        }
+                        if (valor < 18) {
+                          return 'Debes tener al menos 18 años';
+                        }
+                        return null;
+                      },
+                      ),
+                      /*DatePickerField(date: _date, onConfirm: (date) { //Este widget es para el selector de fecha, el cual esta en un widget aparte.
                         setState(() { //Aqui es donde se maneja el cambio de estado en la pantalla.
                           _date = '${date.day}/${date.month}/${date.year}'; //Se indica que fecha se selecciono.
                         });
-                      },),
+                      },),*/
                       SizedBox(height: 20),
                       //Campo para que el usuario coloque su contraseña
                       CustomInputField(hint: "******", label: "Introduzca una contraseña", icon: Icon(Icons.lock_outlined),
                       isPassword: true,
+                      controller: passwordControlador,
                       validator: (value) { //Validacion para que la contraseña sea mayor a 6 caracteres
                         return (value != null && value.length >= 6)
                         ? null : 'La contraseña debe de ser de al menos 6 caracteres';
                       },
                       ),
                       SizedBox(height: 30,),
+                      DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        labelText: 'Tipo de Usuario', // Etiqueta del combo box
+                        border: OutlineInputBorder(), // Añade un borde al combo box
+                      ),
+                      value: tipoUsuario, // Valor predeterminado
+                      items: [
+                      DropdownMenuItem(
+                      value: 'Paciente',
+                      child: Text('Paciente'),
+                      ),
+                      DropdownMenuItem(
+                      value: 'Especialista',
+                      child: Text('Especialista'),
+                      ),
+                      ],
+                      onChanged: (value) {
+                      // Aquí puedes manejar el cambio de valor
+                      setState(() {
+                      tipoUsuario = value!;
+                      mostrarCedula = (tipoUsuario == 'Especialista'); // Muestra el campo solo si es "Especialista"
+                      tipoUsuarioControlador.text = value;
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Has seleccionado: $value'),
+                      ),
+                      );
+                      },
+                      ),
+                      SizedBox(height: 20),
+                      if (mostrarCedula) // Si "mostrarCedula" es true, se muestra el CustomInputField
+                      CustomInputField(hint: '12345678', label: 'Ingresa tu cedula', icon: Icon(Icons.badge),
+                      keyboardType: TextInputType.number,
+                      controller: cedulaControlador,
+                      inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly, // Asegura que solo se ingresen dígitos
+                      ],
+                      validator: (value) {
+                      if (value == null || value.isEmpty) {
+                      return 'Por favor ingresa tu cédula';
+                      } else if (value.length < 5 || value.length > 8) {
+                      return 'La cédula debe tener entre 5 y 8 dígitos';
+                      }
+                      return null;
+                      },
+                      ),
+                      SizedBox(height: 30),
                       Row( //Aqui se hace uso del widget Row para acomodar un checkbox y un texto, uno a lado del otro.
                         children: [
-                          Checkbox(value: _isChecked, //Checkbox
+                          Checkbox(
+                          value: _isChecked, //Checkbox
                           onChanged: (bool? value){ //Aqui verifica si ha cambiado de estado el checkbox, y si si cambia el estado de la pantalla.
                             setState(() {
-                              _isChecked = value!;
+                              _isChecked = value ?? false;
                             });
                           },),
                           SizedBox(width:6),
@@ -154,10 +268,61 @@ class _RegistrarseState extends State<Registrarse> {
                   )),
                 ),
                 SizedBox(height: 30),
-                SubmitButton(text: "Registrarme", onPressed: (){ //Boton de Registrarse, el estilo del boton esta dentro de un widget que esta en un archivo aparte.
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const InicioDeSesion()), //Se usa Navigator.push para poder navegar entre pantallas.
-                  );
-                },),
+                SubmitButton(
+                  text: "Registrarme",
+                  onPressed: () async {
+                    if(_isChecked){
+                      if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+
+                      try {
+                        // Capturamos los valores de los TextEditingController
+                        String nombre = nombreControlador.text;
+                        String apellidos = apellidosControlador.text;
+                        String correo = correoControlador.text;
+                        String age = edadControlador.text;
+                        String contra = passwordControlador.text;
+                        String tipousuario = tipoUsuarioControlador.text;
+                        String cedula = cedulaControlador.text;
+                        Usuario user = new Usuario(id: 0, nombre: nombre, apellidos: apellidos, edad: int.parse(age), correo: correo, password: contra, tipoUsuario: tipousuario, cedula: cedula);
+                        // Llamada al método de registro de usuario
+                        String respuesta = await userService.registroUsuario(user);
+
+                        if(int.parse(respuesta) == 1){
+                          print("Entre al if del 1");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Usuario registrado con exito!")),
+                        );
+                        await Future.delayed(Duration(seconds: 1), (){});
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EsperaConfirmacion()));
+                        }else if(int.parse(respuesta) == 2){
+                          print("entre al else if");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("El correo que ingresaste ya existe!, vuelve a intentarlo con otro, porfavor")),
+                        );
+                        // await Future.delayed(Duration(seconds: 2), (){});
+                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Registrarse()));
+                        }
+
+                        
+
+                      } catch (e) {
+                        print('Error al registrar usuario: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Hubo un error al registrar el usuario')),
+                        );
+                      }
+                    } 
+                    }else {
+                    // Si el checkbox no está seleccionado, mostramos un SnackBar con el mensaje de validación
+                    ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Debes aceptar los términos y condiciones')),
+                    );
+                      }
+                    
+                  },  
+                ),
+
                 SizedBox(height: 30,),
                 TextButton(onPressed: (){ //Widget que nos permite poner un Boton de texto
                   Navigator.push(context, 

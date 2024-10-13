@@ -43,6 +43,23 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array><dict>
+	<key>CFBundleURLSchemes</key>
+	<array><string>http</string>
+	</array>
+	<key>CFBundleURLName</key>
+	<string>192.168.100.63:8080</string>
+	</dict>
+	</array>
+	<key>NSUserActivityTypes</key>
+	<array>
+	<string>NSUserActivityTypeBrowsingWeb</string>
+	</array>
+	<key>AssociatedDomains</key>
+	<array>
+	<string>applinks:192.168.100.63:8080</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

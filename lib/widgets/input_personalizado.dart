@@ -7,6 +7,7 @@
  * Rodriguez Juarez Israel.
  */
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomInputField extends StatelessWidget {
   final String hint;
@@ -16,16 +17,21 @@ class CustomInputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final Function()? onTap;
+  final TextInputType? keyboardType; // Añadir la opción para especificar el tipo de teclado
+  final List<TextInputFormatter>? inputFormatters; // Añadir los inputFormatters
+
 
   const CustomInputField({
     Key? key,
     required this.hint,
-    required this.label,
+    required this.label,  
     required this.icon,
     this.isPassword = false,
     this.validator,
     this.controller,
     this.onTap,
+    this.keyboardType, // Agregar el nuevo parámetro
+    this.inputFormatters, // Agregar el nuevo parámetro
   }) : super(key: key);
 
   @override
@@ -35,7 +41,8 @@ class CustomInputField extends StatelessWidget {
       child: AbsorbPointer(
         absorbing: onTap != null,
         child: TextFormField(
-          keyboardType: TextInputType.emailAddress,
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
           controller: controller,
           autocorrect: false,
           obscureText: isPassword,

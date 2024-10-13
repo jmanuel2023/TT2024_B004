@@ -81,7 +81,7 @@ class PantallaPrincipal extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const Registrarse())
                         );
                       },),
-                      SizedBox(width: 20),
+                      SizedBox(width: 40),
                       _botonAuth(label: "Iniciar Sesión",
                       color: const Color.fromARGB(255, 12, 12, 12),
                       textColor: const Color.fromARGB(255, 236, 234, 234),

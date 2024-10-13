@@ -29,7 +29,7 @@ class _InformacionAppState extends State<InformacionApp>{
           leading: IconButton(icon: const Icon(Icons.arrow_back),
           onPressed: (){
             Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => const PantallaEntrada())
+            MaterialPageRoute(builder: (context) => PantallaEntrada())
             );
           }, //iconSize: 35,
           ),
