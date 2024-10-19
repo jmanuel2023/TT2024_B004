@@ -8,6 +8,36 @@ import 'package:skincanbe/model/Usuario.dart';
 
     UserService(this.baseUrl);
 
+    Future<String> restablecerContrasena(String token, String password) async{
+      print("Estoy en la funcion restablecer contraseña");
+      final url = Uri.parse("http://192.168.100.63:8080/reset-password");
+      final body = jsonEncode({"token": token,"password": password});
+
+      try {
+        final response = await http.post(url,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: body,);
+
+        print(response.body);
+
+        if(response.statusCode == 200){
+          print("Contraseña restablecida con exito!");
+          return "Contraseña restablecida correctamente";
+        } else if(response.statusCode == 400){
+          print("Token inválido o expirado");
+          return "Token invalido o expirado";
+        } else{
+          print("Error al restablecer la contraseña: ${response.body}");
+          return "Error al restablecer la contraseña";
+        }
+      } catch (error) {
+        print("Error en la solicitud: $error");
+        return "Error en la solicitud";
+      }
+    }
+
     Future<String> registroUsuario(Usuario usuario) async {
       usuario.apellidos;
       usuario.nombre;
@@ -41,4 +71,39 @@ import 'package:skincanbe/model/Usuario.dart';
         return("Ha ocurrido un error");
       }
     }
+
+    Future<String> recuperarPassword(String email) async {
+      print("Entre a la funcion recuperarPassword");
+      final url = Uri.parse('http://192.168.100.63:8080/forgotpassword');
+      final body = jsonEncode({"email": email});
+      print(body);
+
+      try {
+        final response = await http.post(
+          url,
+          headers: {
+           "Content-Type": "application/json",
+          },
+          body: body,
+        );
+    
+        print(response.statusCode);
+    
+        // Manejar respuesta según el código de estado
+       if (response.statusCode == 200) {
+          print("Correo enviado para la recuperación de contraseña");
+         return 'Correo enviado';
+        } else if (response.statusCode == 404) {
+          print("Correo no encontrado");
+          return 'Correo no registrado';
+       } else {
+         print("Error desconocido: ${response.body}");
+         return 'Error en el servidor';
+       }
+      } catch (error) {
+       print("Error en la solicitud: $error");
+        return 'Error en la solicitud';
+      }
+    }
+
   }

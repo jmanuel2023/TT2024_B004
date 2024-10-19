@@ -108,7 +108,7 @@ class PantallaEntrada extends StatefulWidget {
               child: Icon(Icons.camera_alt),))
           ]),
             Historial(),
-            Perfil()
+            Perfil(nombre: widget.nombre!, apellidos: widget.apellidos!,correo: widget.correo!)
           ],
         ),
 

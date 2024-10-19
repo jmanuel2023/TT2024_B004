@@ -19,7 +19,11 @@ class AuthenticationService {
       print(data);
       await _storage.write(key: "token", value: data['token']);
       return data;
-    } else {
+    } else if(response.statusCode == 401){
+      final data2 = jsonDecode(response.body);
+      return data2;
+    }else {
+      print(response.statusCode);
       throw Exception('Error al iniciar sesión');
     }
   }

@@ -125,7 +125,7 @@ class _RegistrarseState extends State<Registrarse> {
                         return null;
                       },
                       ),
-                     SizedBox(height: 20,),
+                     SizedBox(height: 10,),
                      CustomInputField( //Campo para que el usuario ingrese su nombre
                         hint: "Pérez Perez", label: "Introduzca sus apellidos", icon: Icon(Icons.person_outline_outlined),
                         controller: apellidosControlador, // Asignar el controlador aquí
@@ -136,7 +136,7 @@ class _RegistrarseState extends State<Registrarse> {
                           return null;
                         },
                         ),
-                     SizedBox(height: 20,),
+                     SizedBox(height: 10,),
                     CustomInputField( //Campo para que el usuario ingrese su correo electronico
                       hint: "correo@hotmail.com", label: "Introduzca su correo electrónico", icon: Icon(Icons.email_outlined), keyboardType: TextInputType.emailAddress,
                       controller: correoControlador,
@@ -145,7 +145,7 @@ class _RegistrarseState extends State<Registrarse> {
                             value.toString()) ? null : 'Correo incorrecto, por favor, ingresa un correo existente';
                         },
                     ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       CustomInputField(hint: "18", label: "Introduzca su edad", icon: Icon(Icons.add_box_outlined),
                       controller: edadControlador,
                       keyboardType: TextInputType.number,
@@ -164,16 +164,13 @@ class _RegistrarseState extends State<Registrarse> {
                         }
                         if (valor < 18) {
                           return 'Debes tener al menos 18 años';
+                        } else if(valor >99){
+                          return 'Edad no admitida';
                         }
                         return null;
                       },
                       ),
-                      /*DatePickerField(date: _date, onConfirm: (date) { //Este widget es para el selector de fecha, el cual esta en un widget aparte.
-                        setState(() { //Aqui es donde se maneja el cambio de estado en la pantalla.
-                          _date = '${date.day}/${date.month}/${date.year}'; //Se indica que fecha se selecciono.
-                        });
-                      },),*/
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       //Campo para que el usuario coloque su contraseña
                       CustomInputField(hint: "******", label: "Introduzca una contraseña", icon: Icon(Icons.lock_outlined),
                       isPassword: true,
@@ -183,7 +180,7 @@ class _RegistrarseState extends State<Registrarse> {
                         ? null : 'La contraseña debe de ser de al menos 6 caracteres';
                       },
                       ),
-                      SizedBox(height: 30,),
+                      SizedBox(height: 10,),
                       DropdownButtonFormField<String>(
                       decoration: InputDecoration(
                         labelText: 'Tipo de Usuario', // Etiqueta del combo box
@@ -215,7 +212,7 @@ class _RegistrarseState extends State<Registrarse> {
                       );
                       },
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 10),
                       if (mostrarCedula) // Si "mostrarCedula" es true, se muestra el CustomInputField
                       CustomInputField(hint: '12345678', label: 'Ingresa tu cedula', icon: Icon(Icons.badge),
                       keyboardType: TextInputType.number,
@@ -232,7 +229,7 @@ class _RegistrarseState extends State<Registrarse> {
                       return null;
                       },
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 10),
                       Row( //Aqui se hace uso del widget Row para acomodar un checkbox y un texto, uno a lado del otro.
                         children: [
                           Checkbox(
@@ -267,7 +264,7 @@ class _RegistrarseState extends State<Registrarse> {
                       ],
                   )),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 15),
                 SubmitButton(
                   text: "Registrarme",
                   onPressed: () async {
@@ -323,7 +320,7 @@ class _RegistrarseState extends State<Registrarse> {
                   },  
                 ),
 
-                SizedBox(height: 30,),
+                SizedBox(height: 10,),
                 TextButton(onPressed: (){ //Widget que nos permite poner un Boton de texto
                   Navigator.push(context, 
                   MaterialPageRoute(builder: (context) => const InicioDeSesion()));//Se usa el navigator.push para poder navegar entre pantallas.

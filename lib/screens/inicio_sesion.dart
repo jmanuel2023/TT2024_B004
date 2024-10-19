@@ -9,6 +9,8 @@
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:skincanbe/screens/EmailChangePassword.dart';
 import 'package:skincanbe/screens/pantalla_entrada.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
 import 'package:skincanbe/screens/registro.dart';
@@ -16,7 +18,6 @@ import 'package:skincanbe/services/AuthenticationService.dart';
 import 'package:skincanbe/widgets/boton_enviar.dart';
 import 'package:skincanbe/widgets/input_personalizado.dart';
 
-void main() => runApp(const InicioDeSesion());
 
 /**
  * En esta pantalla se hace el inicio de sesion(Login) del usuario
@@ -148,7 +149,6 @@ final TextEditingController passwordController = TextEditingController();
                           )
                           )
                           ).then((_) {
-                              // Muestra el mensaje emergente después de la navegación
                              _showWelcomeDialog(context, nombre, apellidos);
                             });
                       } else{
@@ -165,6 +165,15 @@ final TextEditingController passwordController = TextEditingController();
                         ));
                     }
                   }),
+                  SizedBox(height: 10,),
+                  TextButton(onPressed: (){
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const EmailChangePassword()));
+                  }, child: Text("¿Olvidaste tu contraseña?",
+                      style: TextStyle(
+                        color: Colors.black),
+                      ),
+                  ), 
                   SizedBox(height: 30,),
                   TextButton(onPressed: (){ //Aqui se usa el widget TextButton que convierte un texto en un boton
                     Navigator.push(context, 
@@ -173,7 +182,7 @@ final TextEditingController passwordController = TextEditingController();
                   child: Text("¿Aun no tienes cuenta? Registrate aqui", //texto del textbutton
                   style: TextStyle(
                     color: Color.fromARGB(239, 8, 8, 8),
-                  ))) 
+                  ))),
                   ],
               ),
             ),
@@ -186,7 +195,6 @@ final TextEditingController passwordController = TextEditingController();
     showDialog(
     context: context,
     builder: (BuildContext context) {
-      // Esto permite que el dialog se cierre automáticamente después de 5 segundos
       Future.delayed(Duration(seconds: 5), () {
         Navigator.of(context).pop(true);
       });
@@ -206,6 +214,8 @@ final TextEditingController passwordController = TextEditingController();
     },
   );
   }
+
+  
 }
 
 

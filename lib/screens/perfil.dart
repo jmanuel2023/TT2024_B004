@@ -18,7 +18,11 @@ import 'package:skincanbe/services/AuthenticationService.dart';
 
 
 class Perfil extends StatefulWidget {
-  Perfil({super.key});
+  final String nombre;
+  final String apellidos;
+  final String correo;
+
+  Perfil({ required this.nombre, required this.apellidos, required this.correo});
 
   @override
   _PerfilState createState () => _PerfilState();
@@ -28,6 +32,8 @@ class _PerfilState extends State<Perfil>{
   @override
   Widget build(BuildContext context) {
   //final ancho = MediaQuery.of(context).size;
+  final String name = widget.nombre;
+  final String apellidos = widget.apellidos;
     return Scaffold(
         /*appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -53,11 +59,12 @@ class _PerfilState extends State<Perfil>{
                   decoration: BoxDecoration(color: const Color.fromARGB(255, 104, 99, 99),
                   borderRadius: BorderRadius.circular(10)
                   ),
-          accountName: Text("Nombre del Usuario"),
-          accountEmail: Text("usuario@correo.com"),
+          accountName: Text(name +" "+apellidos),
+          accountEmail: Text(widget.correo),
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.white,
-            child: Icon(Icons.person, size: 50),
+            child: Text(name.substring(0,1) +""+apellidos.substring(0,1),
+            style: TextStyle(fontSize: 45),),
           ),
                 ),
                 ListTile(
