@@ -11,6 +11,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:skincanbe/screens/EmailChangePassword.dart';
+import 'package:skincanbe/screens/SpecialistScreen.dart';
 import 'package:skincanbe/screens/pantalla_entrada.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
 import 'package:skincanbe/screens/registro.dart';
@@ -117,6 +118,14 @@ final TextEditingController passwordController = TextEditingController();
                     final authService = AuthenticationService();
                     try{
                       final data = await authService.login(emailController.text, passwordController.text);
+                      if (data.containsKey('message')) {
+                        // Si hay un mensaje de error, muestra el mensaje al usuario
+                        final errorMessage = data['message'];
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(errorMessage)),
+                        );
+                        return;
+                      }
                       final tipoUsuario = data['tipoUsuario'];
                       final nombre = data['nombre'];
                       final apellidos = data['apellidos'];
@@ -142,7 +151,7 @@ final TextEditingController passwordController = TextEditingController();
                       } else if(tipoUsuario == "Especialista"){
                         Navigator.push(context, 
                         MaterialPageRoute(builder: 
-                        (context) => PantallaEntrada(
+                        (context) => SpecialistScreen(
                           nombre: nombre,
                           apellidos: apellidos, 
                           correo: email,

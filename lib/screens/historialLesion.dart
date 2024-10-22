@@ -9,7 +9,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:skincanbe/data/datoshistorial.dart';
-//import 'package:skincanbe/screens/pantalla_entrada.dart';
 
 class Historial extends StatefulWidget {
   const Historial({super.key});

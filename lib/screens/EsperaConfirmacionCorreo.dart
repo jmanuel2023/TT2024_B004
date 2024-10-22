@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(const EsperaConfirmacion());
+import 'package:skincanbe/screens/inicio_sesion.dart';
 
 class EsperaConfirmacion extends StatefulWidget {
   const EsperaConfirmacion({super.key});
@@ -10,6 +9,19 @@ class EsperaConfirmacion extends StatefulWidget {
 }
 
 class _EsperaConfirmacionState extends State<EsperaConfirmacion> {
+
+   @override
+  void initState() {
+    super.initState();
+
+    // Retrasar la navegación por 3 segundos
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => InicioDeSesion()),
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -47,44 +59,44 @@ class _EsperaConfirmacionState extends State<EsperaConfirmacion> {
                 ),
                 textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20,),
-                Container(
-                padding: EdgeInsets.all(20),
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 189, 187, 187),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [                          //Aqui se le da un estilo al container que contendra los botones
-                    BoxShadow(
-                      color: Colors.black45,
-                      blurRadius: 15,
-                      offset: Offset(0, 5)
-                    )                    
-                  ]),
-                  child: Row(
-                    children: [
-                      MaterialButton(onPressed: (){},
-                    shape: RoundedRectangleBorder(                                      //ESTILO DEL BOTON PROPIAMENTE PARA DESPUES USAR CADA UNO DE LOS
-                    borderRadius: BorderRadius.circular(10)),
-                    color: Color.fromARGB(255, 248, 240, 240),                                                     //ELEMENTOS QUE SE ENVIARON CUANDO SE MANDO A LLAMAR ESTE METODO
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("Editar Correo", style: TextStyle(color: Colors.black,)),
-                      ),
-                    ),
-                    SizedBox(width: 40,),
-                    MaterialButton(onPressed: (){},
-                    shape: RoundedRectangleBorder(                                      //ESTILO DEL BOTON PROPIAMENTE PARA DESPUES USAR CADA UNO DE LOS
-                    borderRadius: BorderRadius.circular(10)),
-                    color: const Color.fromARGB(255, 12, 12, 12),                                                     //ELEMENTOS QUE SE ENVIARON CUANDO SE MANDO A LLAMAR ESTE METODO
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text("Reenviar Correo", style: TextStyle(color: Color.fromARGB(255, 236, 234, 234),)),
-                      ),
-                    ),
-                  ],
-                ),
-                ),
+                //SizedBox(height: 20,),
+                // Container(
+                // padding: EdgeInsets.all(20),
+                // height: 70,
+                // decoration: BoxDecoration(
+                //   color: Color.fromARGB(255, 189, 187, 187),
+                //   borderRadius: BorderRadius.circular(20),
+                //   boxShadow: const [                          //Aqui se le da un estilo al container que contendra los botones
+                //     BoxShadow(
+                //       color: Colors.black45,
+                //       blurRadius: 15,
+                //       offset: Offset(0, 5)
+                //     )                    
+                //   ]),
+                //   child: Row(
+                //     children: [
+                //       /*MaterialButton(onPressed: (){},
+                //     shape: RoundedRectangleBorder(                                      //ESTILO DEL BOTON PROPIAMENTE PARA DESPUES USAR CADA UNO DE LOS
+                //     borderRadius: BorderRadius.circular(10)),
+                //     color: Color.fromARGB(255, 248, 240, 240),                                                     //ELEMENTOS QUE SE ENVIARON CUANDO SE MANDO A LLAMAR ESTE METODO
+                //     child: Padding(
+                //       padding: EdgeInsets.symmetric(horizontal: 10),
+                //       child: Text("Editar Correo", style: TextStyle(color: Colors.black,)),
+                //       ),
+                //     ),*/
+                //     SizedBox(width: 40,),
+                //     /*MaterialButton(onPressed: (){},
+                //     shape: RoundedRectangleBorder(                                      //ESTILO DEL BOTON PROPIAMENTE PARA DESPUES USAR CADA UNO DE LOS
+                //     borderRadius: BorderRadius.circular(10)),
+                //     color: const Color.fromARGB(255, 12, 12, 12),                                                     //ELEMENTOS QUE SE ENVIARON CUANDO SE MANDO A LLAMAR ESTE METODO
+                //     child: Padding(
+                //       padding: EdgeInsets.symmetric(horizontal: 10),
+                //       child: Text("Reenviar Correo", style: TextStyle(color: Color.fromARGB(255, 236, 234, 234),)),
+                //       ),
+                //     ),*/
+                //   ],
+                // ),
+                // ),
               ],
             ),
           ),

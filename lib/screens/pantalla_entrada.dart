@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skincanbe/screens/historialLesion.dart';
 import 'package:skincanbe/screens/infopiel.dart';
-//import 'package:skincanbe/screens/pantallacarga.dart';
 import 'package:skincanbe/screens/perfil.dart';
 
 

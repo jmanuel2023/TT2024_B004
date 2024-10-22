@@ -22,7 +22,12 @@ class AuthenticationService {
     } else if(response.statusCode == 401){
       final data2 = jsonDecode(response.body);
       return data2;
-    }else {
+    }else if(response.statusCode == 403){
+      final data3= jsonDecode(response.body);
+      print(data3);
+      return data3;
+    }
+    else{
       print(response.statusCode);
       throw Exception('Error al iniciar sesión');
     }

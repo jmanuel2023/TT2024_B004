@@ -23,7 +23,6 @@ import 'package:skincanbe/services/UserServices.dart';
  * de registrarse con una cuenta de google.
  */
 
-void main() => runApp(const Registrarse());
 
 /**La clase extiende de la clase StatefulWidget ya que debe de tener cambios de estado durante su ejecucion, bondades 
  * que nos ofrece esta clase.  
@@ -289,20 +288,14 @@ class _RegistrarseState extends State<Registrarse> {
                           print("Entre al if del 1");
                           ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Usuario registrado con exito!")),
-                        );
-                        await Future.delayed(Duration(seconds: 1), (){});
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EsperaConfirmacion()));
+                          );
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EsperaConfirmacion()));
                         }else if(int.parse(respuesta) == 2){
                           print("entre al else if");
                           ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("El correo que ingresaste ya existe!, vuelve a intentarlo con otro, porfavor")),
                         );
-                        // await Future.delayed(Duration(seconds: 2), (){});
-                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Registrarse()));
                         }
-
-                        
-
                       } catch (e) {
                         print('Error al registrar usuario: $e');
                         ScaffoldMessenger.of(context).showSnackBar(

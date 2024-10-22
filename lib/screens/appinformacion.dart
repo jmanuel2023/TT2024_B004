@@ -8,9 +8,7 @@
  */
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/pantalla_entrada.dart';
-//import 'package:skincanbe/screens/perfil.dart';
 
-void main() => runApp(const InformacionApp());
 
 class InformacionApp extends StatefulWidget {
   const InformacionApp({super.key});

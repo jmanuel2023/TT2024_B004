@@ -7,9 +7,6 @@
  * Rodriguez Juarez Israel.
  */
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/pantalla_entrada.dart';
-
-void main() => runApp(const PantallaCarga());
 
 /*En esta pantalla se carga el logo de la aplicacion y un texto de espera,con un tiempo de 3 segundos 
 para dar tiempo al registro del usuario en la BD*/

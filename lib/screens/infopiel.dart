@@ -8,9 +8,7 @@
  */
 import 'package:flutter/material.dart';
 import 'package:skincanbe/data/infodatospiel.dart';
-//import 'package:skincanbe/screens/pantalla_entrada.dart';
 
-void main() => runApp(const InfoPiel());
 
 class InfoPiel extends StatefulWidget {
   const InfoPiel({super.key});

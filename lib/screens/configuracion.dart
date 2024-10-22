@@ -8,9 +8,6 @@
  */
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/pantalla_entrada.dart';
-//import 'package:skincanbe/screens/perfil.dart';
-
-void main() => runApp(const Configuracion());
 
 class Configuracion extends StatefulWidget {
   const Configuracion({super.key});

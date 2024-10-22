@@ -64,7 +64,7 @@ class _PerfilState extends State<Perfil>{
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.white,
             child: Text(name.substring(0,1) +""+apellidos.substring(0,1),
-            style: TextStyle(fontSize: 45),),
+            style: TextStyle(fontSize: 35),),
           ),
                 ),
                 ListTile(
