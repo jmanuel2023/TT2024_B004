@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/appinformacion.dart';
 import 'package:skincanbe/screens/configuracion.dart';
 import 'package:skincanbe/screens/inicio_sesion.dart';
-//import 'package:skincanbe/screens/pantalla_entrada.dart';
-
 import 'package:skincanbe/screens/politcas.dart';
 import 'package:skincanbe/services/AuthenticationService.dart';
 
@@ -31,26 +29,9 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil>{
   @override
   Widget build(BuildContext context) {
-  //final ancho = MediaQuery.of(context).size;
   final String name = widget.nombre;
   final String apellidos = widget.apellidos;
     return Scaffold(
-        /*appBar: AppBar(
-          automaticallyImplyLeading: false,
-          /*leading: IconButton(icon: const Icon(Icons.arrow_back),
-          onPressed: (){
-            Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => const PantallaEntrada())
-            );
-          }, //iconSize: 35,
-          ),*/
-          title: Row(
-            children: [
-              SizedBox(width: ancho.width * 0.64),
-              Image.asset("assets/images/logo.png", width: 45, height: 45),
-            ],
-          ),
-        ),*/
         body: Center(
             child: ListView(
               padding: EdgeInsets.all(10),

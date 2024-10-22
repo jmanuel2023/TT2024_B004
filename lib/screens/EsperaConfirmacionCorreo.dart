@@ -1,3 +1,15 @@
+/**
+ * Pantalla de aviso para confirmación del correo electrónico.
+ * Proyecto: SkinCanBe
+ * Equipo: 
+ * Manuel Morales Joan Hanzka
+ * Ojeda Gomez Angelo Mihaelle
+ * Rodriguez Juarez Israel.
+ */
+
+/*Pantalla donde se mostrara un aviso indicando al usuario que ya se le ha mandado un correo 
+electronico para la confirmación del mismo. Esta pantalla solo se mostrara 5 segundos*/
+
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/inicio_sesion.dart';
 
@@ -11,26 +23,25 @@ class EsperaConfirmacion extends StatefulWidget {
 class _EsperaConfirmacionState extends State<EsperaConfirmacion> {
 
    @override
-  void initState() {
+  void initState() { //metodo del ciclo de vida del dart, el cual se ejecuta cuando inicia la pantalla
     super.initState();
-
-    // Retrasar la navegación por 3 segundos
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
+    Future.delayed(Duration(seconds: 5), () { //Un pausa de 3 segundos
+      Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) => InicioDeSesion()),
       );
     });
   }
+
   @override
+  //Widget para mostrar el diseño de la pantalla
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size; //variable para calcular el tamaño de la pantalla.
     return Scaffold(
       body: Center(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: size.height*0.15),
-            decoration: const BoxDecoration(                                        //el encabezado con el logo, y los botones que se usan para
-            gradient: LinearGradient(colors: [                                      //registrarse o iniciar sesion
+            decoration: const BoxDecoration(                                        
+            gradient: LinearGradient(colors: [                                      
             Color.fromRGBO(233, 214, 204, 1),
             Color.fromRGBO(230, 226, 224, 1)]
             ),
@@ -39,64 +50,25 @@ class _EsperaConfirmacionState extends State<EsperaConfirmacion> {
               children: [
                 Icon(Icons.mark_email_read, size: 300),
                 SizedBox(height:20,),
-                Text(
-                "Favor de confirmar la existencia de su cuenta de correo electrónico.",
+                Text("Favor de confirmar la existencia de su cuenta de correo electrónico.",
                 style: TextStyle(
-                  fontSize: 18.0, // Tamaño de la fuente
-                  fontWeight: FontWeight.w600, // Grosor de la fuente
-                  color: Colors.black87, // Color del texto
-                 letterSpacing: 1.2, // Espaciado entre letras
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600, 
+                  color: Colors.black87, 
+                 letterSpacing: 1.2,
                 ),
-                textAlign: TextAlign.center, // Centrar el texto
+                textAlign: TextAlign.center, 
               ),
                 SizedBox(height:20),
                 Text("Haz clic en el enlace que se hizo llegar al correo electrónico que ingresaste.",
                 style: TextStyle(
-                  fontSize: 18.0, // Tamaño de la fuente
-                  fontWeight: FontWeight.w600, // Grosor de la fuente
-                  color: Colors.black87, // Color del texto
-                 letterSpacing: 1.2, // Espaciado entre letras
+                  fontSize: 18.0, 
+                  fontWeight: FontWeight.w600, 
+                  color: Colors.black87, 
+                 letterSpacing: 1.2, 
                 ),
                 textAlign: TextAlign.center,
                 ),
-                //SizedBox(height: 20,),
-                // Container(
-                // padding: EdgeInsets.all(20),
-                // height: 70,
-                // decoration: BoxDecoration(
-                //   color: Color.fromARGB(255, 189, 187, 187),
-                //   borderRadius: BorderRadius.circular(20),
-                //   boxShadow: const [                          //Aqui se le da un estilo al container que contendra los botones
-                //     BoxShadow(
-                //       color: Colors.black45,
-                //       blurRadius: 15,
-                //       offset: Offset(0, 5)
-                //     )                    
-                //   ]),
-                //   child: Row(
-                //     children: [
-                //       /*MaterialButton(onPressed: (){},
-                //     shape: RoundedRectangleBorder(                                      //ESTILO DEL BOTON PROPIAMENTE PARA DESPUES USAR CADA UNO DE LOS
-                //     borderRadius: BorderRadius.circular(10)),
-                //     color: Color.fromARGB(255, 248, 240, 240),                                                     //ELEMENTOS QUE SE ENVIARON CUANDO SE MANDO A LLAMAR ESTE METODO
-                //     child: Padding(
-                //       padding: EdgeInsets.symmetric(horizontal: 10),
-                //       child: Text("Editar Correo", style: TextStyle(color: Colors.black,)),
-                //       ),
-                //     ),*/
-                //     SizedBox(width: 40,),
-                //     /*MaterialButton(onPressed: (){},
-                //     shape: RoundedRectangleBorder(                                      //ESTILO DEL BOTON PROPIAMENTE PARA DESPUES USAR CADA UNO DE LOS
-                //     borderRadius: BorderRadius.circular(10)),
-                //     color: const Color.fromARGB(255, 12, 12, 12),                                                     //ELEMENTOS QUE SE ENVIARON CUANDO SE MANDO A LLAMAR ESTE METODO
-                //     child: Padding(
-                //       padding: EdgeInsets.symmetric(horizontal: 10),
-                //       child: Text("Reenviar Correo", style: TextStyle(color: Color.fromARGB(255, 236, 234, 234),)),
-                //       ),
-                //     ),*/
-                //   ],
-                // ),
-                // ),
               ],
             ),
           ),

@@ -17,8 +17,8 @@ class CustomInputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final Function()? onTap;
-  final TextInputType? keyboardType; // Añadir la opción para especificar el tipo de teclado
-  final List<TextInputFormatter>? inputFormatters; // Añadir los inputFormatters
+  final TextInputType? keyboardType; 
+  final List<TextInputFormatter>? inputFormatters;
 
 
   const CustomInputField({
@@ -30,8 +30,8 @@ class CustomInputField extends StatelessWidget {
     this.validator,
     this.controller,
     this.onTap,
-    this.keyboardType, // Agregar el nuevo parámetro
-    this.inputFormatters, // Agregar el nuevo parámetro
+    this.keyboardType, 
+    this.inputFormatters, 
   }) : super(key: key);
 
   @override

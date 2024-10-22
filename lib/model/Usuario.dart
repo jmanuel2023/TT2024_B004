@@ -1,3 +1,14 @@
+/**
+ * Modelo de datos de Usuario
+ * Proyecto: SkinCanBe
+ * Equipo: 
+ * Manuel Morales Joan Hanzka
+ * Ojeda Gomez Angelo Mihaelle
+ * Rodriguez Juarez Israel.
+ */
+
+/*Clase para representar a los usuarios de manera estructurada, 
+facilitando el manejo de datos asociado, ya sea un paciente o un especialista*/
 class Usuario {
   final int id;
   final String nombre;
@@ -6,7 +17,7 @@ class Usuario {
   final String correo;
   final String password;
   final String tipoUsuario;
-  String? cedula; // Campo opcional
+  String? cedula;
   String status;
 
   Usuario({
@@ -17,11 +28,10 @@ class Usuario {
     required this.correo,
     required this.password,
     required this.tipoUsuario,
-    this.cedula, // Opcional
-    this.status = 'Pendiente',
+    this.cedula, //Este campo es opcional, ya que solo especialista lo puede tener
+    this.status = 'Pendiente', 
   });
 
-  // Asegúrate de incluir este campo en el mapeo de JSON
   factory Usuario.fromJson(Map<String, dynamic> json) {
     return Usuario(
       id: json['id'],
@@ -31,7 +41,7 @@ class Usuario {
       correo: json['correo'],
       password: json['password'],
       tipoUsuario: json['tipo_usuario'],
-      cedula: json['cedula'], // Podría ser null si no existe
+      cedula: json['cedula'], 
       status: json['status'] ?? 'Pendiente',
     );
   }
@@ -45,7 +55,7 @@ class Usuario {
       'correo': correo,
       'password': password,
       'tipo_usuario': tipoUsuario,
-      'cedula': cedula, // Puede ser null
+      'cedula': cedula, 
       'status': status,
     };
   }

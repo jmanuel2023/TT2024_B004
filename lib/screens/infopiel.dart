@@ -1,5 +1,5 @@
 /**
- * PantalLa de Informacion sobre la piel.
+ * Pantalla de Información sobre la piel.
  * Proyecto: SkinCanBe
  * Equipo: 
  * Manuel Morales Joan Hanzka
@@ -18,6 +18,8 @@ class InfoPiel extends StatefulWidget {
 }
 
 class _InfoPielState extends State<InfoPiel> {
+  // Crea una lista de objetos Item a partir de los datos obtenidos de infodatospiel.
+// La lista se genera mapeando cada elemento en infodatospiel, que se asume es una colección de mapas.
   List<Item> _data = infodatospiel.map((item) {
     return Item(
       expandedValue: item['expandedValue']!, 
@@ -25,24 +27,19 @@ class _InfoPielState extends State<InfoPiel> {
       description: item['description']!,
       );
   }).toList();
+  /*El metodo map, devuelve un iterable, pero no tiene la estructura de una lista, por eso hay que 
+  convertilo a una lista, es por ello que hasta el ultimo tiene .toList(); */
 
   @override
+  //Widget para mostrar el diseño de la pantalla
   Widget build(BuildContext context) {
-    final ancho = MediaQuery.of(context).size;
+    final ancho = MediaQuery.of(context).size; //Variable para calcular el tamaño de la pantalla
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( //Widget para el diseño de la barra superior de la pantalla
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(233, 214, 204, 1), 
-          /*leading: IconButton(icon: const Icon(Icons.arrow_back),
-          onPressed: (){
-            Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => const PantallaEntrada())
-            );
-          }, //iconSize: 35,
-          ),*/
           title: Row(
             children: [
-              //SizedBox(width: 1),
               Text("Todo acerca sobre la piel",
               style: TextStyle(
                 fontSize: 19,
@@ -50,22 +47,26 @@ class _InfoPielState extends State<InfoPiel> {
               ),
               ),
               SizedBox(width: ancho.width * 0.04),
-              Image.asset("assets/images/logo.png", width: 45, height: 45),
+              Image.asset("assets/images/logo.png", 
+              width: 45, 
+              height: 45
+              ),
             ],
           ),
         ),
       body: Container(
         padding: EdgeInsets.all(10),
-//        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
-          child: ExpansionPanelList.radio(
+          child: ExpansionPanelList.radio( //Widget para la expansion de una lista de paneles
             dividerColor: Colors.grey[500],
             initialOpenPanelValue: null,
             children: _data.map<ExpansionPanelRadio>((Item item){
-              return ExpansionPanelRadio(
-                //backgroundColor: Colors.grey,
+              return ExpansionPanelRadio( //Widget para mostrar los paneles
                 value: item.headerValue,
-                headerBuilder: (BuildContext context, bool isExpanded) {
+                headerBuilder: (
+                  BuildContext context, 
+                  bool isExpanded
+                  ) {
                   return ListTile(
                     subtitle: Text(item.description) ,
                     title: Text(item.headerValue),
@@ -74,7 +75,12 @@ class _InfoPielState extends State<InfoPiel> {
                 },
                 body: Padding(
                   padding: const EdgeInsets.all(10),
-                  child: ListTile(title: Text(item.expandedValue, style: TextStyle(fontWeight: FontWeight.bold),),
+                  child: ListTile(
+                    title: Text(item.expandedValue, 
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold
+                        ),
+                        ),
                   ),
                 ),
               );
@@ -85,7 +91,7 @@ class _InfoPielState extends State<InfoPiel> {
     );
   }
 }
-
+//Clase personalizada para el objeto Item
 class Item {
   Item({
     required this.expandedValue,

@@ -1,3 +1,15 @@
+/**
+ * Pantalla de Restablecimiento de contraseña via correo electrónico
+ * Proyecto: SkinCanBe
+ * Equipo: 
+ * Manuel Morales Joan Hanzka
+ * Ojeda Gomez Angelo Mihaelle
+ * Rodriguez Juarez Israel.
+ */
+
+/*Pantalla donde el usuario podra colocar un correo electronico, donde desea que le llegue un enlace
+para el restablecimiento de contraseña*/
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/inicio_sesion.dart';
@@ -13,37 +25,44 @@ class EmailChangePassword extends StatefulWidget {
 }
 
 class _EmailChangePasswordState extends State<EmailChangePassword> {
-UserService userService = UserService("http://192.168.100.63:8080/");
-final TextEditingController _emailController = TextEditingController();
+
+UserService userService = UserService("http://192.168.100.63:8080/"); //Instancia del servicio de usuario
+final TextEditingController _emailController = TextEditingController(); //Variable para guardar el correo
+
   @override
+  //Widget para mostrar el diseño de la pantalla
   Widget build(BuildContext context) {
-    final ancho = MediaQuery.of(context).size;
+    final ancho = MediaQuery.of(context).size; //Variable para calcular el ancho de la pantalla
     return Scaffold(
-      appBar: AppBar( //La propiedad appBar de Scaffold, es para dar diseño a la barra superior que tiene por defecto cada pantalla, si no se pone esta propiedad, la propiedad body ocupara todo el espacio de la pantalla
-          leading: IconButton(icon: const Icon(Icons.arrow_back), //La propiedad leading del widget AppBar, es para poder dar mas funcionalidades y/o caracteristicas al icono de retroceso
+      appBar: AppBar( //Widget para el diseño de la barra superior
+          leading: IconButton(icon: const Icon(Icons.arrow_back), 
           onPressed: (){
-            Navigator.push(context, //La propiedad onPressed indica cuando este icono de retroceso es presionado 
-            MaterialPageRoute(builder: (context) => const InicioDeSesion()) //Aqui se indica la pantalla a la que se va a navegar
+            Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => const InicioDeSesion())
             );
           }, 
           ),
-          title: Row( //La propiedad title del widget AppBar, nos permite agregar otros widgets a un lado del icono de retroceso.
-            children: [ //El widget Row se utiliza para poder poner widgets uno a un lado del otro.
+          title: Row( //Titulo de la pantalla
+            children: [ 
               Text("Recuperar contraseña"),
-              SizedBox(width: ancho.width * 0.1), //El widget SizedBox es para poder dar un espacio entre filas(rows).
-              Image.asset("assets/images/logo.png", width: 45, height: 45), //Este widget nos sirve para poder poner una imagen, esta imagen esta alojada dentro del prpoyecto en la carpeta assets/images/
+              SizedBox(width: ancho.width * 0.1), 
+              Image.asset("assets/images/logo.png", 
+              width: 45, 
+              height: 45
+              ), 
             ],
           ),
         ),
-      body: Center(
+      body: Center( //Cuerpo de la pantalla
         child: Container(
           padding: EdgeInsets.all(10),
-          child: SingleChildScrollView(
+          child: SingleChildScrollView( //Widget que permite bajar o subir la pantalla
             child: Column(
               children: [
-              Align( //Este widget es para alinear el contenido
+              Align( 
                 alignment: Alignment.topCenter,
-                child: Text("Recupera tu contraseña",style: TextStyle( //Texto de que se alinea
+                child: Text("Recupera tu contraseña",
+                style: TextStyle( 
                   color: Colors.grey,
                   fontSize: 23,
                   fontWeight: FontWeight.bold,
@@ -52,24 +71,31 @@ final TextEditingController _emailController = TextEditingController();
               SizedBox(height: 20,), 
               Container(
                 padding: EdgeInsets.all(20),
-                decoration: BoxDecoration( //Este widget se utiliza cuando queremos darr estilos a un contenedor.
+                decoration: BoxDecoration( 
                   color: Color.fromARGB(255, 226, 222, 222),
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: const [                          //Aqui se le da un estilo al container que contendra los botones
+                  boxShadow: const [                          
                     BoxShadow(
                       color: Colors.black45,
                       blurRadius: 15,
                       offset: Offset(0, 5)
                     )                    
                   ]),
+                  //Widget para el uso de un formulario
                 child: Form(
                   child: Column(
                     children: [
-                      CustomInputField(hint: "Introduce tu correo", label: "Correo electrónico", icon: Icon(Icons.email),
-                      controller: _emailController
+                      CustomInputField( //Widget personalizado para mostrar los input del formulario
+                        hint: "Introduce tu correo",
+                        label: "Correo electrónico",
+                        icon: Icon(Icons.email),
+                        controller: _emailController //Controlador del contenido del input
                       ),
                       SizedBox(height: 20,),
-                      SubmitButton(text: "Recuperar Contraseña", onPressed: _enviarSolicitudEmail,)
+                      SubmitButton(
+                        text: "Recuperar Contraseña",
+                        onPressed: _enviarSolicitudEmail //Llama al metodo para toda la logica de esta pantalla
+                      )
                     ],
                   ),
                 ),
@@ -83,27 +109,29 @@ final TextEditingController _emailController = TextEditingController();
   }
 
   void _enviarSolicitudEmail() async {
-  final email = _emailController.text;
+  final email = _emailController.text; //Guarda en una variable lo que tiene el controlador de los campos del formulario
 
-  // Verificación de que el email sea válido
-  if (EmailValidator.validate(email)) {
-    // Llamamos al servicio para la comunicación con el backend
-    final resultado = await userService.recuperarPassword(email);
-    
-    // Manejo de la respuesta
+
+  if (EmailValidator.validate(email)) { //Metodo para validar el formato del correo electrónico
+
+    final resultado = await userService.recuperarPassword(email); //Llamada asincrona al metodo recuperarPassoword del servicio UserService, pasandole como parametro el correo electrónico
+    //Condicion donde el correo es enviado correctamente
     if (resultado == 'Correo enviado') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Correo enviado para recuperar contraseña"),
       ));
-      Navigator.push(
-        context,
+      Navigator.push(context,
         MaterialPageRoute(builder: (context) => const InicioDeSesion()),
       );
-    } else if (resultado == 'Correo no registrado') {
+    }
+    //Condicion donde el correo que ha ingresado, no se encuentra registrado en la base de datos 
+    else if (resultado == 'Correo no registrado') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Correo no registrado"),
       ));
-    } else {
+    } 
+    //Condicion donde ha ocurrido un error
+    else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Ocurrió un error. Inténtalo de nuevo."),
       ));
