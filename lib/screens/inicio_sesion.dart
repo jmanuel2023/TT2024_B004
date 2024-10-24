@@ -10,7 +10,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/EmailChangePassword.dart';
 import 'package:skincanbe/screens/SpecialistScreen.dart';
-import 'package:skincanbe/screens/pantalla_entrada.dart';
+import 'package:skincanbe/screens/PatientScreen.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
 import 'package:skincanbe/screens/registro.dart';
 import 'package:skincanbe/services/AuthenticationService.dart';
@@ -135,6 +135,7 @@ final TextEditingController passwordController = TextEditingController();
                         final nombre = data['nombre'];
                         final apellidos = data['apellidos'];
                         final email = data['username'];
+                        final idUsuario = data['Id'];
                         //Condicion que indica que si es tipo de usuario Paciente
                         if(tipoUsuario == "Paciente"){
                           Navigator.push(context, 
@@ -143,6 +144,7 @@ final TextEditingController passwordController = TextEditingController();
                             nombre: nombre, 
                             apellidos: apellidos, 
                             correo: email,
+                            id: idUsuario
                             )
                             )
                             ).then((_) {
