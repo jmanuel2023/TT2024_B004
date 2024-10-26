@@ -46,7 +46,9 @@ class PantallaEntrada extends StatefulWidget {
             PantallaCamara(
               id: widget.id
             ),
-            Historial(),
+            Historial(
+              usuarioId:widget.id
+            ),
             Perfil(nombre: widget.nombre!, apellidos: widget.apellidos!,correo: widget.correo!)
           ],
         ),

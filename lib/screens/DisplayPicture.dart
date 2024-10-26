@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:skincanbe/screens/InformacionLesion.dart';
 import 'package:skincanbe/services/LesionServices.dart';
 
 class DisplayPicture extends StatefulWidget {
@@ -40,10 +41,24 @@ class _DisplaypictureState extends State<DisplayPicture> {
                         padding: EdgeInsetsDirectional.symmetric(
                             horizontal: 20, vertical: 15),
                       ),
-                      onPressed: () {
+                      onPressed: () async{
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Foto confirmada")));
                         final lesionService = LesionServices();
+                        final String nombreLesion="Nevo melanocitico";
+                        final String descripcion = "Lesion beningna, la cual es un parche de piel de color oscuro y a menudo velludo.";
+                        String data = await lesionService.registrarLesion(widget.id, widget.imagen, nombreLesion, descripcion);
+                        if(data == 'Bien'){
+                          print("LESION REGISTRADA CORRECTAMENTE");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Lesión registrada correctamente")));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => InformacionLesion(nombreLesion: nombreLesion, descripcion: descripcion, imagen: widget.imagen)));
+                        }else if(data == 'Mal'){
+                          print("NO SE HA PODIDO GUARDAR LA LESION");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("No se ha podido guardar la lesion"))
+                          );
+                        }
                       },
                     ),
                     ElevatedButton.icon(
