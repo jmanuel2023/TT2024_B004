@@ -7,6 +7,7 @@
  * Rodriguez Juarez Israel.
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:skincanbe/screens/appinformacion.dart';
 import 'package:skincanbe/screens/configuracion.dart';
 import 'package:skincanbe/screens/inicio_sesion.dart';
@@ -16,35 +17,52 @@ import 'package:skincanbe/services/AuthenticationService.dart';
 
 
 class Perfil extends StatefulWidget {
-  final String nombre;
-  final String apellidos;
-  final String correo;
-
-  Perfil({ required this.nombre, required this.apellidos, required this.correo});
 
   @override
   _PerfilState createState () => _PerfilState();
 }
 
 class _PerfilState extends State<Perfil>{
+   String? nombre;
+  String? apellidos;
+  String? correo;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarDatos();
+  }
+
+  Future<void> _cargarDatos() async {
+    final storage = FlutterSecureStorage();
+    nombre = await storage.read(key: "nombre");
+    apellidos = await storage.read(key: "apellidos");
+    correo = await storage.read(key: "email");
+
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-  final String name = widget.nombre;
-  final String apellidos = widget.apellidos;
+  final String name = nombre ?? "";
+  final String apellido = apellidos ?? "";
+  final String letraName = name.isNotEmpty ? name.substring(0,1) : "";
+  final String letraApellido = apellido.isNotEmpty ? apellido.substring(0,1) :"";
     return Scaffold(
         body: Center(
             child: ListView(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.only(top: 30, left: 10, right: 10),
               children: <Widget>[
                 UserAccountsDrawerHeader(
                   decoration: BoxDecoration(color: const Color.fromARGB(255, 104, 99, 99),
                   borderRadius: BorderRadius.circular(10)
                   ),
-          accountName: Text(name +" "+apellidos),
-          accountEmail: Text(widget.correo),
+          accountName: Text(name +" "+apellido),
+          accountEmail: Text(correo ?? ""),
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.white,
-            child: Text(name.substring(0,1) +""+apellidos.substring(0,1),
+            child: Text(letraName+""+letraApellido,
             style: TextStyle(fontSize: 35),),
           ),
                 ),

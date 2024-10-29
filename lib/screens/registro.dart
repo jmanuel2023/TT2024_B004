@@ -37,7 +37,7 @@ class Registrarse extends StatefulWidget {
 
 
 class _RegistrarseState extends State<Registrarse> {
-  UserService userService = UserService("http://192.168.100.63:8080/");
+  UserService userService = UserService();
   //String _date = "Selecciona tu fecha de nacimiento";  //Variable String con una oracion que ayudara despues
   bool _isChecked = false; //Variable Booleana la cual puede o no estar inicializada (?), pero en esta caso, si lo esta.
   String tipoUsuario = "Paciente";

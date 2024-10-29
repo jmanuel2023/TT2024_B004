@@ -1,16 +1,16 @@
-  import 'package:http/http.dart' as http;
-  import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:skincanbe/model/Usuario.dart';
+import 'package:skincanbe/data/constantes.dart';
 
   class UserService {
-    final String baseUrl;
 
-    UserService(this.baseUrl);
+    const UserService();
 
     Future<String> restablecerContrasena(String token, String password) async{
       print("Estoy en la funcion restablecer contraseña");
-      final url = Uri.parse("http://192.168.100.63:8080/reset-password");
+      final url = Uri.parse(metodo+ip+puerto+"/reset-password");
       final body = jsonEncode({"token": token,"password": password});
 
       try {
@@ -44,7 +44,7 @@ import 'package:skincanbe/model/Usuario.dart';
       usuario.status;
       try {
         var response = await http.post(
-          Uri.parse('http://192.168.100.63:8080/crear'),
+          Uri.parse(metodo+ip+puerto+'/crear'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -74,7 +74,7 @@ import 'package:skincanbe/model/Usuario.dart';
 
     Future<String> recuperarPassword(String email) async {
       print("Entre a la funcion recuperarPassword");
-      final url = Uri.parse('http://192.168.100.63:8080/forgotpassword');
+      final url = Uri.parse(metodo+ip+puerto+'/forgotpassword');
       final body = jsonEncode({"email": email});
       print(body);
 

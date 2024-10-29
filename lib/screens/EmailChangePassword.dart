@@ -26,7 +26,7 @@ class EmailChangePassword extends StatefulWidget {
 
 class _EmailChangePasswordState extends State<EmailChangePassword> {
 
-UserService userService = UserService("http://192.168.100.63:8080/"); //Instancia del servicio de usuario
+UserService userService = UserService(); //Instancia del servicio de usuario
 final TextEditingController _emailController = TextEditingController(); //Variable para guardar el correo
 
   @override

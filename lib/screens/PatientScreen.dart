@@ -8,6 +8,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:skincanbe/screens/PantallaCamara.dart';
 import 'package:skincanbe/screens/historialLesion.dart';
 import 'package:skincanbe/screens/infopiel.dart';
@@ -18,12 +19,6 @@ import 'package:skincanbe/screens/perfil.dart';
 para un posterior analisis, historial de lesiones, opciones de configuracion,etc.*/
 
 class PantallaEntrada extends StatefulWidget {
-  final String? nombre;
-  final String? apellidos;
-  final String? correo;
-  final String? id;
-
-  PantallaEntrada({this.id, this.nombre, this.apellidos, this.correo});
 
   @override
   _PantallaEntradaState createState() => _PantallaEntradaState(); 
@@ -33,7 +28,30 @@ class PantallaEntrada extends StatefulWidget {
   final PageController pageController = PageController(initialPage: 0); //Aqui se declara una variable que va tener el valor de initialPage 0
   int _selectIndex =0; //variable que posteriormente nos va servir para hacer el cambio de pantalla.
   
-  
+  String? nombre;
+  String? apellidos;
+  String? correo;
+  String? id;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarDatos();
+  }
+
+  Future<void> _cargarDatos() async {
+    final storage = FlutterSecureStorage();
+    nombre = await storage.read(key: "nombre");
+    apellidos = await storage.read(key: "apellidos");
+    correo = await storage.read(key: "email");
+    id = await storage.read(key: "idUsuario");
+
+    setState(() {
+      
+    });
+  }
+
+
 //Aqui es donde se encuentra todo el contenido que tendra la pantalla
     @override
   Widget build(BuildContext context) {
@@ -44,12 +62,9 @@ class PantallaEntrada extends StatefulWidget {
           children: [
             InfoPiel(),
             PantallaCamara(
-              id: widget.id
             ),
-            Historial(
-              usuarioId:widget.id
-            ),
-            Perfil(nombre: widget.nombre!, apellidos: widget.apellidos!,correo: widget.correo!)
+            Historial(),
+            Perfil()
           ],
         ),
 

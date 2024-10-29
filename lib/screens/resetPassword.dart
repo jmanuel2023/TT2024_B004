@@ -17,7 +17,7 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController _passwordNewController = TextEditingController();
   final TextEditingController _passwordConfirmNewController = TextEditingController();
-  UserService userService = UserService("http://192.168.100.63:8080/");
+  UserService userService = UserService();
   @override
   Widget build(BuildContext context) {
     final ancho = MediaQuery.of(context).size;

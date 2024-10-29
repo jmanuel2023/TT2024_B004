@@ -1,12 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:skincanbe/screens/DisplayPicture.dart';
 
 class PantallaCamara extends StatefulWidget {
-  final String? id;
-
-  PantallaCamara({this.id});
 
   @override
   _PantallaCamaraState createState() => _PantallaCamaraState();
@@ -17,17 +15,30 @@ class _PantallaCamaraState extends State<PantallaCamara> {
   CameraController? _cameraController; //Aqui se declara una variable que tiene dos cosas a destacar,primeramente viene de una clase CameraConroller,la cual se ocupa para controlar la camara del  dispositivo movil, ademas esta variable tiene un signo de interrogacin (?), el cual indica que esta variable puede ser null, y por ultimo, el guion bajo en el nombre de la variable, indica que es una variable privada y que solo puede ser accedida dentro de esta misma clase.
   bool _isCameraInitialized = false; //Variable inicializada en false,que pronto nos va servir.
   XFile? _imageFile; //Variable que va guardar donde se va a guardar la imagen capturada de la camara.
+  String? id;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarDatos();
+  }
+
+  Future<void> _cargarDatos() async {
+    final storage = FlutterSecureStorage();
+    id = await storage.read(key: "idUsuario");
+
+    _openCamera();
+
+    setState(() {
+      
+    });
+  }
+
 
   @override
   void dispose() { //Esta funcion se ocupa para liberar recursos de que ya no se usan,por ejemplo, la conexion con el hardware de la camara
     _cameraController?.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _openCamera(); //Se llama el metodo cuando la clase de inicia
   }
 
   Future<void> _openCamera() async { //Funcion asincrona, que se acompletara con o sin exito en un futuro,la cual  no devolvera ningun valor.
@@ -60,7 +71,7 @@ class _PantallaCamaraState extends State<PantallaCamara> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Foto tomada con exito")),
         );
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPicture(imagen: _imageFile!, id: widget.id!)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPicture(imagen: _imageFile!, id: id ?? "")));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error al tomar la foto: $e")),
         );

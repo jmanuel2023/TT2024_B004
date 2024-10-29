@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:skincanbe/data/constantes.dart';
 
 
 class AuthenticationService {
-  final String _loginUrl = "http://192.168.100.63:8080/login";
+  final String _loginUrl = metodo+ip+puerto+"/login";
   final _storage = FlutterSecureStorage();
 
   Future<Map<String, dynamic>> login(String email, String password) async{
@@ -17,7 +18,14 @@ class AuthenticationService {
     if(response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print(data);
+
+      //almacenando datos en el FluuterSecureStorage
       await _storage.write(key: "token", value: data['token']);
+      await _storage.write(key: "nombre", value: data['nombre']);
+      await _storage.write(key: "apellidos", value: data['apellidos']);
+      await _storage.write(key: "email", value: data['username']);
+      await _storage.write(key: "idUsuario", value: data['Id']);
+
       return data;
     } else if(response.statusCode == 401){
       final data2 = jsonDecode(response.body);

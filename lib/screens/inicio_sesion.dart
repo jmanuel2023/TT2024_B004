@@ -135,19 +135,12 @@ final TextEditingController passwordController = TextEditingController();
                         final nombre = data['nombre'];
                         final apellidos = data['apellidos'];
                         final email = data['username'];
-                        final idUsuario = data['Id'];
+                        //final idUsuario = data['Id'];
                         //Condicion que indica que si es tipo de usuario Paciente
                         if(tipoUsuario == "Paciente"){
                           Navigator.push(context, 
                           MaterialPageRoute(builder: 
-                          (context) => PantallaEntrada( //Navega a esta pantalla
-                            nombre: nombre, 
-                            apellidos: apellidos, 
-                            correo: email,
-                            id: idUsuario
-                            )
-                            )
-                            ).then((_) {
+                          (context) => PantallaEntrada())).then((_) {
                               _showWelcomeDialog(context, nombre, apellidos); //Llama a este metodo para mostrar un mensaje despues de la navegación
                               });
                         }

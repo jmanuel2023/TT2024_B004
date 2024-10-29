@@ -3,8 +3,9 @@ import 'package:skincanbe/screens/inicio_sesion.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
 import 'package:skincanbe/screens/registro.dart';
 import 'package:app_links/app_links.dart';
- import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 import 'package:skincanbe/screens/resetPassword.dart';
+import 'package:skincanbe/data/constantes.dart';
 
 void main() => runApp(const MyApp());
 
@@ -24,7 +25,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-   // _appLinks = AppLinks();
    token=null;
    _lastProcessedLink= null;
     _handleIncomingLinks();
@@ -38,7 +38,6 @@ class _MyAppState extends State<MyApp> {
     }
 
   _appLinks.getLatestLinkString().then((String? deepLink) {
-    //print("Latest link: $deepLink");  // Para depuración
     if (deepLink != null && deepLink != _lastProcessedLink)  {
       _navigateToDeepLinkScreen(deepLink);
     }
@@ -53,14 +52,12 @@ class _MyAppState extends State<MyApp> {
     String? path = uri.path;
     token = uri.queryParameters['token'];
 
-    //print("Navigating to path: $path with token: $token");  // Para depuración
-
 
     // Navega a la pantalla correspondiente según la ruta
     if (path == '/validar' && token != null) {
       // Realiza la petición HTTP al backend
       final response = await http.get(
-        Uri.parse('http://192.168.100.63:8080/validar?token=$token'), 
+        Uri.parse(metodo+ip+puerto+'/validar?token=$token'), 
       );
 
       if (response.statusCode == 200) {

@@ -37,7 +37,7 @@ class SpecialistScreen extends StatefulWidget {
           children: [
             InfoPiel(),
             PatientCatalog(),
-            Perfil(nombre: widget.nombre!, apellidos: widget.apellidos!,correo: widget.correo!)
+            Perfil()
           ],
         ),
 

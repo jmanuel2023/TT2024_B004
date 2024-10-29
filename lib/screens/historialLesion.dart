@@ -9,13 +9,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 // import 'package:skincanbe/data/datoshistorial.dart';
 import 'package:skincanbe/services/LesionServices.dart';
 
 class Historial extends StatefulWidget {
-  final String? usuarioId;
-  const Historial({this.usuarioId});
+  /*final String? usuarioId;
+  const Historial({this.usuarioId});*/
 
   @override
   _HistorialState createState() => _HistorialState();
@@ -27,17 +28,29 @@ class _HistorialState extends State<Historial> {
 
   int? _expandedIndex; //Variable de ayuda para la expansion del widget PanelList
   final lesionServices = new LesionServices();
-  late Future<List<dynamic>> _lesiones;
+  late Future<List<dynamic>>? _lesiones = Future.value([]);
+  String? id;
+
+  Future<void> _cargarDatos() async {
+    final storage = FlutterSecureStorage();
+    id = await storage.read(key: "idUsuario");
+
+    
+    _lesiones = LesionServices().obtenerLesionesPorUsuarioId(id ?? "");
+
+    setState(() {
+    });
+  }
   
   @override
   void initState() {
     super.initState();
-    _lesiones = LesionServices().obtenerLesionesPorUsuarioId(widget.usuarioId!);
+    _cargarDatos();
    
   }
 
    String obtenerNombreOriginal(String nombreConPrefijo) {
-  int index = nombreConPrefijo.indexOf(' ');
+  int index = nombreConPrefijo.indexOf('_');
   return index != -1 ? nombreConPrefijo.substring(index + 1) : nombreConPrefijo;
 }
   
