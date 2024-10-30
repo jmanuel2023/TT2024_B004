@@ -44,7 +44,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
         body: Center(
       child: Container(
         padding:
-            EdgeInsets.symmetric(horizontal: 10, vertical: ancho.height * 0.15),
+            EdgeInsets.symmetric(horizontal: 20, vertical: ancho.height * 0.15),
         decoration: const BoxDecoration(
           gradient: LinearGradient(colors: [
             Color.fromRGBO(233, 214, 204, 1),
@@ -111,8 +111,8 @@ class _InformacionLesionState extends State<InformacionLesion> {
                 height: 40,
               ),
               Container(
-                padding: EdgeInsets.all(30),
-                height: 100,
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                height: 90,
                 decoration: BoxDecoration(
                     color: Color.fromARGB(255, 189, 187, 187),
                     borderRadius: BorderRadius.circular(20),
@@ -121,13 +121,14 @@ class _InformacionLesionState extends State<InformacionLesion> {
                       BoxShadow(
                           color: Colors.black45,
                           blurRadius: 15,
-                          offset: Offset(0, 5))
+                          offset: Offset(0, 10))
                     ]),
                 child: Row(
                   children: [
+                    SizedBox(width: 10,),
                     MaterialButton(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(15)),
                         child: Text("Regresar"),
                         color: Colors.white,
                         onPressed: () {
@@ -136,10 +137,10 @@ class _InformacionLesionState extends State<InformacionLesion> {
                               MaterialPageRoute(
                                   builder: (context) => PantallaEntrada()));
                         }),
-                    SizedBox(width: 60),
+                    SizedBox(width: 50),
                     MaterialButton(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(15)),
                         child: Text("Generar reporte"),
                         color: Colors.black,
                         textColor: Colors.white,

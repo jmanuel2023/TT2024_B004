@@ -47,7 +47,7 @@ class PantallaPrincipal extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,      //con esto los elementos del column se alinean al final de la pantalla en horizontal
                 children: [
-                _botonGoogle(),                               //--> Metodo propio para el boton de registro con Google
+                // _botonGoogle(),                               //--> Metodo propio para el boton de registro con Google
                 SizedBox(
                   height: 30,
                 ),

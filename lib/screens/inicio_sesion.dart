@@ -114,7 +114,7 @@ final TextEditingController passwordController = TextEditingController();
                   ),
                   SizedBox(height: 30),
                   SubmitButton(
-                    text: "Iniciar Sesión", 
+                    text: "Iniciar sesión", 
                     onPressed: () async { //Evento del boton al ser oprimido
                       final authService = AuthenticationService(); //Instancia del servicio authService
                       try{
