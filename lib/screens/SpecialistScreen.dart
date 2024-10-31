@@ -36,6 +36,7 @@ class SpecialistScreen extends StatefulWidget {
           controller: pageController,
           children: [
             InfoPiel(),
+            PatientRequest(),
             PatientCatalog(),
             Perfil()
           ],
@@ -54,6 +55,7 @@ class SpecialistScreen extends StatefulWidget {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Información'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Solicitudes'),
           BottomNavigationBarItem(icon:Icon(Icons.book), label: 'Mis pacientes'),
           BottomNavigationBarItem(icon: Icon(Icons.person_pin), label: 'Perfil') 
         ],),
