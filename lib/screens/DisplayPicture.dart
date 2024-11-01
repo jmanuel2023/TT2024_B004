@@ -44,6 +44,7 @@ class _DisplaypictureState extends State<DisplayPicture> {
                       onPressed: () async {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Foto confirmada")));
+                            /** AQUI VA LA API */
                         final lesionService = LesionServices();
                         final String nombreLesion = "Nevo melanocitico";
                         final String descripcion =
