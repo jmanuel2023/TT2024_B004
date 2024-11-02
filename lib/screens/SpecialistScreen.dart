@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/PatientCatalog.dart';
 import 'package:skincanbe/screens/infopiel.dart';
 import 'package:skincanbe/screens/perfil.dart';
+import 'package:skincanbe/screens/PatientRequests.dart';
 
 
 
@@ -36,7 +37,7 @@ class SpecialistScreen extends StatefulWidget {
           controller: pageController,
           children: [
             InfoPiel(),
-            PatientRequest(),
+            PatientRequests(),
             PatientCatalog(),
             Perfil()
           ],

@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:skincanbe/screens/ConnectSpecialist.dart';
 import 'package:skincanbe/screens/PantallaCamara.dart';
 import 'package:skincanbe/screens/historialLesion.dart';
 import 'package:skincanbe/screens/infopiel.dart';
@@ -61,8 +62,8 @@ class PantallaEntrada extends StatefulWidget {
           controller: pageController,
           children: [
             InfoPiel(),
-            PantallaCamara(
-            ),
+            ConnectSpecialist(),
+            PantallaCamara(),
             Historial(),
             Perfil()
           ],
@@ -81,6 +82,7 @@ class PantallaEntrada extends StatefulWidget {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Información'),
+          BottomNavigationBarItem(icon: Icon(Icons.local_hospital), label: 'Conectar'),
           BottomNavigationBarItem(icon:Icon(Icons.camera), label: 'Cámara'),
           BottomNavigationBarItem(icon: Icon(Icons.library_books), label: 'Historial'),
           BottomNavigationBarItem(icon: Icon(Icons.person_pin), label: 'Perfil') 
