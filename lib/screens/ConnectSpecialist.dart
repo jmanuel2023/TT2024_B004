@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:skincanbe/services/UserServices.dart';
 
 class ConnectSpecialist extends StatefulWidget {
   const ConnectSpecialist({super.key});
@@ -9,6 +12,45 @@ class ConnectSpecialist extends StatefulWidget {
 }
 
 class _ConnectSpecialistState extends State<ConnectSpecialist> {
+  final userService = new UserService();
+  List<dynamic> _especialistas = [];
+  final TextEditingController _busquedaController = TextEditingController();
+  Timer? _debounce;
+  String? token;
+  
+  //Metodo para cargar los datos desde el servicio
+  Future<void> _cargarDatos(String filtro) async {
+    final storage = FlutterSecureStorage();
+    token = await storage.read(key: "token");
+   List<dynamic> especialistas = await userService.obtenerTodosLosEspecialistasPorFiltro(filtro,token!);
+    setState(() {
+      _especialistas=especialistas; 
+    });
+  }
+
+  _cambioBusqueda() {
+    if(_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
+      _cargarDatos(_busquedaController.text);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    late String start = "nada";
+    print(start); 
+    _cargarDatos(start);
+    _busquedaController.addListener(_cambioBusqueda);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _busquedaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +70,10 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
           children: [
             // Campo de búsqueda
             TextField(
+              controller: _busquedaController,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
-                hintText: 'Buscar',
+                hintText: 'Buscar por nombre o cédula',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -40,20 +83,38 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
             // Lista de especialistas
             Expanded(
               child: ListView.builder(
-                itemCount: 10, // Número de especialistas
-                itemBuilder: (context, index) {
-                  return EspecialistaCard();
+                itemCount: _especialistas.length,
+                itemBuilder: (context,index) {
+                        var especialista = _especialistas[index];
+                        return EspecialistaCard(
+                          nombre: especialista['nombre'],
+                          apellidos: especialista['apellidos'],
+                          correo: especialista['correo'],
+                          cedula: especialista['cedula'],
+                        );
                 },
-              ),
+              )
             ),
           ],
         ),
       ),
     );
+  }
 }
-}
- 
+
 class EspecialistaCard extends StatelessWidget {
+  final String nombre;
+  final String correo;
+  final String cedula;
+  final String apellidos;
+
+  EspecialistaCard({
+    required this.nombre,
+    required this.correo,
+    required this.cedula,
+    required this.apellidos,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -77,11 +138,11 @@ class EspecialistaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Nombre Especialista",
+                    nombre+" "+apellidos,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text("Correo: especialista@ejemplo.com"),
-                  Text("Cédula: 123456"),
+                  Text("Correo: $correo"),
+                  Text("Cédula: $cedula"),
                 ],
               ),
             ),

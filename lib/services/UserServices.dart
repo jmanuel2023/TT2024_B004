@@ -8,6 +8,28 @@ import 'package:skincanbe/data/constantes.dart';
 
     const UserService();
 
+    Future<List<dynamic>> obtenerTodosLosEspecialistasPorFiltro(String filtro, String token) async {
+      String url;
+      print(filtro);
+      if(filtro.isEmpty){
+        url= "/specialistFilter"; 
+      }else {
+        url="/specialistFilter/$filtro";
+      }
+
+      print(url);
+    
+    final response = await http.get(Uri.parse(metodo+ip+puerto+url),
+    headers: {'Authorization': 'Bearer $token'});
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    } else {
+    throw Exception("Error al obtener los usuarios Especialistas");
+    }
+  }
+
     Future<String> restablecerContrasena(String token, String password) async{
       print("Estoy en la funcion restablecer contraseña");
       final url = Uri.parse(metodo+ip+puerto+"/reset-password");
