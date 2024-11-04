@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
-import 'package:skincanbe/screens/compartirReporte.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/compartirReporte.dart';
 
 class InformacionLesion extends StatefulWidget {
   final String? nombreLesion;

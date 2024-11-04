@@ -9,7 +9,7 @@
 
 /*Pantalla para mostrar informacion acerca de la aplicación */
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 
 
 class InformacionApp extends StatefulWidget {

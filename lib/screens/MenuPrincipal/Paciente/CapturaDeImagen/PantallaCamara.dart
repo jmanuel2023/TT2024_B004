@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:skincanbe/screens/DisplayPicture.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/DisplayPicture.dart';
 
 class PantallaCamara extends StatefulWidget {
 

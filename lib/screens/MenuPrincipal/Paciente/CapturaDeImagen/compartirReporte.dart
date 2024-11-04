@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
-import 'package:skincanbe/services/ReporteServices.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
+import 'package:skincanbe/services/peticionesHttpReporte/ReporteServices.dart';
 
 class CompartirReporte extends StatefulWidget {
   final String? idLesion;

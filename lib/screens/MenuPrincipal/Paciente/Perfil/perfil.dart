@@ -8,11 +8,11 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:skincanbe/screens/appinformacion.dart';
-import 'package:skincanbe/screens/configuracion.dart';
-import 'package:skincanbe/screens/inicio_sesion.dart';
-import 'package:skincanbe/screens/politcas.dart';
-import 'package:skincanbe/services/AuthenticationService.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/appinformacion.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/configuracion.dart';
+import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/politcas.dart';
+import 'package:skincanbe/services/peticionesHttpAutenticacion/AuthenticationService.dart';
 
 
 

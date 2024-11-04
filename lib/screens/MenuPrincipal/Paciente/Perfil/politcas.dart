@@ -7,7 +7,7 @@
  * Rodriguez Juarez Israel.
  */
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 //import 'package:skincanbe/screens/perfil.dart';
 
 void main() => runApp(const Politicas());

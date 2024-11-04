@@ -8,12 +8,12 @@
  */
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/EmailChangePassword.dart';
-import 'package:skincanbe/screens/SpecialistScreen.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
+import 'package:skincanbe/screens/InicioDeSesion/EmailChangePassword.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Especialista/SpecialistScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
-import 'package:skincanbe/screens/registro.dart';
-import 'package:skincanbe/services/AuthenticationService.dart';
+import 'package:skincanbe/screens/Registro/registro.dart';
+import 'package:skincanbe/services/peticionesHttpAutenticacion/AuthenticationService.dart';
 import 'package:skincanbe/widgets/boton_enviar.dart';
 import 'package:skincanbe/widgets/input_personalizado.dart';
 

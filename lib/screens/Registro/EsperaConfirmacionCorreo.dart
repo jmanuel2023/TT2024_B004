@@ -11,7 +11,7 @@
 electronico para la confirmación del mismo. Esta pantalla solo se mostrara 5 segundos*/
 
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/inicio_sesion.dart';
+import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
 
 class EsperaConfirmacion extends StatefulWidget {
   const EsperaConfirmacion({super.key});

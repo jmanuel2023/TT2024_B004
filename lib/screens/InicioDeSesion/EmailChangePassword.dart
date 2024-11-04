@@ -12,8 +12,8 @@ para el restablecimiento de contraseña*/
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/inicio_sesion.dart';
-import 'package:skincanbe/services/UserServices.dart';
+import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
+import 'package:skincanbe/services/peticionesHttpUsuario/UserServices.dart';
 import 'package:skincanbe/widgets/boton_enviar.dart';
 import 'package:skincanbe/widgets/input_personalizado.dart';
 

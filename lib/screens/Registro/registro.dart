@@ -11,14 +11,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:skincanbe/model/Usuario.dart';
-import 'package:skincanbe/screens/EsperaConfirmacionCorreo.dart';
-import 'package:skincanbe/screens/PrivacyPolicyScreen.dart';
-import 'package:skincanbe/screens/TermsAndConditionsScreen.dart';
-import 'package:skincanbe/screens/inicio_sesion.dart';
+import 'package:skincanbe/screens/Registro/EsperaConfirmacionCorreo.dart';
+import 'package:skincanbe/screens/Registro/PrivacyPolicyScreen.dart';
+import 'package:skincanbe/screens/Registro/TermsAndConditionsScreen.dart';
+import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
 import 'package:skincanbe/widgets/boton_enviar.dart';
 import 'package:skincanbe/widgets/input_personalizado.dart';
-import 'package:skincanbe/services/UserServices.dart';
+import 'package:skincanbe/services/peticionesHttpUsuario/UserServices.dart';
 //import 'package:skincanbe/widgets/selector_fecha.dart';
 
 /**

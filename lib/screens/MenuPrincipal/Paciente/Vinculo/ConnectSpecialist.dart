@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:skincanbe/services/UserServices.dart';
+import 'package:skincanbe/services/peticionesHttpUsuario/UserServices.dart';
 
 class ConnectSpecialist extends StatefulWidget {
   const ConnectSpecialist({super.key});
@@ -17,19 +17,22 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   final TextEditingController _busquedaController = TextEditingController();
   Timer? _debounce;
   String? token;
-  
+  String? id;
+
   //Metodo para cargar los datos desde el servicio
   Future<void> _cargarDatos(String filtro) async {
     final storage = FlutterSecureStorage();
     token = await storage.read(key: "token");
-   List<dynamic> especialistas = await userService.obtenerTodosLosEspecialistasPorFiltro(filtro,token!);
+    id= await storage.read(key: "idUsuario");
+    List<dynamic> especialistas =
+        await userService.obtenerTodosLosEspecialistasPorFiltro(filtro, token!);
     setState(() {
-      _especialistas=especialistas; 
+      _especialistas = especialistas;
     });
   }
 
   _cambioBusqueda() {
-    if(_debounce?.isActive ?? false) _debounce?.cancel();
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       _cargarDatos(_busquedaController.text);
     });
@@ -39,7 +42,7 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   void initState() {
     super.initState();
     late String start = "nada";
-    print(start); 
+    print(start);
     _cargarDatos(start);
     _busquedaController.addListener(_cambioBusqueda);
   }
@@ -82,19 +85,21 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
             SizedBox(height: 20),
             // Lista de especialistas
             Expanded(
-              child: ListView.builder(
-                itemCount: _especialistas.length,
-                itemBuilder: (context,index) {
-                        var especialista = _especialistas[index];
-                        return EspecialistaCard(
-                          nombre: especialista['nombre'],
-                          apellidos: especialista['apellidos'],
-                          correo: especialista['correo'],
-                          cedula: especialista['cedula'],
-                        );
-                },
-              )
-            ),
+                child: ListView.builder(
+              itemCount: _especialistas.length,
+              itemBuilder: (context, index) {
+                var especialista = _especialistas[index];
+                return EspecialistaCard(
+                  nombre: especialista['nombre'],
+                  apellidos: especialista['apellidos'],
+                  correo: especialista['correo'],
+                  cedula: especialista['cedula'],
+                  pacienteId: id ?? "",
+                  especialistaId:especialista['id'],
+                  token: token!
+                );
+              },
+            )),
           ],
         ),
       ),
@@ -107,13 +112,62 @@ class EspecialistaCard extends StatelessWidget {
   final String correo;
   final String cedula;
   final String apellidos;
+  final String pacienteId;
+  final int especialistaId;
+  final String token;
+  final userService = new UserService();
 
   EspecialistaCard({
     required this.nombre,
     required this.correo,
     required this.cedula,
     required this.apellidos,
+    required this.pacienteId,
+    required this.especialistaId,
+    required this.token,
   });
+
+  void vincularEspecialista(BuildContext context, String token) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmación'),
+          content: Text(
+              '¿Estás seguro de que deseas vincularte con $nombre $apellidos?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el diálogo
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Lógica para vincular
+                final response =
+                    await userService.vincularConEspecialista(pacienteId, especialistaId, token);
+                    //print("respuesta"+response);
+                if (response != null) {
+                  // Manejar éxito, tal vez mostrar un Snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Vinculación exitosa.'),
+                  ));
+                } else {
+                  // Manejar error
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Error al vincular.'),
+                  ));
+                }
+                Navigator.of(context).pop(); // Cerrar el diálogo
+              },
+              child: Text('Vincular'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +192,7 @@ class EspecialistaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nombre+" "+apellidos,
+                    nombre + " " + apellidos,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text("Correo: $correo"),
@@ -149,7 +203,7 @@ class EspecialistaCard extends StatelessWidget {
             // Botón de acción
             ElevatedButton(
               onPressed: () {
-                // Acción al presionar el botón
+                vincularEspecialista(context, token);
               },
               child: Text("Vincular"),
             ),

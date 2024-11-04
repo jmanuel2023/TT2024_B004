@@ -12,8 +12,8 @@
 incluyendo el registro con una cuenta de Google */
 
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/inicio_sesion.dart';
-import 'package:skincanbe/screens/registro.dart';
+import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
+import 'package:skincanbe/screens/Registro/registro.dart';
 
 class PantallaPrincipal extends StatelessWidget {
   const PantallaPrincipal({super.key});

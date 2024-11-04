@@ -11,10 +11,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 // import 'package:skincanbe/data/datoshistorial.dart';
-import 'package:skincanbe/services/LesionServices.dart';
-import 'package:skincanbe/services/ReporteServices.dart';
+import 'package:skincanbe/services/peticionesHttpLesion/LesionServices.dart';
+import 'package:skincanbe/services/peticionesHttpReporte/ReporteServices.dart';
 
 class Historial extends StatefulWidget {
   /*final String? usuarioId;

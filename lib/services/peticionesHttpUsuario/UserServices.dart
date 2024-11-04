@@ -8,6 +8,34 @@ import 'package:skincanbe/data/constantes.dart';
 
     const UserService();
 
+    Future<dynamic> vincularConEspecialista(String pacienteId, int especialistaId, String token) async {
+    final url = metodo+ip+puerto+'/vinculos/crear';
+    print(url);
+    print(pacienteId);
+    print(especialistaId);
+    print(token);
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'paciente': {'id': pacienteId}, // Asumiendo que Paciente se mapea con solo el id
+        'especialista': {'id': especialistaId}, // Asumiendo que Especialista se mapea con solo el id
+        'fechaVinculacion': DateTime.now().toIso8601String(),
+      }),
+    );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body); // Retornar el objeto creado
+    } else {
+      return null; // O lanzar una excepción
+    }
+  }
+
     Future<List<dynamic>> obtenerTodosLosEspecialistasPorFiltro(String filtro, String token) async {
       String url;
       print(filtro);

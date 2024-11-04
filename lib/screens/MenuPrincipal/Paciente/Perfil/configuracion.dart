@@ -9,7 +9,7 @@
 
 /*Pantalla para la configuracion de la aplicacion para el usuario */
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/PatientScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 
 class Configuracion extends StatefulWidget {
   const Configuracion({super.key});

@@ -9,11 +9,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:skincanbe/screens/ConnectSpecialist.dart';
-import 'package:skincanbe/screens/PantallaCamara.dart';
-import 'package:skincanbe/screens/historialLesion.dart';
-import 'package:skincanbe/screens/infopiel.dart';
-import 'package:skincanbe/screens/perfil.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Vinculo/ConnectSpecialist.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/PantallaCamara.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Historial/historialLesion.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/InformacionCancer/infopiel.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/perfil.dart';
 
 
 /*En esta pantalla, se muestran todas las funcionalidades que tiene la aplicacion, ya sea informacion, acceeso a la camara 

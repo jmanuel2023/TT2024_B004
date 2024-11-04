@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/InformacionLesion.dart';
-import 'package:skincanbe/services/LesionServices.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/InformacionLesion.dart';
+import 'package:skincanbe/services/peticionesHttpLesion/LesionServices.dart';
 
 class DisplayPicture extends StatefulWidget {
   final XFile imagen;

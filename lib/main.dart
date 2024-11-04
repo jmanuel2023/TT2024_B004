@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:skincanbe/screens/inicio_sesion.dart';
+import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
 import 'package:skincanbe/screens/pantalla_principal.dart';
-import 'package:skincanbe/screens/registro.dart';
+import 'package:skincanbe/screens/Registro/registro.dart';
 import 'package:app_links/app_links.dart';
 import 'package:http/http.dart' as http;
-import 'package:skincanbe/screens/resetPassword.dart';
+import 'package:skincanbe/screens/InicioDeSesion/resetPassword.dart';
 import 'package:skincanbe/data/constantes.dart';
 
 void main() => runApp(const MyApp());
