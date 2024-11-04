@@ -144,10 +144,11 @@ class EspecialistaCard extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                // Lógica para vincular
-                final response =
+                status == "PENDIENTE" ? null 
+                : () {
+                if(status == "DISPONIBLE" || status == "RECHAZADO"){
+                   final response =
                     await userService.vincularConEspecialista(pacienteId, especialistaId, token);
-                    //print("respuesta"+response);
                 if (response != null) {
                   // Manejar éxito, tal vez mostrar un Snackbar
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -160,8 +161,19 @@ class EspecialistaCard extends StatelessWidget {
                   ));
                 }
                 Navigator.of(context).pop(); // Cerrar el diálogo
+                  }
               },
-              child: Text('Vincular'),
+              child: Text(
+                status == "PENDIENTE" ? "Solicitud enviada"
+                : status == "ACEPTADO" ? "Vinculado"
+                : "Vincular",
+              ),
+                style: TextButton.styleFrom(
+                primary: status == "ACEPTADO"
+                  ? Colors.green
+                  : status == "PENDIENTE" ? Colors.orange
+                  : null, 
+            ),
             ),
           ],
         );
