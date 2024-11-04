@@ -21,8 +21,8 @@ import 'package:skincanbe/data/constantes.dart';
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
-        'paciente': {'id': pacienteId}, // Asumiendo que Paciente se mapea con solo el id
-        'especialista': {'id': especialistaId}, // Asumiendo que Especialista se mapea con solo el id
+        'paciente': {'id': pacienteId}, 
+        'especialista': {'id': especialistaId},
         'fechaVinculacion': DateTime.now().toIso8601String(),
       }),
     );
@@ -30,9 +30,10 @@ import 'package:skincanbe/data/constantes.dart';
     print(response.statusCode);
 
     if (response.statusCode == 201) {
-      return jsonDecode(response.body); // Retornar el objeto creado
+      setState((){status = "PENDIENTE"});
+      return jsonDecode(response.body);
     } else {
-      return null; // O lanzar una excepción
+      return null;
     }
   }
 
