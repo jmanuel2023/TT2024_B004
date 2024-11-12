@@ -23,7 +23,7 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   Future<void> _cargarDatos(String filtro) async {
     final storage = FlutterSecureStorage();
     token = await storage.read(key: "token");
-    id= await storage.read(key: "idUsuario");
+    id = await storage.read(key: "idUsuario");
     List<dynamic> especialistas =
         await userService.obtenerTodosLosEspecialistasPorFiltro(filtro, token!);
     setState(() {
@@ -90,14 +90,13 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
               itemBuilder: (context, index) {
                 var especialista = _especialistas[index];
                 return EspecialistaCard(
-                  nombre: especialista['nombre'],
-                  apellidos: especialista['apellidos'],
-                  correo: especialista['correo'],
-                  cedula: especialista['cedula'],
-                  pacienteId: id ?? "",
-                  especialistaId:especialista['id'],
-                  token: token!
-                );
+                    nombre: especialista['nombre'],
+                    apellidos: especialista['apellidos'],
+                    correo: especialista['correo'],
+                    cedula: especialista['cedula'],
+                    pacienteId: id ?? "",
+                    especialistaId: especialista['id'],
+                    token: token!);
               },
             )),
           ],
@@ -107,7 +106,7 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   }
 }
 
-class EspecialistaCard extends StatelessWidget {
+class EspecialistaCard extends StatefulWidget {
   final String nombre;
   final String correo;
   final String cedula;
@@ -115,7 +114,6 @@ class EspecialistaCard extends StatelessWidget {
   final String pacienteId;
   final int especialistaId;
   final String token;
-  final userService = new UserService();
 
   EspecialistaCard({
     required this.nombre,
@@ -127,58 +125,31 @@ class EspecialistaCard extends StatelessWidget {
     required this.token,
   });
 
-  void vincularEspecialista(BuildContext context, String token) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirmación'),
-          content: Text(
-              '¿Estás seguro de que deseas vincularte con $nombre $apellidos?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Cerrar el diálogo
-              },
-              child: Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () async {
-                status == "PENDIENTE" ? null 
-                : () {
-                if(status == "DISPONIBLE" || status == "RECHAZADO"){
-                   final response =
-                    await userService.vincularConEspecialista(pacienteId, especialistaId, token);
-                if (response != null) {
-                  // Manejar éxito, tal vez mostrar un Snackbar
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Vinculación exitosa.'),
-                  ));
-                } else {
-                  // Manejar error
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Error al vincular.'),
-                  ));
-                }
-                Navigator.of(context).pop(); // Cerrar el diálogo
-                  }
-              },
-              child: Text(
-                status == "PENDIENTE" ? "Solicitud enviada"
-                : status == "ACEPTADO" ? "Vinculado"
-                : "Vincular",
-              ),
-                style: TextButton.styleFrom(
-                primary: status == "ACEPTADO"
-                  ? Colors.green
-                  : status == "PENDIENTE" ? Colors.orange
-                  : null, 
-            ),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  State<EspecialistaCard> createState() => _EspecialistaCardState();
+}
+
+class _EspecialistaCardState extends State<EspecialistaCard> {
+  final userService = new UserService();
+  String status = "Disponible";
+
+  void vincularEspecialista() async {
+    final response = await userService.vincularConEspecialista(
+        widget.pacienteId, widget.especialistaId, widget.token);
+    if (response != null) {
+      setState(() {
+        status = "PENDIENTE";
+      });
+      // Manejar éxito, tal vez mostrar un Snackbar
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Vinculación exitosa.'),
+      ));
+    } else {
+      // Manejar error
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error al vincular.'),
+      ));
+    }
   }
 
   @override
@@ -204,20 +175,23 @@ class EspecialistaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nombre + " " + apellidos,
+                    '${widget.nombre} ${widget.apellidos}',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text("Correo: $correo"),
-                  Text("Cédula: $cedula"),
+                  Text("Correo: ${widget.correo}"),
+                  Text("Cédula: ${widget.cedula}"),
                 ],
               ),
             ),
             // Botón de acción
             ElevatedButton(
-              onPressed: () {
-                vincularEspecialista(context, token);
-              },
-              child: Text("Vincular"),
+              onPressed: status == "PENDIENTE" ? null : vincularEspecialista,
+              child: Text(
+                status == "PENDIENTE" ? "Solicitud enviada" : "Vincular",
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: status == "PENDIENTE" ? Colors.orange : null,
+              ),
             ),
           ],
         ),

@@ -6,24 +6,114 @@
  * Ojeda Gomez Angelo Mihaelle
  * Rodriguez Juarez Israel.
  */
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Especialista/PacienteCard.dart';
+import 'package:skincanbe/services/peticionesHttpUsuario/UserServices.dart';
 
 class PatientRequests extends StatefulWidget {
+  const PatientRequests({super.key});
 
   @override
-  _PatientRequestsState createState() => _PatientRequestsState(); 
+  _PatientRequestsState createState() => _PatientRequestsState();
+}
+
+class _PatientRequestsState extends State<PatientRequests> {
+  final userService = new UserService();
+  List<dynamic> _pacientes = [];
+  // final TextEditingController _busquedaController = TextEditingController();
+  Timer? _debounce;
+  String? token;
+  String? especialistaId;
+
+  // Método para cargar los datos desde el servicio
+  Future<void> _cargarDatos() async {
+    final storage = FlutterSecureStorage();
+    token = await storage.read(key: "token");
+    especialistaId = await storage.read(key: "idUsuario");
+    List<dynamic> pacientes =
+        await userService.obtenerPacientesPorFiltro(especialistaId?? "", token!);
+    setState(() {
+      _pacientes = pacientes;
+    });
   }
 
-  class _PatientRequestsState extends State<PatientRequests>{
-  
+  // _cambioBusqueda() {
+  //   if (_debounce?.isActive ?? false) _debounce?.cancel();
+  //   _debounce = Timer(const Duration(milliseconds: 1000), () {
+  //     _cargarDatos(_busquedaController.text);
+  //   });
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarDatos();
+    //_busquedaController.addListener(_cambioBusqueda);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+   // _busquedaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child:Text("Solicitudes de vinculación de pacientes")
-          ),
-      );
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Solicitudes de Pacientes"),
+            Image.asset("assets/images/logo.png", width: 45, height: 45),
+          ],
+        ),
+        leading: Icon(Icons.arrow_back), // Flecha de regreso
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Campo de búsqueda
+            /*TextField(
+              controller: _busquedaController,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Buscar por nombre o ID',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+              ),
+            ),*/
+            SizedBox(height: 20),
+            // Lista de pacientes
+            Expanded(
+                child: ListView.builder(
+              itemCount: _pacientes.length,
+              itemBuilder: (context, index) {
+                var paciente = _pacientes[index];
+                print(paciente['nombre']);
+                print(paciente['apellidos']);
+                print(paciente['correo']);
+                print(paciente['id']);
+                print(especialistaId ?? "");
+                print(token!);
+                return PacienteCard(
+                    nombre: paciente['nombre'],
+                    apellidos: paciente['apellidos'],
+                    correo: paciente['correo'],
+                    idPaciente: paciente['id'],
+                    especialistaId: especialistaId ?? "",
+                    token: token!);
+              },
+            )),
+          ],
+        ),
+      ),
+    );
   }
-  }
+}
