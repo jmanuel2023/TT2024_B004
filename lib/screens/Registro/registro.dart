@@ -56,8 +56,6 @@ class _RegistrarseState extends State<Registrarse> {
 
   @override
   Widget build(BuildContext context) {
-    final ancho = MediaQuery.of(context)
-        .size; //Variable que nos permitira sacar valores de la altura y el ancho de la pantalla.
     /**
    * La clase retorna un Scaffold, ya que este widget es el que permite que se vea la aplicacion. Si no existe este widget
    * la pantalla sale en negro.
@@ -67,31 +65,32 @@ class _RegistrarseState extends State<Registrarse> {
    */
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(233, 214, 204, 1),
         leading: IconButton(
-          icon: const Icon(Icons
-              .arrow_back), //La propiedad de leading es para que salga el icono de la flechita hacia la izquierda, que nos permite pasar a la pantalla que le indiquemos.
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
-            /**Si esta flechita es presionada, nos mandara a la pantalla Principal */
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        const PantallaPrincipal())); //Navigator.push es para poder indicar la nevagacion entre pantallas
+             Navigator.push(context, 
+            MaterialPageRoute(builder: (context) => const PantallaPrincipal()) 
+            ); // Regresa a la pantalla anterior
           },
         ),
-        title: Row(
-          //La propiedad de title, es el texto o imagenes que requieras que salgan en el encabezado.
-          //El widget row es para poder acomodar otros widgets uno debajo del otro, estos widgets deben estar dentro de children
-          children: [
-            SizedBox(
-                width: ancho.width *
-                    0.64), //SizedBox es un widget que nos permite que haya un espacio entre widgets
-            Image.asset("assets/images/logo.png",
-                width: 45,
-                height:
-                    45), //Widget para insertar una imagen que esta guardada en la carpeta de assets/images/
-          ],
+        title: Text(
+          '', // Texto centrado
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true, // Asegura que el título esté centrado
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent, // Fondo transparente
+              child: Image.asset(
+                "assets/images/logo.png", // Ruta del logo
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         //Este widget funge como contenedor de otros widgets, los cuales deben de estar dentro de la propiedad child.
@@ -109,7 +108,7 @@ class _RegistrarseState extends State<Registrarse> {
                   "Registrate con SkinCanBe",
                   style: TextStyle(
                     //Texto que se alinea.
-                    color: Colors.grey, //Color de la letra
+                    color: Color.fromRGBO(204, 87, 54, 1), //Color de la letra
                     fontSize: 23, //Tamaño de la letra
                     fontWeight: FontWeight
                         .bold, //Estilo de la letra, en este caso, es en negritas.
@@ -128,9 +127,9 @@ class _RegistrarseState extends State<Registrarse> {
                     boxShadow: const [
                       //Aqui se le da un estilo al container que contendra los botones
                       BoxShadow(
-                          color: Colors.black45,
+                          color: Color.fromRGBO(204, 87, 54, 1),
                           blurRadius: 15,
-                          offset: Offset(0, 5))
+                          offset: Offset(7, 7))
                     ]),
                 child: Form(
                     //Este widget se usa para hacer formularios de edicion.
@@ -393,6 +392,8 @@ class _RegistrarseState extends State<Registrarse> {
                         // Llamada al método de registro de usuario
                         String respuesta =
                             await userService.registroUsuario(user);
+
+                        print("Respuesta:" + respuesta);
 
                         if (int.parse(respuesta) == 1) {
                           print("Entre al if del 1");

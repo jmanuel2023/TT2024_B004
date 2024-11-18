@@ -11,7 +11,8 @@ class InformacionLesion extends StatefulWidget {
   final XFile? imagen;
   final String? idLesion;
 
-  InformacionLesion({this.nombreLesion, this.descripcion, this.imagen, this.idLesion});
+  InformacionLesion(
+      {this.nombreLesion, this.descripcion, this.imagen, this.idLesion});
 
   @override
   _InformacionLesionState createState() => _InformacionLesionState();
@@ -20,27 +21,9 @@ class InformacionLesion extends StatefulWidget {
 class _InformacionLesionState extends State<InformacionLesion> {
   @override
   Widget build(BuildContext context) {
-    final ancho = MediaQuery.of(context).size; //Variable para calcular el tamaño de pantalla
+    final ancho = MediaQuery.of(context)
+        .size; //Variable para calcular el tamaño de pantalla
     return Scaffold(
-        /*appBar: AppBar(
-          automaticallyImplyLeading: false,
-          //Widget para el diseño de la barra superior de la pantalla
-          /*leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PantallaEntrada()));
-            },
-          ),*/
-          title: Row(
-            //Titulo de la pantalla
-            children: [
-              SizedBox(width: ancho.width * 0.64),
-              Image.asset("assets/images/logo.png", width: 45, height: 45),
-            ],
-          ),
-          backgroundColor: Colors.grey,
-        ),*/
         body: Center(
       child: Container(
         padding:
@@ -52,11 +35,11 @@ class _InformacionLesionState extends State<InformacionLesion> {
           ]),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(1),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
               Text(
-                "Estimado Paciente:",
+                "Estimado paciente:",
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
@@ -69,7 +52,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
                 height: 20,
               ),
               Text(
-                "El análisis que se hizo con el algoritmos de Skincanbe, nos indico que la lesion que capturo es de tipo:",
+                "El análisis que se hizo con el algoritmo de Skincanbe, indica que la lesion que se capturó es de tipo:",
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
@@ -125,7 +108,9 @@ class _InformacionLesionState extends State<InformacionLesion> {
                     ]),
                 child: Row(
                   children: [
-                    SizedBox(width: 10,),
+                    SizedBox(
+                      width: 5,
+                    ),
                     MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
@@ -137,7 +122,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
                               MaterialPageRoute(
                                   builder: (context) => PantallaEntrada()));
                         }),
-                    SizedBox(width: 50),
+                    SizedBox(width: 40),
                     MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
@@ -145,8 +130,11 @@ class _InformacionLesionState extends State<InformacionLesion> {
                         color: Colors.black,
                         textColor: Colors.white,
                         onPressed: () {
-                        Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CompartirReporte(idLesion: widget.idLesion)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CompartirReporte(
+                                      idLesion: widget.idLesion)));
                         }),
                   ],
                 ),

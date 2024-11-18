@@ -8,6 +8,7 @@ class PacienteCard extends StatefulWidget {
   final int idPaciente;
   final String especialistaId;
   final String token;
+  final Function(int) eliminacion;
 
 
   PacienteCard({
@@ -17,6 +18,7 @@ class PacienteCard extends StatefulWidget {
     required this.idPaciente,
     required this.especialistaId,
     required this.token,
+    required this.eliminacion,  
   });
 
   @override
@@ -27,6 +29,35 @@ class _PacienteCardState extends State<PacienteCard> {
   final userService = new UserService();
   String status = "Pendiente";
   
+  @override
+  void initState() {
+    super.initState();
+    _obtenerEstadoInicial();
+  }
+  void _obtenerEstadoInicial() async {
+    final estadoActual = await userService.obtenerEstadoVinculacion(
+      widget.especialistaId, 
+      widget.idPaciente, 
+      widget.token);
+
+    if (estadoActual != null && estadoActual.isNotEmpty) {
+      setState(() {
+        if (estadoActual.contains("Aceptado")) {
+          status = "Aceptado";
+        }
+        else if(estadoActual.contains("Rechazado")){
+          status = "Rechazado";
+        }else {
+          status = "Pendiente";
+        }
+      });
+    }
+      else{
+        setState(() {
+          status = "No hay vinculaciones";
+        });
+      }
+  }
   
   void aceptarSolicitud() async {
     final response = await userService.aceptarVinculacion(
@@ -38,6 +69,7 @@ class _PacienteCardState extends State<PacienteCard> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Solicitud aceptada.'),
       ));
+      widget.eliminacion(widget.idPaciente); 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Error al aceptar la solicitud.'),
@@ -55,6 +87,7 @@ class _PacienteCardState extends State<PacienteCard> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Solicitud rechazada.'),
       ));
+      widget.eliminacion(widget.idPaciente); 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Error al rechazar la solicitud.'),
@@ -100,7 +133,8 @@ class _PacienteCardState extends State<PacienteCard> {
             Column(
               children: [
                 ElevatedButton(
-                  onPressed: status != "Pendiente" ? null : aceptarSolicitud,
+                  onPressed: status == "Aceptado" || status == "Rechazado" 
+                  ? null : aceptarSolicitud,
                   child: Text(
                     status == "Aceptado" ? "Aceptado" : "Aceptar",
                   ),
@@ -110,7 +144,8 @@ class _PacienteCardState extends State<PacienteCard> {
                 ),
                 SizedBox(height: 8),
                 ElevatedButton(
-                  onPressed: status != "Pendiente" ? null : rechazarSolicitud,
+                  onPressed: status == "Aceptado" || status == "Rechazado" 
+                  ? null : rechazarSolicitud,
                   child: Text(
                     status == "Rechazado" ? "Rechazado" : "Rechazar",
                   ),

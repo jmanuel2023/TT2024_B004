@@ -18,6 +18,7 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   Timer? _debounce;
   String? token;
   String? id;
+  String status = "Disponible";
 
   //Metodo para cargar los datos desde el servicio
   Future<void> _cargarDatos(String filtro) async {
@@ -58,14 +59,25 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("Vincular con Especialista"),
-            Image.asset("assets/images/logo.png", width: 45, height: 45),
-          ],
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(233, 214, 204, 1),
+        title: Text(
+          'Vincular con Especialista', // Texto centrado
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        leading: Icon(Icons.arrow_back), // Flecha de regreso
+        centerTitle: true, // Asegura que el título esté centrado
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent, // Fondo transparente
+              child: Image.asset(
+                "assets/images/logo.png", // Ruta del logo
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -133,6 +145,27 @@ class _EspecialistaCardState extends State<EspecialistaCard> {
   final userService = new UserService();
   String status = "Disponible";
 
+  @override
+  void initState() {
+    super.initState();
+    _revisarStatusVinculacion();
+  }
+
+  void _revisarStatusVinculacion() async {
+    final estados = await userService.obtenerEstadoVinculacion(
+        widget.pacienteId, widget.especialistaId, widget.token);
+    print(estados);
+    if (estados != null && estados.isNotEmpty) {
+      setState(() {
+        status = estados.join(', ');
+      });
+    } else {
+      setState(() {
+        status = "No hay vinculaciones";
+      });
+    }
+  }
+
   void vincularEspecialista() async {
     final response = await userService.vincularConEspecialista(
         widget.pacienteId, widget.especialistaId, widget.token);
@@ -185,12 +218,27 @@ class _EspecialistaCardState extends State<EspecialistaCard> {
             ),
             // Botón de acción
             ElevatedButton(
-              onPressed: status == "PENDIENTE" ? null : vincularEspecialista,
+              onPressed: status == "PENDIENTE" ||
+                      status == "ACEPTADO" ||
+                      status == "RECHAZADO"
+                  ? null
+                  : vincularEspecialista,
               child: Text(
-                status == "PENDIENTE" ? "Solicitud enviada" : "Vincular",
+                status == "ACEPTADO"
+                    ? "Vinculación aceptada"
+                    : status == "RECHAZADO"
+                        ? "Solicitud rechazada"
+                        : status == "PENDIENTE"
+                            ? "Solicitud enviada"
+                            : "Vincular",
+                style: TextStyle(fontSize: 12),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: status == "PENDIENTE" ? Colors.orange : null,
+                backgroundColor: status == "PENDIENTE"
+                    ? const Color.fromARGB(255, 0, 255, 42)
+                    : null,
+                disabledBackgroundColor: Colors.black,
+                disabledForegroundColor: Colors.white,
               ),
             ),
           ],

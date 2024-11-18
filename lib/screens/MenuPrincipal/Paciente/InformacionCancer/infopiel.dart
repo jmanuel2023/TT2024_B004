@@ -33,23 +33,28 @@ class _InfoPielState extends State<InfoPiel> {
   @override
   //Widget para mostrar el diseño de la pantalla
   Widget build(BuildContext context) {
-    final ancho = MediaQuery.of(context)
-        .size; //Variable para calcular el tamaño de la pantalla
     return Scaffold(
       appBar: AppBar(
-        //Widget para el diseño de la barra superior de la pantalla
+        
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(233, 214, 204, 1),
-        title: Row(
-          children: [
-            Text(
-              "Todo sobre la piel",
-              style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(width: ancho.width * 0.04),
-            Image.asset("assets/images/logo.png", width: 45, height: 45),
-          ],
+        title: Text(
+          'Todo sobre la piel', // Texto centrado
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        centerTitle: true, // Asegura que el título esté centrado
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent, // Fondo transparente
+              child: Image.asset(
+                "assets/images/logo.png", // Ruta del logo
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(10),

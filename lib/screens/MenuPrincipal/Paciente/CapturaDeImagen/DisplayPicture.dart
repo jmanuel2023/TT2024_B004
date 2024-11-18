@@ -19,7 +19,27 @@ class _DisplaypictureState extends State<DisplayPicture> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Foto tomada")),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(233, 214, 204, 1),
+        title: Text(
+          'Foto capturada', // Texto centrado
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true, // Asegura que el título esté centrado
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent, // Fondo transparente
+              child: Image.asset(
+                "assets/images/logo.png", // Ruta del logo
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -44,7 +64,7 @@ class _DisplaypictureState extends State<DisplayPicture> {
                       onPressed: () async {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Foto confirmada")));
-                            /** AQUI VA LA API */
+                        /** AQUI VA LA API */
                         final lesionService = LesionServices();
                         final String nombreLesion = "Nevo melanocitico";
                         final String descripcion =
@@ -71,7 +91,8 @@ class _DisplaypictureState extends State<DisplayPicture> {
                                         nombreLesion: nombreLesion,
                                         descripcion: descripcion,
                                         imagen: widget.imagen,
-                                        idLesion: data['id_lesion'].toString())));
+                                        idLesion:
+                                            data['id_lesion'].toString())));
                           } else {
                             print("NO SE HA PODIDO GUARDAR LA LESION");
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -33,8 +33,8 @@ class _PatientRequestsState extends State<PatientRequests> {
     final storage = FlutterSecureStorage();
     token = await storage.read(key: "token");
     especialistaId = await storage.read(key: "idUsuario");
-    List<dynamic> pacientes =
-        await userService.obtenerPacientesPorFiltro(especialistaId?? "", token!);
+    List<dynamic> pacientes = await userService.obtenerPacientesPorFiltro(
+        especialistaId ?? "", token!);
     setState(() {
       _pacientes = pacientes;
     });
@@ -57,22 +57,40 @@ class _PatientRequestsState extends State<PatientRequests> {
   @override
   void dispose() {
     _debounce?.cancel();
-   // _busquedaController.dispose();
+    // _busquedaController.dispose();
     super.dispose();
+  }
+
+  void _eliminarTarjeta(int idPaciente) {
+    setState(() {
+      _pacientes
+          .removeWhere((paciente) => paciente['idPaciente'] == idPaciente);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("Solicitudes de Pacientes"),
-            Image.asset("assets/images/logo.png", width: 45, height: 45),
-          ],
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(233, 214, 204, 1),
+        title: Text(
+          'Solicitudes de Pacientes', // Texto centrado
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        leading: Icon(Icons.arrow_back), // Flecha de regreso
+        centerTitle: true, // Asegura que el título esté centrado
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent, // Fondo transparente
+              child: Image.asset(
+                "assets/images/logo.png", // Ruta del logo
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -108,7 +126,8 @@ class _PatientRequestsState extends State<PatientRequests> {
                     correo: paciente['correo'],
                     idPaciente: paciente['id'],
                     especialistaId: especialistaId ?? "",
-                    token: token!);
+                    token: token!,
+                    eliminacion: _eliminarTarjeta);
               },
             )),
           ],

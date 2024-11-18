@@ -41,6 +41,9 @@ class CustomInputField extends StatelessWidget {
       child: AbsorbPointer(
         absorbing: onTap != null,
         child: TextFormField(
+          style: TextStyle(
+            color: Colors.black
+          ),
           inputFormatters: inputFormatters,
           keyboardType: keyboardType,
           controller: controller,
@@ -48,10 +51,10 @@ class CustomInputField extends StatelessWidget {
           obscureText: isPassword,
           decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38),
+              borderSide: BorderSide(color: Color.fromRGBO(204, 87, 54, 1)),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.black38, width: 2),
+              borderSide: BorderSide(color: Color.fromRGBO(204, 87, 54, 1), width: 2),
             ),
             hintText: hint,
             labelText: label,

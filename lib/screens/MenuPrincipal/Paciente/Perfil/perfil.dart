@@ -8,10 +8,11 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/appinformacion.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/InfoAppScreen.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/PrivacyPoliciesScreen.dart';
+
 import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/configuracion.dart';
 import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
-import 'package:skincanbe/screens/MenuPrincipal/Paciente/Perfil/politcas.dart';
 import 'package:skincanbe/services/peticionesHttpAutenticacion/AuthenticationService.dart';
 
 
@@ -55,15 +56,25 @@ class _PerfilState extends State<Perfil>{
               padding: EdgeInsets.only(top: 30, left: 10, right: 10),
               children: <Widget>[
                 UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: const Color.fromARGB(255, 104, 99, 99),
+                  decoration: BoxDecoration(color:  Color.fromRGBO(233, 214, 204, 1),
                   borderRadius: BorderRadius.circular(10)
                   ),
-          accountName: Text(name +" "+apellido),
-          accountEmail: Text(correo ?? ""),
+          accountName: Text(name +" "+apellido,
+            style: TextStyle(
+              color: Color.fromRGBO(204, 87, 54, 1),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          accountEmail: Text(correo ?? "",
+            style: TextStyle(
+              color: Color.fromRGBO(204, 87, 54, 1),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           currentAccountPicture: CircleAvatar(
             backgroundColor: Colors.white,
             child: Text(letraName+""+letraApellido,
-            style: TextStyle(fontSize: 35),),
+            style: TextStyle(fontSize: 35,color: Color.fromRGBO(204, 87, 54, 1)),),
           ),
                 ),
                 ListTile(
@@ -81,7 +92,7 @@ class _PerfilState extends State<Perfil>{
           trailing: Icon(Icons.arrow_forward_ios),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) 
-            => const Politicas()));
+            => const PrivacyPoliciesScreen()));
           },
                 ),
                 ListTile(
@@ -90,7 +101,7 @@ class _PerfilState extends State<Perfil>{
           trailing: Icon(Icons.arrow_forward_ios),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) 
-            => const InformacionApp()));
+            => const InfoAppScreen()));
           },
                 ),
                 ListTile(

@@ -6,27 +6,24 @@
  * Ojeda Gomez Angelo Mihaelle
  * Rodriguez Juarez Israel.
  */
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intl/intl.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/Historial/PantallaObservaciones.dart';
 import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 // import 'package:skincanbe/data/datoshistorial.dart';
 import 'package:skincanbe/services/peticionesHttpLesion/LesionServices.dart';
 import 'package:skincanbe/services/peticionesHttpReporte/ReporteServices.dart';
 
 class Historial extends StatefulWidget {
-  /*final String? usuarioId;
-  const Historial({this.usuarioId});*/
-
   @override
   _HistorialState createState() => _HistorialState();
 }
 
 class _HistorialState extends State<Historial> {
-    final reporteService = ReporteServices();
-  int? _expandedIndex; //Variable de ayuda para la expansion del widget PanelList
+  final reporteService = ReporteServices();
+  int?
+      _expandedIndex; //Variable de ayuda para la expansion del widget PanelList
   final lesionServices = new LesionServices();
   late Future<List<dynamic>>? _lesiones = Future.value([]);
   String? id;
@@ -58,25 +55,27 @@ class _HistorialState extends State<Historial> {
   @override
   //Widget que muestra el diseño de la pantalla
   Widget build(BuildContext context) {
-    final ancho = MediaQuery.of(context)
-        .size; //Variable para calcular el tamaño de la pantalla
     return Scaffold(
         appBar: AppBar(
-          //Widget para el diseño de la barra superior de la pantalla
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(233, 214, 204, 1),
-          title: Row(
-            //Titulo de la barra superior
-            children: [
-              SizedBox(width: ancho.width * 0.01),
-              Text(
-                "Historial de lesiones",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: ancho.width * 0.065),
-              Image.asset("assets/images/logo.png", width: 45, height: 45),
-            ],
+          title: Text(
+            'Historial de lesiones', // Texto centrado
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          centerTitle: true, // Asegura que el título esté centrado
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent, // Fondo transparente
+                child: Image.asset(
+                  "assets/images/logo.png", // Ruta del logo
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ],
         ),
         body: FutureBuilder<List<dynamic>>(
             future: _lesiones,
@@ -100,10 +99,6 @@ class _HistorialState extends State<Historial> {
                       int index = entry.key;
                       Map<String, dynamic> lesionData = entry.value;
 
-                      // Obtener el nombre de archivo sin el prefijo
-                      String nombreImagenOriginal =
-                          obtenerNombreOriginal(lesionData['imagen']);
-
                       return ExpansionPanelRadio(
                         //Retorna un panel con la información necesaria de la lesión
                         value: index,
@@ -111,28 +106,24 @@ class _HistorialState extends State<Historial> {
                           return ListTile(
                             //Widegt para crear lista de elementos
                             leading: ClipOval(
-                              child: Image.file(
-                                  File(
-                                      "/data/user/0/com.example.skincanbe/cache/" +
-                                          nombreImagenOriginal),
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover),
+                              child: Image.network(
+                                lesionData["imagen"],
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             title: Text(
                                 lesionData['nombre_lesion'] ?? 'Sin nombre'),
                             subtitle: Text(
-                                "Fecha: ${DateFormat('yyyy-MM-dd').format(DateTime.now())}"),
+                                'Fecha de registro: ${lesionData['fecha']}'),
                           );
                         },
                         body: ListTile(
                           title: Text('Más detalles...'),
                           onTap: () {
-                            _showBottomSheet(
-                                context,
-                                lesionData,
-                                nombreImagenOriginal,
-                                token!, reporteService); //Metodo para visualizar los detalles de la lesion en una mini pantalla
+                            _showBottomSheet(context, lesionData, token!,
+                                reporteService); //Metodo para visualizar los detalles de la lesion en una mini pantalla
                           },
                         ),
                       );
@@ -145,7 +136,7 @@ class _HistorialState extends State<Historial> {
 }
 
 void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
-    String imagen, String token, ReporteServices servicioReporte) {
+    String token, ReporteServices servicioReporte) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
@@ -162,10 +153,10 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
             children: [
               Center(
                 child: ClipOval(
-                  child: Image.file(
-                    File("/data/user/0/com.example.skincanbe/cache/" + imagen),
-                    height: 150,
+                  child: Image.network(
+                    lesionData["imagen"],
                     width: 150,
+                    height: 150,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -180,33 +171,54 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
                 "Descripción: ${lesionData['descripcion']}",
                 style: TextStyle(fontSize: 16),
               ),
-              MaterialButton(
-                onPressed: () async {
-                  try {
-                    print(lesionData['id_lesion']);
-                    print(token);
-                    String respuesta =
-                        await servicioReporte.generarYEnviarReporte(
-                            lesionData['id_lesion']!.toString(), token);
-                    print(respuesta);
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(respuesta)));
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PantallaEntrada()));
-                  } catch (e) {
-                    SnackBar(
-                        content: Text(
-                            "No se ha mandado el correo, intentenlo mas tarde"));
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text("Compartir reporte"),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                color: Colors.black,
-                textColor: Colors.white,
+              Row(
+                children: [
+                  MaterialButton(
+                    onPressed: () async {
+                      try {
+                        print(lesionData['id_lesion']);
+                        print(token);
+                        String respuesta =
+                            await servicioReporte.generarYEnviarReporte(
+                                lesionData['id_lesion']!.toString(), token);
+                        print(respuesta);
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text(respuesta)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PantallaEntrada()));
+                      } catch (e) {
+                        SnackBar(
+                            content: Text(
+                                "No se ha mandado el correo, intentenlo mas tarde"));
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Text("Compartir reporte"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    color: Colors.black,
+                    textColor: Colors.white,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  MaterialButton(
+                    onPressed: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PantallaObservaciones(
+                                  id_lesion: lesionData['id_lesion'])));
+                    },
+                    child: Text("Ver observaciones"),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    color: Colors.white,
+                    textColor: Colors.black,
+                  ),
+                ],
               )
             ],
           ),
