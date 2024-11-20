@@ -163,7 +163,7 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
                         final tipoUsuario = data['tipoUsuario'];
                         final nombre = data['nombre'];
                         final apellidos = data['apellidos'];
-                        final email = data['username'];
+                        //final email = data['username'];
                         //final idUsuario = data['Id'];
                         //Condicion que indica que si es tipo de usuario Paciente
                         if (tipoUsuario == "Paciente") {
@@ -181,12 +181,7 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SpecialistScreen(
-                                        //Navega a esta pantalla
-                                        nombre: nombre,
-                                        apellidos: apellidos,
-                                        correo: email,
-                                      ))).then((_) {
+                                  builder: (context) => SpecialistScreen())).then((_) {
                             _showWelcomeDialog(context, nombre,
                                 apellidos); //Muestra el mensaje de este metodo
                           });

@@ -9,8 +9,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/compartirReporte.dart';
 import 'package:skincanbe/screens/MenuPrincipal/Paciente/Historial/PantallaObservaciones.dart';
-import 'package:skincanbe/screens/MenuPrincipal/Paciente/PatientScreen.dart';
 // import 'package:skincanbe/data/datoshistorial.dart';
 import 'package:skincanbe/services/peticionesHttpLesion/LesionServices.dart';
 import 'package:skincanbe/services/peticionesHttpReporte/ReporteServices.dart';
@@ -175,25 +175,26 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
                 children: [
                   MaterialButton(
                     onPressed: () async {
-                      try {
-                        print(lesionData['id_lesion']);
-                        print(token);
-                        String respuesta =
-                            await servicioReporte.generarYEnviarReporte(
-                                lesionData['id_lesion']!.toString(), token);
-                        print(respuesta);
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text(respuesta)));
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PantallaEntrada()));
-                      } catch (e) {
-                        SnackBar(
-                            content: Text(
-                                "No se ha mandado el correo, intentenlo mas tarde"));
-                        Navigator.pop(context);
-                      }
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompartirReporte(id_lesion: lesionData['id_lesion'].toString(), tipo_lesion: lesionData['nombre_lesion'])));
+                      // try {
+                      //   print(lesionData['id_lesion']);
+                      //   print(token);
+                      //   String respuesta =
+                      //       await servicioReporte.generarYEnviarReporte(
+                      //           lesionData['id_lesion']!.toString(), token);
+                      //   print(respuesta);
+                      //   ScaffoldMessenger.of(context)
+                      //       .showSnackBar(SnackBar(content: Text(respuesta)));
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => PantallaEntrada()));
+                      // } catch (e) {
+                      //   SnackBar(
+                      //       content: Text(
+                      //           "No se ha mandado el correo, intentenlo mas tarde"));
+                      //   Navigator.pop(context);
+                      // }
                     },
                     child: Text("Compartir reporte"),
                     shape: RoundedRectangleBorder(

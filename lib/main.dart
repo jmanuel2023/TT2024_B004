@@ -145,8 +145,8 @@ void configurarCanalNotificacion() async {
 
   await flutterLocalNotificationsPlugin.show(
     0,
-    'Notificación Inmediata',
-    'Esto es una prueba.',
+    '¡Bienvendido a SkinCanBe',
+    'Es grato tu presencia. Por favor, utilice los servicios que ofrece la aplicación',
     const NotificationDetails(
       android: AndroidNotificationDetails(
         'tu_id_diario',

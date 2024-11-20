@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:skincanbe/screens/MenuPrincipal/Especialista/PatientCatalog.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Especialista/SpecialistScreen.dart';
 import 'package:skincanbe/services/peticionesHttpLesion/LesionServices.dart';
 
 class AgregarObservacionScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _AgregarObservacionScreenState extends State<AgregarObservacionScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Regresa a la pantalla anterior
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SpecialistScreen())); // Regresa a la pantalla anterior
           },
         ),
         title: Text(

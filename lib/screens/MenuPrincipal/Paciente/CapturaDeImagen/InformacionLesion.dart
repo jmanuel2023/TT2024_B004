@@ -134,7 +134,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CompartirReporte(
-                                      idLesion: widget.idLesion)));
+                                      id_lesion: widget.idLesion, tipo_lesion: widget.nombreLesion,)));
                         }),
                   ],
                 ),
