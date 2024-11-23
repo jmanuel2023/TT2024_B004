@@ -28,6 +28,15 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
 /*Variables para el controlador de los campos del formulario */
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool cargando = false;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   //Widget para mostrar el diseño de la pantalla
@@ -38,13 +47,14 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(context, 
-            MaterialPageRoute(builder: (context) => const PantallaPrincipal()) 
-            );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PantallaPrincipal()));
           },
         ),
         title: Text(
-          '', 
+          '',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true, // Asegura que el título esté centrado
@@ -94,6 +104,7 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
                             offset: Offset(7, 7))
                       ]),
                   child: Form(
+                      key: _formKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: Column(
                         children: [
@@ -141,64 +152,85 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
                 SizedBox(height: 30),
                 SubmitButton(
                     text: "Iniciar sesión",
+                    isLoading: cargando,
                     onPressed: () async {
-                      //Evento del boton al ser oprimido
-                      final authService =
-                          AuthenticationService(); //Instancia del servicio authService
-                      try {
-                        final data = await authService.login(
-                            //Llamada al metodo login del servicio authService, pasandole de parametros el correo y contraseña
-                            emailController.text,
-                            passwordController.text);
-                        //Condicion que indica que cuando la respuesta del servicio, incluya en el json message
-                        if (data.containsKey('message')) {
-                          final errorMessage = data['message'];
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            //Mostrara un mensaje en la parte inferior de la pantalla
-                            SnackBar(content: Text(errorMessage)),
-                          );
-                          return;
-                        }
-                        //Si no tiene message, la respuesta del servicio entonces continua con lo siguiente
-                        final tipoUsuario = data['tipoUsuario'];
-                        final nombre = data['nombre'];
-                        final apellidos = data['apellidos'];
-                        //final email = data['username'];
-                        //final idUsuario = data['Id'];
-                        //Condicion que indica que si es tipo de usuario Paciente
-                        if (tipoUsuario == "Paciente") {
-                          Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PantallaEntrada()))
-                              .then((_) {
-                            _showWelcomeDialog(context, nombre,
-                                apellidos); //Llama a este metodo para mostrar un mensaje despues de la navegación
-                          });
-                        }
-                        //Condicion que indica que si es tipo de usuario Especialista
-                        else if (tipoUsuario == "Especialista") {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SpecialistScreen())).then((_) {
-                            _showWelcomeDialog(context, nombre,
-                                apellidos); //Muestra el mensaje de este metodo
-                          });
-                        } else {
+                      if (_formKey.currentState!.validate()) {
+                        
+                        _formKey.currentState!.save();
+
+                        setState(() {
+                          cargando = true;
+                        });
+
+                        final authService =
+                            AuthenticationService(); //Instancia del servicio authService
+                        try {
+                          final data = await authService.login(
+                              //Llamada al metodo login del servicio authService, pasandole de parametros el correo y contraseña
+                              emailController.text,
+                              passwordController.text);
+                          //Condicion que indica que cuando la respuesta del servicio, incluya en el json message
+                          if (data.containsKey('message')) {
+                            final errorMessage = data['message'];
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              //Mostrara un mensaje en la parte inferior de la pantalla
+                              SnackBar(content: Text(errorMessage)),
+                            );
+                            return;
+                          }
+                          //Si no tiene message, la respuesta del servicio entonces continua con lo siguiente
+                          final tipoUsuario = data['tipoUsuario'];
+                          final nombre = data['nombre'];
+                          final apellidos = data['apellidos'];
+                          //final email = data['username'];
+                          //final idUsuario = data['Id'];
+                          //Condicion que indica que si es tipo de usuario Paciente
+                          if (tipoUsuario == "Paciente") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PantallaEntrada())).then((_) {
+                              _showWelcomeDialog(context, nombre,
+                                  apellidos); //Llama a este metodo para mostrar un mensaje despues de la navegación
+                            });
+                          }
+                          //Condicion que indica que si es tipo de usuario Especialista
+                          else if (tipoUsuario == "Especialista") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SpecialistScreen())).then((_) {
+                              _showWelcomeDialog(context, nombre,
+                                  apellidos); //Muestra el mensaje de este metodo
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Error al iniciar sesión, revisa tus credenciales')) //En caso de que no sea ni Paciente ni Especialista, indica que hay un error en las credenciales
+                                );
+                          }
+                        } catch (e) {
+                          print(
+                              'Error de autenticación: $e'); //En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      'Error al iniciar sesión, revisa tus credenciales')) //En caso de que no sea ni Paciente ni Especialista, indica que hay un error en las credenciales
-                              );
+                            content: Text(
+                                'Error de conexión, intenta de nuevo más tarde'),
+                          ));
+                        } finally {
+                          setState(() {
+                            cargando = false;
+                          });
                         }
-                      } catch (e) {
-                        print(
-                            'Error de autenticación: $e'); //En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              'Error de conexión, intenta de nuevo más tarde'),
-                        ));
-                      }
+                      } else {
+                          // Si el checkbox no está seleccionado, mostramos un SnackBar con el mensaje de validación
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    'Debes de llenar los campos correctamente')),
+                          );
+                        }
                     }),
                 SizedBox(
                   height: 10,

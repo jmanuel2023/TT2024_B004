@@ -78,53 +78,59 @@ class _PerfilState extends State<Perfil>{
           ),
                 ),
                 ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Configuración'),
-          trailing: Icon(Icons.arrow_forward_ios),
+          leading: Icon(Icons.settings,
+            color: Color.fromRGBO(84, 47, 35, 1),
+          ),
+          title: Text('Configuración', style: TextStyle(
+            color: Color.fromRGBO(84, 47, 35, 1),
+            fontWeight: FontWeight.bold,
+          ),),
+          trailing: Icon(Icons.arrow_forward_ios, color: Color.fromRGBO(84, 47, 35, 1),),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) 
             => const Configuracion()));
           },
                 ),
                 ListTile(
-          leading: Icon(Icons.policy),
-          title: Text('Políticas'),
-          trailing: Icon(Icons.arrow_forward_ios),
+          leading: Icon(Icons.policy, color: Color.fromRGBO(84, 47, 35, 1),),
+          title: Text('Políticas', style: TextStyle(color: Color.fromRGBO(84, 47, 35, 1), fontWeight: FontWeight.bold)),
+          trailing: Icon(Icons.arrow_forward_ios, color: Color.fromRGBO(84, 47, 35, 1)),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) 
             => const PrivacyPoliciesScreen()));
           },
                 ),
                 ListTile(
-          leading: Icon(Icons.info),
-          title: Text('Información de la app'),
-          trailing: Icon(Icons.arrow_forward_ios),
+          leading: Icon(Icons.info, color: Color.fromRGBO(84, 47, 35, 1),),
+          title: Text('Información de la app', style: TextStyle(color: Color.fromRGBO(84, 47, 35, 1), fontWeight: FontWeight.bold),),
+          trailing: Icon(Icons.arrow_forward_ios, color: Color.fromRGBO(84, 47, 35, 1),),
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) 
             => const InfoAppScreen()));
           },
                 ),
                 ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Cerrar sesión'),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: Icon(Icons.exit_to_app, color: Color.fromRGBO(84, 47, 35, 1)),
+                title: Text('Cerrar sesión', style: TextStyle(color: Color.fromRGBO(84, 47, 35, 1), fontWeight: FontWeight.bold),),
+                trailing: Icon(Icons.arrow_forward_ios, color: Color.fromRGBO(84, 47, 35, 1)),
                 onTap: () {
                   // Mostrar un diálogo de confirmación
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Cerrar sesión'),
-                        content: Text('¿Estás seguro de que deseas cerrar sesión?'),
+                        backgroundColor: Color.fromRGBO(204, 87, 54, 1),
+                        title: Text('Cerrar sesión', style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),),
+                        content: Text('¿Estás seguro de que deseas cerrar sesión?', style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),),
                        actions: [
                           TextButton(
-                            child: Text('Cancelar'),
+                            child: Text('Cancelar', style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1))),
                             onPressed: () {
                               Navigator.of(context).pop();  // Cierra el diálogo sin cerrar sesión
                             },
                           ),
                           TextButton(
-                            child: Text('Cerrar sesión'),
+                            child: Text('Cerrar sesión', style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1))),
                             onPressed: () async {
                               final authService = AuthenticationService();
                               Navigator.of(context).pop();  // Cierra el diálogo

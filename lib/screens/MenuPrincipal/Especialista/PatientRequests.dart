@@ -27,9 +27,14 @@ class _PatientRequestsState extends State<PatientRequests> {
   Timer? _debounce;
   String? token;
   String? especialistaId;
+  bool cargando = false;
 
   // Método para cargar los datos desde el servicio
   Future<void> _cargarDatos() async {
+    setState(() {
+      cargando = true;
+    });
+    try {
     final storage = FlutterSecureStorage();
     token = await storage.read(key: "token");
     especialistaId = await storage.read(key: "idUsuario");
@@ -38,26 +43,24 @@ class _PatientRequestsState extends State<PatientRequests> {
     setState(() {
       _pacientes = pacientes;
     });
+    } catch (e){
+      print("Error al cargar datos: $e");
+    } finally{
+      setState(() {
+        cargando = false;
+      });
+    }
   }
-
-  // _cambioBusqueda() {
-  //   if (_debounce?.isActive ?? false) _debounce?.cancel();
-  //   _debounce = Timer(const Duration(milliseconds: 1000), () {
-  //     _cargarDatos(_busquedaController.text);
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
     _cargarDatos();
-    //_busquedaController.addListener(_cambioBusqueda);
   }
 
   @override
   void dispose() {
     _debounce?.cancel();
-    // _busquedaController.dispose();
     super.dispose();
   }
 
@@ -96,21 +99,12 @@ class _PatientRequestsState extends State<PatientRequests> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Campo de búsqueda
-            /*TextField(
-              controller: _busquedaController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Buscar por nombre o ID',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-            ),*/
             SizedBox(height: 20),
-            // Lista de pacientes
             Expanded(
-                child: ListView.builder(
+                child: cargando ? Center(child: CircularProgressIndicator(),) 
+                : _pacientes.isEmpty ? Center(child: Text("No hay solicitudes de pacientes",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),)                
+                : ListView.builder(
               itemCount: _pacientes.length,
               itemBuilder: (context, index) {
                 var paciente = _pacientes[index];

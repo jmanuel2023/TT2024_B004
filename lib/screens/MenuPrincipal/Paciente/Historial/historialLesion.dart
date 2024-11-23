@@ -45,12 +45,6 @@ class _HistorialState extends State<Historial> {
     _cargarDatos();
   }
 
-  String obtenerNombreOriginal(String nombreConPrefijo) {
-    int index = nombreConPrefijo.indexOf('_');
-    return index != -1
-        ? nombreConPrefijo.substring(index + 1)
-        : nombreConPrefijo;
-  }
 
   @override
   //Widget que muestra el diseño de la pantalla
@@ -85,7 +79,11 @@ class _HistorialState extends State<Historial> {
               } else if (snapshot.hasError) {
                 return Center(child: Text("Error: ${snapshot.error}"));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text("No hay lesiones registradas"));
+                return Center(child: Text("No hay lesiones registradas",
+                style: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.bold
+                ),
+                ));
               } else {
                 final lesiones = snapshot.data!;
                 return SingleChildScrollView(
@@ -100,7 +98,7 @@ class _HistorialState extends State<Historial> {
                       Map<String, dynamic> lesionData = entry.value;
 
                       return ExpansionPanelRadio(
-                        //Retorna un panel con la información necesaria de la lesión
+                        backgroundColor: Color.fromRGBO(233, 214, 204, 1),
                         value: index,
                         headerBuilder: (context, isExpanded) {
                           return ListTile(
@@ -114,9 +112,9 @@ class _HistorialState extends State<Historial> {
                               ),
                             ),
                             title: Text(
-                                lesionData['nombre_lesion'] ?? 'Sin nombre'),
+                                lesionData['nombre_lesion'] ?? 'Sin nombre', style: TextStyle(fontWeight:FontWeight.bold, color: Color.fromRGBO(204, 87, 54, 1)),),
                             subtitle: Text(
-                                'Fecha de registro: ${lesionData['fecha']}'),
+                                'Fecha de registro: ${lesionData['fecha']}', style: TextStyle(fontWeight:FontWeight.w400, color: Color.fromRGBO(204, 87, 54, 1))),
                           );
                         },
                         body: ListTile(
@@ -137,7 +135,16 @@ class _HistorialState extends State<Historial> {
 
 void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
     String token, ReporteServices servicioReporte) {
+  print("ID Lesion: " + lesionData['id_lesion'].toString());
+  print("Fecha: " + lesionData['fecha']);
+  print("Nombre Lesion: " + lesionData['nombre_lesion']);
+  print("Descripcion: " + lesionData['descripcion']);
+  print("Porcentaje: " + lesionData['porcentaje']);
+  print("Imagen: " + lesionData['imagen']);
+
+
   showModalBottomSheet(
+    backgroundColor: Color.fromRGBO(233, 214, 204, 1),
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
@@ -164,46 +171,32 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
               SizedBox(height: 8),
               Text(
                 "Resultados: ${lesionData['nombre_lesion']}",
-                style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+                style: TextStyle(fontSize: 16, color:  Color.fromRGBO(204, 87, 54, 1), fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
               Text(
                 "Descripción: ${lesionData['descripcion']}",
                 style: TextStyle(fontSize: 16),
               ),
+              SizedBox(height: 8),
+              Text(
+                "Porcentaje de coincidencia: ${lesionData['porcentaje']}",
+                style: TextStyle(fontSize: 16, color:  Color.fromRGBO(204, 87, 54, 1), fontWeight: FontWeight.bold),
+              ),
               Row(
                 children: [
                   MaterialButton(
                     onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompartirReporte(id_lesion: lesionData['id_lesion'].toString(), tipo_lesion: lesionData['nombre_lesion'])));
-                      // try {
-                      //   print(lesionData['id_lesion']);
-                      //   print(token);
-                      //   String respuesta =
-                      //       await servicioReporte.generarYEnviarReporte(
-                      //           lesionData['id_lesion']!.toString(), token);
-                      //   print(respuesta);
-                      //   ScaffoldMessenger.of(context)
-                      //       .showSnackBar(SnackBar(content: Text(respuesta)));
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => PantallaEntrada()));
-                      // } catch (e) {
-                      //   SnackBar(
-                      //       content: Text(
-                      //           "No se ha mandado el correo, intentenlo mas tarde"));
-                      //   Navigator.pop(context);
-                      // }
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompartirReporte(id_lesion: lesionData['id_lesion'].toString(), tipo_lesion: lesionData['nombre_lesion'], porcentaje: lesionData['porcentaje'],)));
                     },
-                    child: Text("Compartir reporte"),
+                    child: Text("Generar reporte"),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    color: Colors.black,
-                    textColor: Colors.white,
+                    color:  Color.fromRGBO(204, 87, 54, 1),
+                    textColor: Color.fromRGBO(255, 255, 255, 1),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 20,
                   ),
                   MaterialButton(
                     onPressed: () async {
@@ -217,7 +210,7 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     color: Colors.white,
-                    textColor: Colors.black,
+                    textColor:  Color.fromRGBO(204, 87, 54, 1),
                   ),
                 ],
               )

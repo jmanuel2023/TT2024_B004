@@ -19,9 +19,14 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   String? token;
   String? id;
   String status = "Disponible";
+  bool cargando = false;
 
   //Metodo para cargar los datos desde el servicio
   Future<void> _cargarDatos(String filtro) async {
+    setState(() {
+      cargando = true;
+    });
+    try {
     final storage = FlutterSecureStorage();
     token = await storage.read(key: "token");
     id = await storage.read(key: "idUsuario");
@@ -30,6 +35,13 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
     setState(() {
       _especialistas = especialistas;
     });
+    } catch (e) {
+      print("Error al cargar datos: $e");
+    } finally {
+      setState(() {
+        cargando = false;
+      });
+    }
   }
 
   _cambioBusqueda() {
@@ -97,7 +109,15 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
             SizedBox(height: 20),
             // Lista de especialistas
             Expanded(
-                child: ListView.builder(
+                child: cargando ? Center(child: CircularProgressIndicator(),)
+              : _especialistas.isEmpty ? Center(
+                child: Text("No hay especialistas disponibles",
+                style: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.bold)
+                ),
+                
+              )  
+              : ListView.builder(
               itemCount: _especialistas.length,
               itemBuilder: (context, index) {
                 var especialista = _especialistas[index];

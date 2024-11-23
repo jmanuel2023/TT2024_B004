@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/InicioDeSesion/inicio_sesion.dart';
 
 class EsperaConfirmacion extends StatefulWidget {
-  const EsperaConfirmacion({super.key});
+  final String? correo;
+  EsperaConfirmacion({this.correo});
 
   @override
   _EsperaConfirmacionState createState() => _EsperaConfirmacionState();
@@ -61,6 +62,26 @@ class _EsperaConfirmacionState extends State<EsperaConfirmacion> {
               ),
                 SizedBox(height:20),
                 Text("Haz clic en el enlace que se hizo llegar al correo electrónico que ingresaste.",
+                style: TextStyle(
+                  fontSize: 18.0, 
+                  fontWeight: FontWeight.w600, 
+                  color: Colors.black87, 
+                 letterSpacing: 1.2, 
+                ),
+                textAlign: TextAlign.center,
+                ),
+                SizedBox(height:20),
+                Text("${widget.correo}",
+                style: TextStyle(
+                  fontSize: 18.0, 
+                  fontWeight: FontWeight.w600, 
+                  color: Colors.black87, 
+                 letterSpacing: 1.2, 
+                ),
+                textAlign: TextAlign.center,
+                ),
+                SizedBox(height:20),
+                Text("!Si no esta en tu bandeja de entrada, revisa tus correos no deseados.!",
                 style: TextStyle(
                   fontSize: 18.0, 
                   fontWeight: FontWeight.w600, 

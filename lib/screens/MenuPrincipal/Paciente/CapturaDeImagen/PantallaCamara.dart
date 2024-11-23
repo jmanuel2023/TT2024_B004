@@ -16,6 +16,8 @@ class _PantallaCamaraState extends State<PantallaCamara> {
   bool _isCameraInitialized = false; //Variable inicializada en false,que pronto nos va servir.
   XFile? _imageFile; //Variable que va guardar donde se va a guardar la imagen capturada de la camara.
   String? id;
+  Color _colorFondo = Color.fromRGBO(204, 87, 54, 1);
+  Color _colorLetra = Color.fromRGBO(255, 255, 255, 1);
 
   @override
   void initState() {
@@ -28,10 +30,7 @@ class _PantallaCamaraState extends State<PantallaCamara> {
     id = await storage.read(key: "idUsuario");
 
     _openCamera();
-
-    setState(() {
-      
-    });
+    _verMensajes();
   }
 
 
@@ -70,7 +69,6 @@ class _PantallaCamaraState extends State<PantallaCamara> {
         //MENSAJE SI LA FOTOGRAFIA ES TOMADA CON EXITO O NO
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Foto tomada con exito")),
         );
-
         Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPicture(imagen: _imageFile!, id: id ?? "")));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error al tomar la foto: $e")),
@@ -78,6 +76,212 @@ class _PantallaCamaraState extends State<PantallaCamara> {
       }
     }
   }
+
+  void _verMensajes() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: _colorFondo,
+          title: Text(
+            'Bienvenido',
+            style: TextStyle(
+              color: _colorLetra,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Este es el servicio de captura de lesiones. Por favor, siga las indicaciones para obtener una imagen de calidad.',
+            style: TextStyle(
+              color: _colorLetra,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Siguiente',
+                style: TextStyle(
+                  color: _colorLetra,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _verInstruccionesDistancia();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+   void _verInstruccionesDistancia() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: _colorFondo,
+          title: Text(
+            'Instrucciones de Distancia',
+            style: TextStyle(
+              color: _colorLetra,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Mantenga el dispositivo a una distancia de aproximadamente 30 cm de la lesión para una mejor captura.',
+            style: TextStyle(
+              color: _colorLetra,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Siguiente',
+                style: TextStyle(
+                  color: _colorLetra,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _verInstruccionesAngulo();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _verInstruccionesAngulo() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: _colorFondo,
+          title: Text(
+            'Instrucciones de Ángulo',
+            style: TextStyle(
+              color: _colorLetra,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Ajuste el ángulo del dispositivo para que la lesión esté centrada y bien iluminada.',
+            style: TextStyle(
+              color: _colorLetra,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Siguiente',
+                style: TextStyle(
+                  color: _colorLetra,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _verGuiaCalidad();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _verGuiaCalidad() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: _colorFondo,
+          title: Text(
+            'Guía de Calidad',
+            style: TextStyle(
+              color: _colorLetra,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Asegúrese de que la imagen esté clara y enfocada. Evite sombras y reflejos.',
+            style: TextStyle(
+              color: _colorLetra,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Siguiente',
+                style: TextStyle(
+                  color: _colorLetra,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _mensajeAdvertencia();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _mensajeAdvertencia() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: _colorFondo,
+          title: Text(
+            'Advertencia',
+            style: TextStyle(
+              color: _colorLetra,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Esta aplicación esta hecha con el proposito de brindar un prediagnostico de una lesión cútanea, queda bajo su responsabilidad, las imagenes que captura.',
+            style: TextStyle(
+              color: _colorLetra,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Siguiente',
+                style: TextStyle(
+                  color: _colorLetra,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  
 
 
   @override

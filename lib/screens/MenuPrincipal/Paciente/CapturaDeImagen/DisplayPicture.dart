@@ -16,6 +16,71 @@ class DisplayPicture extends StatefulWidget {
 }
 
 class _DisplaypictureState extends State<DisplayPicture> {
+  Color _colorFondo = Color.fromRGBO(204, 87, 54, 1);
+  Color _colorLetra = Color.fromRGBO(255, 255, 255, 1);
+
+  @override
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    _mensajeConfirmacion();
+  });
+}
+
+void _mensajeConfirmacion() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: _colorFondo,
+          title: Text(
+            'Confirmación de Captura',
+            style: TextStyle(
+              color: _colorLetra,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            '¿Está satisfecho con la imagen? Si no, ajuste la distancia y el ángulo y vuelva a intentarlo.',
+            style: TextStyle(
+              color: _colorLetra,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Entendido',
+                style: TextStyle(
+                  color: _colorLetra,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String _colocarDescripcion(String lesion){
+
+    if(lesion == 'Nevo melanocitico'){
+      return "Lesion beningna, la cual es un parche de piel de color oscuro y a menudo velludo.";
+    }
+    // else if (lesion == ''){
+
+    // }
+    else{
+      return "Otra cosa";
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,15 +132,16 @@ class _DisplaypictureState extends State<DisplayPicture> {
                         /** AQUI VA LA API */
                         final lesionService = LesionServices();
                         final String nombreLesion = "Nevo melanocitico";
-                        final String descripcion =
-                            "Lesion beningna, la cual es un parche de piel de color oscuro y a menudo velludo.";
+                        final String porcentaje = "89.12%";
+                        
+                        final String descripcion = _colocarDescripcion(nombreLesion);
                         try {
                           // Llamar al servicio para registrar la lesión
                           final data = await lesionService.registrarLesion(
                               widget.id,
                               widget.imagen,
                               nombreLesion,
-                              descripcion);
+                              descripcion, porcentaje);
                           print(data['id_lesion']);
                           // Verificar si data no es nulo y contiene los datos esperados
                           if (data['id_lesion'] != null) {
@@ -90,6 +156,7 @@ class _DisplaypictureState extends State<DisplayPicture> {
                                     builder: (context) => InformacionLesion(
                                         nombreLesion: nombreLesion,
                                         descripcion: descripcion,
+                                        porcentaje: porcentaje,
                                         imagen: widget.imagen,
                                         idLesion:
                                             data['id_lesion'].toString())));

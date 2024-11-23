@@ -87,7 +87,7 @@ class _PatientCatalogState extends State<PatientCatalog> {
                 ],
               ));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text("No hay pacientes disponibles"));
+              return Center(child: Text("No hay pacientes vinculados", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),));
             } else {
               List<Paciente> pacientes = snapshot.data!;
 
@@ -96,13 +96,14 @@ class _PatientCatalogState extends State<PatientCatalog> {
                 itemBuilder: (context, index) {
                   final paciente = pacientes[index];
                   return Card(
+                    color:  Color.fromRGBO(233, 214, 204, 1),
                     margin: EdgeInsets.all(10),
                     child: ExpansionTile(
                       title: Text(
                         paciente.nombre + " " + paciente.apellidos,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold, color:Color.fromRGBO(204, 87, 54, 1)),
                       ),
-                      subtitle: Text('Correo: ${paciente.correo}'),
+                      subtitle: Text('Correo: ${paciente.correo}', style: TextStyle(color:  Color.fromRGBO(204, 87, 54, 1)),),
                       children: paciente.lesiones.map<Widget>((lesion) {
                         // String nombreImagenOriginal =
                         //           obtenerNombreOriginal(lesion.imagen);
@@ -128,7 +129,7 @@ class _PatientCatalogState extends State<PatientCatalog> {
                                           errorBuilder:
                                               (context, error, stackTrace) {
                                             return Container(
-                                              color: Colors.grey[300],
+                                              color: Color.fromRGBO(204, 87, 54, 1),
                                               child: Center(
                                                   child: Text(
                                                       'Imagen no disponible')),
@@ -147,9 +148,13 @@ class _PatientCatalogState extends State<PatientCatalog> {
                                           lesion.nombre,
                                           style: TextStyle(
                                               fontSize: 16,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                              color:  Color.fromRGBO(204, 87, 54, 1)
+                                              ),
                                         ),
                                         Text(lesion.descripcion),
+                                        Text("Porcentaje: ${lesion.porcentaje}"),
+                                        Text("Fecha: ${lesion.formattedDate}"),
                                       ],
                                     ),
                                   ),
@@ -166,7 +171,7 @@ class _PatientCatalogState extends State<PatientCatalog> {
                                                           lesion.id_lesion)));
                                     },
                                     icon: Icon(Icons.add),
-                                    color: Colors.green,
+                                    color:  Color.fromRGBO(204, 87, 54, 1),
                                   ),
                                 ],
                               ),

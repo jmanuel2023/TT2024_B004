@@ -61,8 +61,7 @@ class _MyAppState extends State<MyApp> {
     mostrarNotificacionInmediata();
     _programarNotificacionDiaria();
   }
-
-  // Solicitar permisos de notificación en dispositivos Android 13+ (API 33)
+ 
 Future<void> _solicitarPermisos() async {
   final bool granted = await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<

@@ -58,13 +58,14 @@ class LesionServices {
   }
   }
 
-  Future<Map<String,dynamic>> registrarLesion (String id, XFile imagen, String nombreLesion, String descripcion) async{
+  Future<Map<String,dynamic>> registrarLesion (String id, XFile imagen, String nombreLesion, String descripcion, String porcentaje) async{
     var request = http.MultipartRequest('POST', Uri.parse(_registerInjuryUrl));
 
     //Se agregan los campos al request
     request.fields['id_usuario'] = id;
     request.fields['nombre_lesion'] = nombreLesion;
     request.fields['descripcion'] = descripcion;
+    request.fields['porcentaje'] = porcentaje;
 
     request.files.add(await http.MultipartFile.fromPath('imagen', imagen.path));
     

@@ -70,10 +70,11 @@ class PantallaEntrada extends StatefulWidget {
         ),
 
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color.fromRGBO(233, 214, 204, 1),
         type:BottomNavigationBarType.fixed,
         currentIndex: _selectIndex,
-        selectedItemColor: Color.fromARGB(255, 87, 86, 86),
-        unselectedItemColor: Color.fromARGB(255, 19, 20, 20),
+        selectedItemColor: Color.fromRGBO(204, 87, 54, 1),
+        unselectedItemColor: Color.fromRGBO(84, 47, 35, 1),
         onTap: (index){
           setState(() {
           _selectIndex=index;

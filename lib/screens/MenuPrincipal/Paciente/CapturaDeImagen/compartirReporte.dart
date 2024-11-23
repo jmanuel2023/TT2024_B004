@@ -7,8 +7,9 @@ import 'package:skincanbe/widgets/boton_enviar.dart';
 class CompartirReporte extends StatefulWidget {
   final String? id_lesion;
   final String? tipo_lesion;
+  final String? porcentaje;
 
-  CompartirReporte({required this.id_lesion, required this.tipo_lesion}); 
+  CompartirReporte({required this.id_lesion, required this.tipo_lesion, required this.porcentaje}); 
 
   @override
   _CompartirReporteState createState() => _CompartirReporteState();
@@ -17,6 +18,7 @@ class CompartirReporte extends StatefulWidget {
 class _CompartirReporteState extends State<CompartirReporte> {
   ReporteServices reporteService= ReporteServices();
   String? token;
+  bool cargando = false;
 
   @override
   void initState() {
@@ -94,11 +96,11 @@ class _CompartirReporteState extends State<CompartirReporte> {
                   ),
                   const SizedBox(height: 10),
                   _buildRichTextSection('Información Esencial',
-                      'Según la foto proporcionada, el algoritmo de análisis desarrollado por SkinCanBe ha identificado esta lesión cutánea como ${widget.tipo_lesion}. Basándonos en las imágenes disponibles en nuestra base de datos, el porcentaje de coincidencia de esta lesión es del [porcentaje].'),
+                      'Según la foto proporcionada, el algoritmo de análisis desarrollado por SkinCanBe ha identificado esta lesión cutánea como ${widget.tipo_lesion}. Basándonos en las imágenes disponibles en nuestra base de datos, el porcentaje de coincidencia de esta lesión es del ${widget.porcentaje}'),
                   _buildRichTextSection('¿Qué más?',
                       'Se recomienda que acudas a un medico para confirmar este prediagnóstico. Recuerda que nuestra aplicación no sustituye el análisis profesional, pero puedes descargar el reporte generado para compartirlo con tu medico y facilitar la comparación en futuras consultas.'),
                   _buildRichTextSection('¿Por qué has obtenido este resultado?',
-                      'Se ha identificado esta lesión como un caso de ${widget.tipo_lesion}, con un porcentaje de coincidencia del [porcentaje].'),
+                      'Se ha identificado esta lesión como un caso de ${widget.tipo_lesion}, con un porcentaje de coincidencia del ${widget.porcentaje}.'),
                   _buildRichTextSection('Descargo de responsabilidad',
                       'Este servicio tiene fines informativos y no reemplaza la consulta con un profesional de la salud. SkinCanBe utiliza un algoritmo basado en redes neuronales convolucionales entrenado con imágenes de lesiones cutáneas. Sin embargo, los resultados no constituyen un diagnostico medico definitivo y están sujetos a revisión profesional.'),
                   _buildRichTextSection('¿Tienes dudas? ',
@@ -108,7 +110,11 @@ class _CompartirReporteState extends State<CompartirReporte> {
                   ),
                   SubmitButton(
                     text: "Compartir Reporte",
+                    isLoading: cargando,
                     onPressed: () async {
+                      setState(() {
+                        cargando = true;
+                      });
                       try {
                         String respuesta =
                             await reporteService.generarYEnviarReporte(
@@ -127,6 +133,10 @@ class _CompartirReporteState extends State<CompartirReporte> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PantallaEntrada()));
+                      } finally{
+                        setState(() {
+                          cargando = false;
+                        });
                       }
                     },
                   )

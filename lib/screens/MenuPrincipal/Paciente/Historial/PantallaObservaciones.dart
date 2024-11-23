@@ -95,7 +95,7 @@ class _PantallaObservacionesState extends State<PantallaObservaciones> {
             ? Center(
                 child: Text(
                   'No hay observaciones disponibles',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               )
             : Column(
