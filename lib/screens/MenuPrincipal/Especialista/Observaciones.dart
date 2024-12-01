@@ -58,7 +58,6 @@ class _AgregarObservacionScreenState extends State<AgregarObservacionScreen> {
             .toList();
       });
     } catch (e) {
-      print('Error al cargar el historial: $e');
     }
     finally{
       setState(() {

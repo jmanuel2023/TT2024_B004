@@ -175,8 +175,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                       ));
                                     }
                                   } catch (e) {
-                                    print(
-                                        'Error al restablecer la contraseña: $e'); //En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
+//En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
                                       content: Text(

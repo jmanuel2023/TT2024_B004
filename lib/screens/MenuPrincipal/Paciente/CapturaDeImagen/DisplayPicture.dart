@@ -166,11 +166,9 @@ void _mensajeConfirmacion() {
                               widget.imagen,
                               nombreLesion,
                               descripcion, porcentaje);
-                          print(data['id_lesion']);
                           // Verificar si data no es nulo y contiene los datos esperados
                           if (data['id_lesion'] != null) {
                             // Asegúrate de que 'id' sea una clave que esperas en la respuesta
-                            print("LESION REGISTRADA CORRECTAMENTE");
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
                                     Text("Lesión registrada correctamente")));
@@ -185,14 +183,13 @@ void _mensajeConfirmacion() {
                                         idLesion:
                                             data['id_lesion'].toString())));
                           } else {
-                            print("NO SE HA PODIDO GUARDAR LA LESION");
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content:
                                     Text("No se ha podido guardar la lesión")));
                           }
                         } catch (e) {
                           // Manejo de excepciones para errores que puedan ocurrir al registrar la lesión
-                          print("Error al registrar la lesión: $e");
+
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                   "Error al registrar la lesión: ${e.toString()}")));

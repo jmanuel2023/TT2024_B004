@@ -97,7 +97,6 @@ class _HistorialState extends State<Historial> {
                     children: lesiones.asMap().entries.map((entry) {
                       int index = entry.key;
                       Map<String, dynamic> lesionData = entry.value;
-                      print("RUTA DE LA IMAGEN: "+ lesionData['imagen']);
                       return ExpansionPanelRadio(
                         backgroundColor: Color.fromRGBO(233, 214, 204, 1),
                         value: index,
@@ -149,13 +148,6 @@ class _HistorialState extends State<Historial> {
 
 void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
     String token, ReporteServices servicioReporte) {
-  print("ID Lesion: " + lesionData['id_lesion'].toString());
-  print("Fecha: " + lesionData['fecha']);
-  print("Nombre Lesion: " + lesionData['nombre_lesion']);
-  print("Descripcion: " + lesionData['descripcion']);
-  print("Porcentaje: " + lesionData['porcentaje']);
-  print("Imagen: " + lesionData['imagen']);
-
   showModalBottomSheet(
     backgroundColor: Color.fromRGBO(233, 214, 204, 1),
     context: context,

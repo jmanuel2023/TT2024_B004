@@ -9,12 +9,9 @@ class LesionServices {
   final String _viewInjuries = metodo+ip+puerto;
 
   Future<List<dynamic>> historialObservacionConUsuario(String token, int id_lesion) async{
-    print(token);
-    print(id_lesion);
 
     final url = metodo+ip+puerto+'/historial-observaciones/$id_lesion';
 
-    print(url);
 
     final response = await http.get(
     Uri.parse(url),
@@ -34,13 +31,7 @@ class LesionServices {
   }
  
   Future<List<dynamic>> obtenerHistorialObservaciones(String token, int id_lesion, String especialistaId) async{
-    print(token);
-    print(id_lesion);
-
     final url = metodo+ip+puerto+'/historial-observaciones/$id_lesion/$especialistaId';
-
-    print(url);
-
     final response = await http.get(
     Uri.parse(url),
     headers: {
@@ -71,14 +62,10 @@ class LesionServices {
     
     var response = await request.send();
 
-    print(response.statusCode);
-
     if(response.statusCode == 200 || response.statusCode == 201) {
-      print("Lesión registrada correctamente");
       var respuesta = await response.stream.bytesToString();
       return json.decode(respuesta);
     }else{
-      print("Error al registrar la lesión");
       throw Exception('Error al registrar la lesión: ${response.statusCode}');
     }
   }
@@ -96,11 +83,6 @@ class LesionServices {
   //Servicio para las observaciones a las lesiones
   Future<String> agregarObservacion(String token, int id_lesion, String descripcion, String especialistaId) async {
   final url = metodo + ip + puerto + '/agregar-observacion/$id_lesion/$especialistaId';
-  print('Token: $token');
-  print('ID Lesion: $id_lesion');
-  print('URL: $url');
-  print('Descripción: $descripcion');
-  print('ID Especialista: $especialistaId');
 
   final response = await http.post(
     Uri.parse(url),
@@ -112,10 +94,8 @@ class LesionServices {
   );
 
   if (response.statusCode == 200 || response.statusCode == 201) {
-    print('Observación enviada correctamente');
     return 'Observación enviada correctamente';
   } else {
-    print('Error al enviar la observación: ${response.statusCode}');
     throw Exception('Error al enviar la observación');
   }
 }

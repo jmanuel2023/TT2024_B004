@@ -49,7 +49,6 @@ class _EditDataScreenState extends State<EditDataScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      print('Error al obtener datos del usuario: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error al cargar los datos del usuario')),
       );
@@ -185,10 +184,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     await userService.editarUsuario(
                                         id!, nombre, apellidos, contra, token!);
 
-                                print("Respuesta:" + respuesta);
-
                                 if (int.parse(respuesta) == 1) {
-                                  print("Entre al if del 1");
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text(
@@ -200,7 +196,6 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                           builder: (context) =>
                                               InicioDeSesion()));
                                 } else if (int.parse(respuesta) == 2) {
-                                  print("entre al else if");
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text(
@@ -208,7 +203,6 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                   );
                                 }
                               } catch (e) {
-                                print('Error al editar el usuario: $e');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content: Text(

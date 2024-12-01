@@ -74,7 +74,6 @@ class _PantallaCamaraState extends State<PantallaCamara> {
           _imageFile =
               image; //Aqui se guarda en una variable el  valor de otra, para poder utilizarla despues
         });
-        print("Imagen guardada en: ${_imageFile!.path}");
         //MENSAJE SI LA FOTOGRAFIA ES TOMADA CON EXITO O NO
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Foto tomada con exito")),
@@ -306,7 +305,6 @@ class _PantallaCamaraState extends State<PantallaCamara> {
         setState(() {
           _imageFile = selectedImage;
         });
-        print("Imagen seleccionada desde la galería: ${_imageFile!.path}");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Imagen seleccionada exitosamente")),
         );

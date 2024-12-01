@@ -70,7 +70,6 @@ Future<void> _solicitarPermisos() async {
       false;
 
   if (!granted) {
-    print('Permiso de notificaciones no concedido');
   }
 }
 
@@ -93,7 +92,6 @@ void configurarCanalNotificacion() async {
 
   void _handleIncomingLinks() async {
     final initialLink = await _appLinks.getInitialLinkString();
-    print("Initial link: $initialLink");
     if (initialLink != null && initialLink != _lastProcessedLink) {
       _navigateToDeepLinkScreen(initialLink);
     }
@@ -122,25 +120,19 @@ void configurarCanalNotificacion() async {
       if (response.statusCode == 200) {
         // Validación exitosa, navegar a la pantalla correspondiente
         _lastProcessedLink = null;
-        print("Validación exitosa: ${response.body}");
         navigatorKey.currentState?.pushReplacementNamed('Pantalla3');
       } else {
         // Hubo un error en la validación
-        print("Error en la validación: ${response.body}");
       }
     } else if (path == '/reset-password' && token != null) {
-      print("Si entro a la ruta reset-password");
       navigatorKey.currentState
           ?.pushReplacementNamed('resetPassword', arguments: token);
       _lastProcessedLink = null;
-      print(_lastProcessedLink);
     } else {
-      print("Token no válido o ruta incorrecta");
     }
   }
 
   Future<void> mostrarNotificacionInmediata() async {
-  print('Mostrando notificación inmediata');
 
   await flutterLocalNotificationsPlugin.show(
     0,
@@ -192,7 +184,6 @@ void configurarCanalNotificacion() async {
     if (programacion.isBefore(ahora)) {
       programacion = programacion.add(const Duration(days: 1));
     }
-    print('Notificación programada para: $programacion');
     return programacion;
   }
 

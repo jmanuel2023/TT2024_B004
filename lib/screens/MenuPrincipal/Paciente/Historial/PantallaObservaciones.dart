@@ -56,7 +56,6 @@ class _PantallaObservacionesState extends State<PantallaObservaciones> {
             .toList();
       });
     } catch (e) {
-      print('Error al cargar el historial: $e');
     }
   }
 

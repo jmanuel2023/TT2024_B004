@@ -428,10 +428,7 @@ class _RegistrarseState extends State<Registrarse> {
                             String respuesta =
                                 await userService.registroUsuario(user);
 
-                            print("Respuesta:" + respuesta);
-
                             if (int.parse(respuesta) == 1) {
-                              print("Entre al if del 1");
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     content:
@@ -443,7 +440,6 @@ class _RegistrarseState extends State<Registrarse> {
                                       builder: (context) =>
                                           EsperaConfirmacion(correo: correo,)));
                             } else if (int.parse(respuesta) == 2) {
-                              print("entre al else if");
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     content: Text(
@@ -451,7 +447,6 @@ class _RegistrarseState extends State<Registrarse> {
                               );
                             }
                           } catch (e) {
-                            print('Error al registrar usuario: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text(

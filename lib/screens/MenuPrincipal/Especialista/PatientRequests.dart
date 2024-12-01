@@ -44,7 +44,6 @@ class _PatientRequestsState extends State<PatientRequests> {
       _pacientes = pacientes;
     });
     } catch (e){
-      print("Error al cargar datos: $e");
     } finally{
       setState(() {
         cargando = false;
@@ -108,12 +107,6 @@ class _PatientRequestsState extends State<PatientRequests> {
               itemCount: _pacientes.length,
               itemBuilder: (context, index) {
                 var paciente = _pacientes[index];
-                print(paciente['nombre']);
-                print(paciente['apellidos']);
-                print(paciente['correo']);
-                print(paciente['id']);
-                print(especialistaId ?? "");
-                print(token!);
                 return PacienteCard(
                     nombre: paciente['nombre'],
                     apellidos: paciente['apellidos'],

@@ -21,9 +21,7 @@ class _DisableNotificationsScreenState
     try {
       // Cancela todas las notificaciones programadas o activas
       await flutterLocalNotificationsPlugin.cancelAll();
-      print("Notificaciones desactivadas correctamente");
     } catch (e) {
-      print("Error al desactivar notificaciones: $e");
     }
   }
 

@@ -11,13 +11,10 @@ class ApiServicios {
     //clave, nombre_imagen
     var response = await request.send();
 
-    print(response.statusCode);
-
     if (response.statusCode == 200 || response.statusCode == 201) {
       var respuesta = await response.stream.bytesToString();
       return json.decode(respuesta);
     } else {
-      print("Error al analizar la imagen");
       throw Exception('Error al analizar la imagen: ${response.statusCode}');
     }
   }

@@ -42,6 +42,6 @@ class Lesion {
     );
   }
    String get formattedDate {
-    return DateFormat('yyyy-MM-dd').format(fecha); // Ejemplo: "2023-11-23"
+    return DateFormat('yyyy-MM-dd').format(fecha); // Ejemplo de salida de la fecha: "2023-11-23"
   }
 }

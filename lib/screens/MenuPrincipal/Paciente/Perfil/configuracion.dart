@@ -79,7 +79,6 @@ class _ConfiguracionState extends State<Configuracion> {
               Icons.notifications_off,
               () {
                 // Acción para desactivar notificaciones
-                print('Desactivar Notificaciones');
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -146,7 +145,6 @@ class _ConfiguracionState extends State<Configuracion> {
                                 );
                               }
                             } catch (e) {
-                              print('Error al eliminar la cuenta: $e');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(

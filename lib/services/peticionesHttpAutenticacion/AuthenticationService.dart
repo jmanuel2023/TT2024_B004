@@ -17,7 +17,6 @@ class AuthenticationService {
 
     if(response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print(data);
 
       //almacenando datos en el FluuterSecureStorage
       await _storage.write(key: "token", value: data['token']);
@@ -32,11 +31,9 @@ class AuthenticationService {
       return data2;
     }else if(response.statusCode == 403){
       final data3= jsonDecode(response.body);
-      print(data3);
       return data3;
     }
     else{
-      print(response.statusCode);
       throw Exception('Error al iniciar sesión');
     }
   }

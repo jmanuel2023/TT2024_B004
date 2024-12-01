@@ -97,12 +97,6 @@ class _PacienteCardState extends State<PacienteCard> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.nombre);
-    print(widget.apellidos);
-    print(widget.correo);
-    print(widget.idPaciente);
-    print(widget.especialistaId);
-    print(widget.token);
 
     return Card(
       shape: RoundedRectangleBorder(

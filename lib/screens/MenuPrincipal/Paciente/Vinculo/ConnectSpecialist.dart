@@ -36,7 +36,6 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
       _especialistas = especialistas;
     });
     } catch (e) {
-      print("Error al cargar datos: $e");
     } finally {
       setState(() {
         cargando = false;
@@ -55,7 +54,6 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   void initState() {
     super.initState();
     late String start = "nada";
-    print(start);
     _cargarDatos(start);
     _busquedaController.addListener(_cambioBusqueda);
   }
@@ -174,7 +172,6 @@ class _EspecialistaCardState extends State<EspecialistaCard> {
   void _revisarStatusVinculacion() async {
     final estados = await userService.obtenerEstadoVinculacion(
         widget.pacienteId, widget.especialistaId, widget.token);
-    print(estados);
     if (estados != null && estados.isNotEmpty) {
       setState(() {
         status = estados.join(', ');

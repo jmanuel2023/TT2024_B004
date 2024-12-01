@@ -212,8 +212,7 @@ class _InicioDeSesionState extends State<InicioDeSesion> {
                                 );
                           }
                         } catch (e) {
-                          print(
-                              'Error de autenticación: $e'); //En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
+//En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
                                 'Error de conexión, intenta de nuevo más tarde'),

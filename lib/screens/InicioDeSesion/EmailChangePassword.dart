@@ -176,8 +176,7 @@ class _EmailChangePasswordState extends State<EmailChangePassword> {
                                     ));
                                   }
                                 } catch (e) {
-                                  print(
-                                      'Error de autenticación: $e'); //En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
+ //En caso de un error con comunicación con el servicio, indicara un mensaje de error de conexión
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
                                     content: Text(
