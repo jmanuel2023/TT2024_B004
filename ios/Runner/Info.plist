@@ -12,6 +12,10 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se necesita acceso a la galería para seleccionar imágenes.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Se necesita acceso a la cámara para capturar imágenes.</string>
 	<key>CFBundleName</key>
 	<string>skincanbe</string>
 	<key>CFBundlePackageType</key>
@@ -49,7 +53,7 @@
 	<array><string>http</string>
 	</array>
 	<key>CFBundleURLName</key>
-	<string>192.168.100.63:8080</string>
+	<string>1ec2-3-139-55-202.us-east-2.compute.amazonaws.com:8080</string>
 	</dict>
 	</array>
 	<key>NSUserActivityTypes</key>
@@ -58,7 +62,7 @@
 	</array>
 	<key>AssociatedDomains</key>
 	<array>
-	<string>applinks:192.168.100.63:8080</string>
+	<string>applinks:ec2-3-139-55-202.us-east-2.compute.amazonaws.com:8080</string>
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>

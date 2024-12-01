@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.CAMERA"/>
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
@@ -33,7 +35,7 @@
 
         
             <data android:scheme="http"
-            android:host="192.168.100.63"
+            android:host="ec2-3-139-55-202.us-east-2.compute.amazonaws.com"
             android:port="8080"
             android:pathPrefix="/validar" />
             </intent-filter>
@@ -46,7 +48,7 @@
 
         
             <data android:scheme="http"
-            android:host="192.168.100.63"
+            android:host="ec2-3-139-55-202.us-east-2.compute.amazonaws.com"
             android:port="8080"
             android:pathPrefix="/reset-password" />
             </intent-filter>

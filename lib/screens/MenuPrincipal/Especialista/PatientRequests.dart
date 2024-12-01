@@ -101,7 +101,7 @@ class _PatientRequestsState extends State<PatientRequests> {
           children: [
             SizedBox(height: 20),
             Expanded(
-                child: cargando ? Center(child: CircularProgressIndicator(),) 
+                child: cargando ? Center(child: CircularProgressIndicator(color:  Color.fromRGBO(204, 87, 54, 1)),) 
                 : _pacientes.isEmpty ? Center(child: Text("No hay solicitudes de pacientes",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),)                
                 : ListView.builder(

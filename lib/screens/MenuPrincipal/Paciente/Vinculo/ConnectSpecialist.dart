@@ -109,7 +109,7 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
             SizedBox(height: 20),
             // Lista de especialistas
             Expanded(
-                child: cargando ? Center(child: CircularProgressIndicator(),)
+                child: cargando ? Center(child: CircularProgressIndicator(color: Color.fromRGBO(204, 87, 54, 1)),)
               : _especialistas.isEmpty ? Center(
                 child: Text("No hay especialistas disponibles",
                 style: TextStyle(

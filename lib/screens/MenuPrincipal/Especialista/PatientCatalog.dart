@@ -74,7 +74,7 @@ class _PatientCatalogState extends State<PatientCatalog> {
           future: _lesionesPacientes,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(color:  Color.fromRGBO(204, 87, 54, 1)));
             } else if (snapshot.hasError) {
               return Center(
                   child: Column(

@@ -21,6 +21,8 @@ class _AgregarObservacionScreenState extends State<AgregarObservacionScreen> {
   String? apellidos;
   String? correo;
   List<dynamic> observaciones = []; // Lista para almacenar las observaciones
+  bool cargando = false;
+
 
   @override
   void initState() {
@@ -29,6 +31,9 @@ class _AgregarObservacionScreenState extends State<AgregarObservacionScreen> {
   }
 
   Future<void> _cargarDatos() async {
+    setState(() {
+      cargando = true;
+    });
     final storage = FlutterSecureStorage();
     token = await storage.read(key: "token");
     id = await storage.read(key: "idUsuario");
@@ -54,6 +59,11 @@ class _AgregarObservacionScreenState extends State<AgregarObservacionScreen> {
       });
     } catch (e) {
       print('Error al cargar el historial: $e');
+    }
+    finally{
+      setState(() {
+        cargando = false;
+      });
     }
   }
 
@@ -144,18 +154,26 @@ class _AgregarObservacionScreenState extends State<AgregarObservacionScreen> {
             ),
             SizedBox(height: 10.0),
             Expanded(
-              child: ListView.builder(
+              child: cargando ? Center(child: CircularProgressIndicator(color:  Color.fromRGBO(204, 87, 54, 1)),)
+              : observaciones.isEmpty ? Center(
+                child: Text("No hay observaciones para esta lesión",
+                  style: TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold)
+                  ),
+                )
+              : ListView.builder(
                 itemCount: observaciones.length,
                 itemBuilder: (context, index) {
                   final observacion = observaciones[index];
                   return Card(
+                    color: Color.fromRGBO(204, 87, 54, 1),
                     margin: EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
-                      title: Text('Observación ${index + 1}'),
+                      title: Text('Observación ${index + 1}', style: TextStyle(fontWeight: FontWeight.bold, color:  Color.fromRGBO(255,255,255,1)),),
                       subtitle: Column(
                         children: [
-                          Text(observacion['descripcion']),
-                          Text(observacion['fecha'])
+                          Text(observacion['descripcion'],style: TextStyle(fontWeight: FontWeight.w300, color:  Color.fromRGBO(255,255,255,1))),
+                          Text(observacion['fecha'], style: TextStyle(fontWeight: FontWeight.w400, color:  Color.fromRGBO(255,255,255,1)))
                         ],
                       ),
                     ),

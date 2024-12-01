@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/InformacionLesion.dart';
+//import 'package:skincanbe/services/api_services.dart';
 import 'package:skincanbe/services/peticionesHttpLesion/LesionServices.dart';
 
 class DisplayPicture extends StatefulWidget {
@@ -70,13 +71,28 @@ void _mensajeConfirmacion() {
   String _colocarDescripcion(String lesion){
 
     if(lesion == 'Nevo melanocitico'){
-      return "Lesion beningna, la cual es un parche de piel de color oscuro y a menudo velludo.";
+      return "No se encontraron indicios de cáncer.";
     }
-    // else if (lesion == ''){
-
-    // }
+    else if (lesion == 'Carcinoma basocelular'){
+      return "Llagas abiertas, manchas rojas, crecimientos rosados, bultos brillantes, cicatrices o crecimientos con bordes ligeramente elevados y enrollados o con una hendidura central.";
+    }
+    else if (lesion == 'Queratosis seborreica'){
+      return "Neoplasia cutánea común no cancerosa (benigna). Se presenta a menudo en personas de mayor edad, y se aparecen más de estas a medida que envejece la persona.";
+    }
+    else if (lesion == 'Queratosis actinica'){
+      return "Mancha áspera y escamosa en la piel que se presenta después de años de exposición al sol, a menudo, aparece en la cara, labios, las orejas, los antebrazos, el cuero cabelludo, el cuello y el dorso de las manos.";
+    }
+    else if (lesion == 'Lesión vascular'){
+      return "Daño o anormalidad que afecta los vasos sanguíneos del cuerpo, como las arterias, venas o capilares. Estas lesiones pueden ser congénitas (presentes desde el nacimiento) o adquiridas a lo largo de la vida debido a diversos factores, como enfermedades, traumatismos o infecciones.";
+    }
+    else if (lesion == 'Melanoma'){
+      return "Se origina cuando los melanocitos (las células que dan el color a la piel) comienzan a crecer de una manera incontrolable. Este tipo de cáncer no es tan frecuente a comparación de los otros tipos de cáncer, pero si es el más peligroso, ya que es mucho más probable que se propague a otras partes del cuerpo si no se descubre y trata a tiempo.";
+    }
+    else if (lesion == 'Dermatofibroma'){
+      return "Tumor cutáneo benigno originado por una proliferación excesiva del tejido fibroso de la dermis, la capa intermedia de la piel.";
+    }
     else{
-      return "Otra cosa";
+      return "Otro tipo de lesión";
     }
 
   }
@@ -131,8 +147,16 @@ void _mensajeConfirmacion() {
                             SnackBar(content: Text("Foto confirmada")));
                         /** AQUI VA LA API */
                         final lesionService = LesionServices();
+                        // final api_service = ApiServicios();
+                        // final respuesta =
+                        //     await api_service.peticion_api(widget.imagen);
+                        // final String nombreLesion =
+                        //     respuesta['predicted_class'];
+                        //  final String porcentaje = respuesta['prob'];
+                        //
                         final String nombreLesion = "Nevo melanocitico";
-                        final String porcentaje = "89.12%";
+                        final String porcentaje = "%67.23";
+
                         
                         final String descripcion = _colocarDescripcion(nombreLesion);
                         try {

@@ -208,42 +208,4 @@ class _EmailChangePasswordState extends State<EmailChangePassword> {
       ),
     );
   }
-
-  void _enviarSolicitudEmail() async {
-    final email = _emailController
-        .text; //Guarda en una variable lo que tiene el controlador de los campos del formulario
-
-    if (EmailValidator.validate(email)) {
-      //Metodo para validar el formato del correo electrónico
-
-      final resultado = await userService.recuperarPassword(
-          email); //Llamada asincrona al metodo recuperarPassoword del servicio UserService, pasandole como parametro el correo electrónico
-      //Condicion donde el correo es enviado correctamente
-      if (resultado == 'Correo enviado') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Correo enviado para recuperar contraseña"),
-        ));
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const InicioDeSesion()),
-        );
-      }
-      //Condicion donde el correo que ha ingresado, no se encuentra registrado en la base de datos
-      else if (resultado == 'Correo no registrado') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Correo no registrado"),
-        ));
-      }
-      //Condicion donde ha ocurrido un error
-      else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Ocurrió un error. Inténtalo de nuevo."),
-        ));
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Correo inválido"),
-      ));
-    }
-  }
 }

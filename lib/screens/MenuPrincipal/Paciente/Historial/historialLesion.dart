@@ -45,7 +45,6 @@ class _HistorialState extends State<Historial> {
     _cargarDatos();
   }
 
-
   @override
   //Widget que muestra el diseño de la pantalla
   Widget build(BuildContext context) {
@@ -75,14 +74,16 @@ class _HistorialState extends State<Historial> {
             future: _lesiones,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                    child: CircularProgressIndicator(
+                        color: Color.fromRGBO(204, 87, 54, 1)));
               } else if (snapshot.hasError) {
                 return Center(child: Text("Error: ${snapshot.error}"));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text("No hay lesiones registradas",
-                style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold
-                ),
+                return Center(
+                    child: Text(
+                  "No hay lesiones registradas",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ));
               } else {
                 final lesiones = snapshot.data!;
@@ -96,7 +97,7 @@ class _HistorialState extends State<Historial> {
                     children: lesiones.asMap().entries.map((entry) {
                       int index = entry.key;
                       Map<String, dynamic> lesionData = entry.value;
-
+                      print("RUTA DE LA IMAGEN: "+ lesionData['imagen']);
                       return ExpansionPanelRadio(
                         backgroundColor: Color.fromRGBO(233, 214, 204, 1),
                         value: index,
@@ -104,17 +105,30 @@ class _HistorialState extends State<Historial> {
                           return ListTile(
                             //Widegt para crear lista de elementos
                             leading: ClipOval(
-                              child: Image.network(
-                                lesionData["imagen"],
+                              child: FadeInImage.assetNetwork(
+                                placeholder:
+                                    'assets/images/loading.gif', // Coloca aquí un GIF o imagen local para el loading
+                                image: lesionData["imagen"],
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.cover,
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) => Icon(Icons
+                                        .error), // En caso de error al cargar la imagen
                               ),
                             ),
+
                             title: Text(
-                                lesionData['nombre_lesion'] ?? 'Sin nombre', style: TextStyle(fontWeight:FontWeight.bold, color: Color.fromRGBO(204, 87, 54, 1)),),
+                              lesionData['nombre_lesion'] ?? 'Sin nombre',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(204, 87, 54, 1)),
+                            ),
                             subtitle: Text(
-                                'Fecha de registro: ${lesionData['fecha']}', style: TextStyle(fontWeight:FontWeight.w400, color: Color.fromRGBO(204, 87, 54, 1))),
+                                'Fecha de registro: ${lesionData['fecha']}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(204, 87, 54, 1))),
                           );
                         },
                         body: ListTile(
@@ -142,7 +156,6 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
   print("Porcentaje: " + lesionData['porcentaje']);
   print("Imagen: " + lesionData['imagen']);
 
-
   showModalBottomSheet(
     backgroundColor: Color.fromRGBO(233, 214, 204, 1),
     context: context,
@@ -160,18 +173,25 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
             children: [
               Center(
                 child: ClipOval(
-                  child: Image.network(
-                    lesionData["imagen"],
+                  child: FadeInImage.assetNetwork(
+                    placeholder:
+                        'assets/images/loading.gif', // Coloca aquí un GIF o imagen local para el loading
+                    image: lesionData["imagen"],
                     width: 150,
                     height: 150,
                     fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.error), // En caso de error al cargar la imagen
                   ),
                 ),
               ),
               SizedBox(height: 8),
               Text(
                 "Resultados: ${lesionData['nombre_lesion']}",
-                style: TextStyle(fontSize: 16, color:  Color.fromRGBO(204, 87, 54, 1), fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromRGBO(204, 87, 54, 1),
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
               Text(
@@ -181,18 +201,29 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
               SizedBox(height: 8),
               Text(
                 "Porcentaje de coincidencia: ${lesionData['porcentaje']}",
-                style: TextStyle(fontSize: 16, color:  Color.fromRGBO(204, 87, 54, 1), fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Color.fromRGBO(204, 87, 54, 1),
+                    fontWeight: FontWeight.bold),
               ),
               Row(
                 children: [
                   MaterialButton(
                     onPressed: () async {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CompartirReporte(id_lesion: lesionData['id_lesion'].toString(), tipo_lesion: lesionData['nombre_lesion'], porcentaje: lesionData['porcentaje'],)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CompartirReporte(
+                                    id_lesion:
+                                        lesionData['id_lesion'].toString(),
+                                    tipo_lesion: lesionData['nombre_lesion'],
+                                    porcentaje: lesionData['porcentaje'],
+                                  )));
                     },
                     child: Text("Generar reporte"),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    color:  Color.fromRGBO(204, 87, 54, 1),
+                    color: Color.fromRGBO(204, 87, 54, 1),
                     textColor: Color.fromRGBO(255, 255, 255, 1),
                   ),
                   SizedBox(
@@ -210,7 +241,7 @@ void _showBottomSheet(BuildContext context, Map<String, dynamic> lesionData,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     color: Colors.white,
-                    textColor:  Color.fromRGBO(204, 87, 54, 1),
+                    textColor: Color.fromRGBO(204, 87, 54, 1),
                   ),
                 ],
               )
