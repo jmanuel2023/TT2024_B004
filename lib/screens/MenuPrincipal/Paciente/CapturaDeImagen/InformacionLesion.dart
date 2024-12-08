@@ -77,7 +77,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
                     height: 20,
                   ),
                   Text(
-                    "El análisis que  hizo el algoritmo de Skincanbe, indica que la lesion que capturó es de tipo:",
+                    "El análisis que  hizo el algoritmo de Skincanbe, indica que la lesión que capturo es de tipo:",
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,
@@ -101,7 +101,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Con un porcentaje de coincidencia del",
+                    "Con un porcentaje de confianza del",
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,
@@ -125,7 +125,7 @@ class _InformacionLesionState extends State<InformacionLesion> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    widget.descripcion!,
+                    'Descripción de la lesión: ${widget.descripcion!}',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w600,

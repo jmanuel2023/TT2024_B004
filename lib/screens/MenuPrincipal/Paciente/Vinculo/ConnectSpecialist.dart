@@ -21,6 +21,11 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
   String status = "Disponible";
   bool cargando = false;
 
+  Future<void> _refrescar() async{
+    // await Future.delayed(Duration(seconds: 2));
+    _cargarDatos("nada");
+  }
+
   //Metodo para cargar los datos desde el servicio
   Future<void> _cargarDatos(String filtro) async {
     setState(() {
@@ -89,47 +94,52 @@ class _ConnectSpecialistState extends State<ConnectSpecialist> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Campo de búsqueda
-            TextField(
-              controller: _busquedaController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Buscar por nombre o cédula',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+      body: RefreshIndicator(
+        color: Color.fromRGBO(255, 255, 255, 1),
+        backgroundColor: Color.fromRGBO(204, 87, 54, 1),
+        onRefresh: _refrescar,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Campo de búsqueda
+              TextField(
+                controller: _busquedaController,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: 'Buscar por nombre o cédula',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            // Lista de especialistas
-            Expanded(
-                child: cargando ? Center(child: CircularProgressIndicator(color: Color.fromRGBO(204, 87, 54, 1)),)
-              : _especialistas.isEmpty ? Center(
-                child: Text("No hay especialistas disponibles",
-                style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold)
-                ),
-                
-              )  
-              : ListView.builder(
-              itemCount: _especialistas.length,
-              itemBuilder: (context, index) {
-                var especialista = _especialistas[index];
-                return EspecialistaCard(
-                    nombre: especialista['nombre'],
-                    apellidos: especialista['apellidos'],
-                    correo: especialista['correo'],
-                    cedula: especialista['cedula'],
-                    pacienteId: id ?? "",
-                    especialistaId: especialista['id'],
-                    token: token!);
-              },
-            )),
-          ],
+              SizedBox(height: 20),
+              // Lista de especialistas
+              Expanded(
+                  child: cargando ? Center(child: CircularProgressIndicator(color: Color.fromRGBO(204, 87, 54, 1)),)
+                : _especialistas.isEmpty ? Center(
+                  child: Text("No hay especialistas disponibles",
+                  style: TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold)
+                  ),
+                  
+                )  
+                : ListView.builder(
+                itemCount: _especialistas.length,
+                itemBuilder: (context, index) {
+                  var especialista = _especialistas[index];
+                  return EspecialistaCard(
+                      nombre: especialista['nombre'],
+                      apellidos: especialista['apellidos'],
+                      correo: especialista['correo'],
+                      cedula: especialista['cedula'],
+                      pacienteId: id ?? "",
+                      especialistaId: especialista['id'],
+                      token: token!);
+                },
+              )),
+            ],
+          ),
         ),
       ),
     );
@@ -252,7 +262,7 @@ class _EspecialistaCardState extends State<EspecialistaCard> {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: status == "PENDIENTE"
-                    ? const Color.fromARGB(255, 0, 255, 42)
+                    ?  Color.fromARGB(255, 0, 255, 42)
                     : null,
                 disabledBackgroundColor: Colors.black,
                 disabledForegroundColor: Colors.white,

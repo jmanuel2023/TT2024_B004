@@ -47,6 +47,10 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_html: 3.0.0-beta.2
   image_picker: ^1.1.2
+  zoomable_image_cropper: ^0.1.0+1
+  path_provider: ^2.1.5
+  photo_manager: ^3.6.3
+  image_cropper: ^8.0.2
 
 dev_dependencies:
   flutter_test:

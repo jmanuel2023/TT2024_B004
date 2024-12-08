@@ -1,9 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/DisplayPicture.dart';
+import 'package:skincanbe/screens/MenuPrincipal/Paciente/CapturaDeImagen/imagePictureCropped.dart';
 
 class PantallaCamara extends StatefulWidget {
   @override
@@ -17,22 +16,17 @@ class _PantallaCamaraState extends State<PantallaCamara> {
       false; //Variable inicializada en false,que pronto nos va servir.
   XFile?
       _imageFile; //Variable que va guardar donde se va a guardar la imagen capturada de la camara.
-  String? id;
   Color _colorFondo = Color.fromRGBO(204, 87, 54, 1);
   Color _colorLetra = Color.fromRGBO(255, 255, 255, 1);
 
   @override
   void initState() {
     super.initState();
-    _cargarDatos();
+    _cargarCamaraMensajes();
   }
 
-  Future<void> _cargarDatos() async {
-    final storage = FlutterSecureStorage();
-    id = await storage.read(key: "idUsuario");
-
+  Future<void> _cargarCamaraMensajes() async {
     _openCamera();
-    _verMensajes();
   }
 
   @override
@@ -55,6 +49,7 @@ class _PantallaCamaraState extends State<PantallaCamara> {
       setState(() {
         _isCameraInitialized = true; //Cambia el valor de esta variable
       });
+          _verMensajes();
     } else {
       //AQUI SE MANEJA EL CASO DE QUE EL USUARIO DENEGUE LOS PERMISOS DEL USO DE LA CAMARA
       ScaffoldMessenger.of(context).showSnackBar(
@@ -82,7 +77,7 @@ class _PantallaCamaraState extends State<PantallaCamara> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DisplayPicture(imagen: _imageFile!, id: id ?? "")));
+                    ImageCropScreen(imageFile: _imageFile!)));
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error al tomar la foto: $e")),
@@ -312,7 +307,7 @@ class _PantallaCamaraState extends State<PantallaCamara> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DisplayPicture(imagen: _imageFile!, id: id ?? ""),
+                ImageCropScreen(imageFile: _imageFile!),
           ),
         );
       } else {

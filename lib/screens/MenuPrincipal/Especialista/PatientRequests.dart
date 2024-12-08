@@ -31,6 +31,7 @@ class _PatientRequestsState extends State<PatientRequests> {
 
   // Método para cargar los datos desde el servicio
   Future<void> _cargarDatos() async {
+    // await Future.delayed(Duration(seconds: 2));
     setState(() {
       cargando = true;
     });
@@ -94,30 +95,35 @@ class _PatientRequestsState extends State<PatientRequests> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Expanded(
-                child: cargando ? Center(child: CircularProgressIndicator(color:  Color.fromRGBO(204, 87, 54, 1)),) 
-                : _pacientes.isEmpty ? Center(child: Text("No hay solicitudes de pacientes",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),)                
-                : ListView.builder(
-              itemCount: _pacientes.length,
-              itemBuilder: (context, index) {
-                var paciente = _pacientes[index];
-                return PacienteCard(
-                    nombre: paciente['nombre'],
-                    apellidos: paciente['apellidos'],
-                    correo: paciente['correo'],
-                    idPaciente: paciente['id'],
-                    especialistaId: especialistaId ?? "",
-                    token: token!,
-                    eliminacion: _eliminarTarjeta);
-              },
-            )),
-          ],
+      body: RefreshIndicator(
+        color: Color.fromRGBO(255, 255, 255, 1),
+        backgroundColor: Color.fromRGBO(204, 87, 54, 1),
+        onRefresh: _cargarDatos,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Expanded(
+                  child: cargando ? Center(child: CircularProgressIndicator(color:  Color.fromRGBO(204, 87, 54, 1)),) 
+                  : _pacientes.isEmpty ? Center(child: Text("No hay solicitudes de pacientes",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),)                
+                  : ListView.builder(
+                itemCount: _pacientes.length,
+                itemBuilder: (context, index) {
+                  var paciente = _pacientes[index];
+                  return PacienteCard(
+                      nombre: paciente['nombre'],
+                      apellidos: paciente['apellidos'],
+                      correo: paciente['correo'],
+                      idPaciente: paciente['id'],
+                      especialistaId: especialistaId ?? "",
+                      token: token!,
+                      eliminacion: _eliminarTarjeta);
+                },
+              )),
+            ],
+          ),
         ),
       ),
     );

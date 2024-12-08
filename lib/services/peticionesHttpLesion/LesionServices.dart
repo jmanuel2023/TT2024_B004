@@ -74,7 +74,8 @@ class LesionServices {
     final response = await http.get(Uri.parse("$_viewInjuries/$usuarioId"));
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      String utf8Response = utf8.decode(response.bodyBytes);
+      return jsonDecode(utf8Response);
     } else {
       throw Exception("Error al obtener lesiones");
     }

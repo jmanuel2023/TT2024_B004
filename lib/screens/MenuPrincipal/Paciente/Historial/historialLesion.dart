@@ -30,6 +30,7 @@ class _HistorialState extends State<Historial> {
   String? token;
 
   Future<void> _cargarDatos() async {
+    // await Future.delayed(Duration(seconds: 2));
     final storage = FlutterSecureStorage();
     id = await storage.read(key: "idUsuario");
     token = await storage.read(key: "token");
@@ -70,79 +71,84 @@ class _HistorialState extends State<Historial> {
             ),
           ],
         ),
-        body: FutureBuilder<List<dynamic>>(
-            future: _lesiones,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: CircularProgressIndicator(
-                        color: Color.fromRGBO(204, 87, 54, 1)));
-              } else if (snapshot.hasError) {
-                return Center(child: Text("Error: ${snapshot.error}"));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(
-                    child: Text(
-                  "No hay lesiones registradas",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ));
-              } else {
-                final lesiones = snapshot.data!;
-                return SingleChildScrollView(
-                  //Cuerpo de la pantalla
-                  child: ExpansionPanelList.radio(
-                    //Widget para la expansion de una lista de paneles
-                    initialOpenPanelValue:
-                        _expandedIndex, //Valor unico para identificar el panel
-                    expandedHeaderPadding: EdgeInsets.all(8),
-                    children: lesiones.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      Map<String, dynamic> lesionData = entry.value;
-                      return ExpansionPanelRadio(
-                        backgroundColor: Color.fromRGBO(233, 214, 204, 1),
-                        value: index,
-                        headerBuilder: (context, isExpanded) {
-                          return ListTile(
-                            //Widegt para crear lista de elementos
-                            leading: ClipOval(
-                              child: FadeInImage.assetNetwork(
-                                placeholder:
-                                    'assets/images/loading.gif', // Coloca aquí un GIF o imagen local para el loading
-                                image: lesionData["imagen"],
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                                imageErrorBuilder:
-                                    (context, error, stackTrace) => Icon(Icons
-                                        .error), // En caso de error al cargar la imagen
+        body: RefreshIndicator(        
+        color: Color.fromRGBO(255, 255, 255, 1),
+        backgroundColor: Color.fromRGBO(204, 87, 54, 1),
+          onRefresh: _cargarDatos,
+          child: FutureBuilder<List<dynamic>>(
+              future: _lesiones,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                          color: Color.fromRGBO(204, 87, 54, 1)));
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                      child: Text(
+                    "No hay lesiones registradas",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ));
+                } else {
+                  final lesiones = snapshot.data!;
+                  return SingleChildScrollView(
+                    //Cuerpo de la pantalla
+                    child: ExpansionPanelList.radio(
+                      //Widget para la expansion de una lista de paneles
+                      initialOpenPanelValue:
+                          _expandedIndex, //Valor unico para identificar el panel
+                      expandedHeaderPadding: EdgeInsets.all(8),
+                      children: lesiones.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        Map<String, dynamic> lesionData = entry.value;
+                        return ExpansionPanelRadio(
+                          backgroundColor: Color.fromRGBO(233, 214, 204, 1),
+                          value: index,
+                          headerBuilder: (context, isExpanded) {
+                            return ListTile(
+                              //Widegt para crear lista de elementos
+                              leading: ClipOval(
+                                child: FadeInImage.assetNetwork(
+                                  placeholder:
+                                      'assets/images/loading.gif', // Coloca aquí un GIF o imagen local para el loading
+                                  image: lesionData["imagen"],
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) => Icon(Icons
+                                          .error), // En caso de error al cargar la imagen
+                                ),
                               ),
-                            ),
-
-                            title: Text(
-                              lesionData['nombre_lesion'] ?? 'Sin nombre',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(204, 87, 54, 1)),
-                            ),
-                            subtitle: Text(
-                                'Fecha de registro: ${lesionData['fecha']}',
+          
+                              title: Text(
+                                lesionData['nombre_lesion'],
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromRGBO(204, 87, 54, 1))),
-                          );
-                        },
-                        body: ListTile(
-                          title: Text('Más detalles...'),
-                          onTap: () {
-                            _showBottomSheet(context, lesionData, token!,
-                                reporteService); //Metodo para visualizar los detalles de la lesion en una mini pantalla
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(204, 87, 54, 1)),
+                              ),
+                              subtitle: Text(
+                                  'Fecha de registro: ${lesionData['fecha']}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Color.fromRGBO(204, 87, 54, 1))),
+                            );
                           },
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                );
-              }
-            }));
+                          body: ListTile(
+                            title: Text('Más detalles...'),
+                            onTap: () {
+                              _showBottomSheet(context, lesionData, token!,
+                                  reporteService); //Metodo para visualizar los detalles de la lesion en una mini pantalla
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                }
+              }),
+        ));
   }
 }
 

@@ -46,10 +46,6 @@ class PantallaEntrada extends StatefulWidget {
     apellidos = await storage.read(key: "apellidos");
     correo = await storage.read(key: "email");
     id = await storage.read(key: "idUsuario");
-
-    setState(() {
-      
-    });
   }
 
 
@@ -82,8 +78,8 @@ class PantallaEntrada extends StatefulWidget {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Información'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_hospital), label: 'Conectar'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Información'), // 0
+          BottomNavigationBarItem(icon: Icon(Icons.local_hospital), label: 'Conectar'),//1
           BottomNavigationBarItem(icon:Icon(Icons.camera), label: 'Cámara'),
           BottomNavigationBarItem(icon: Icon(Icons.library_books), label: 'Historial'),
           BottomNavigationBarItem(icon: Icon(Icons.person_pin), label: 'Perfil') 

@@ -1,7 +1,7 @@
 const List<Map<String, String>> infodatospiel = [
     {
       "headerValue": "Sintomas del cáncer de piel",
-      "description": "¿Cuáles son los sintomas del cácncer de piel...?",
+      "description": "¿Cuáles son los sintomas del cáncer de piel...?",
       "expandedValue": "El <b>cáncer de piel</b> es una enfermedad producida por el desarrollo de células cancerosas en cualquier parte de la piel."+
       "<br><ul><li>Cualquier llaga, protuberancia, imperfección, marca o cambio en el aspecto o la sensación de un área de la piel pudiera ser una señal de cáncer o una advertencia de que puede producirse</li>"+
       "<li>Lunares anormales Las mancha nuevas o ya existentes que hayan cambiado de tamaño, forma o color son señales importantes que es necesario revisar</li></ul>"

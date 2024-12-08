@@ -46,11 +46,7 @@ class PantallaPrincipal extends StatelessWidget {
     return Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,      //con esto los elementos del column se alinean al final de la pantalla en horizontal
-                children: [
-                // _botonGoogle(),                               //--> Metodo propio para el boton de registro con Google
-                SizedBox(
-                  height: 30,
-                ),
+                children: [                              
                 _botonesAuth(context)                                //--> Metodo propio para los botones de registro e inicio de sesión
                 ]
               ),
@@ -82,7 +78,7 @@ class PantallaPrincipal extends StatelessWidget {
                         );
                       },),
                       SizedBox(width: 40),
-                      _botonAuth(label: "Iniciar Sesión",
+                      _botonAuth(label: "Iniciar sesión",
                       color: const Color.fromARGB(255, 12, 12, 12),
                       textColor: const Color.fromARGB(255, 236, 234, 234),
                       onPressed: (){
@@ -113,35 +109,12 @@ class PantallaPrincipal extends StatelessWidget {
         );
   }
 
-  Container _botonGoogle() {                      //METODO DEL BOTON DE REGISTRO CON GOOGLE
-    return Container(
-                padding: EdgeInsets.all(10),
-                child: MaterialButton(
-                  onPressed: (){},
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                  color: Colors.white,
-                  child: Row(
-                    children: [
-                      Image.asset("assets/images/google.png", width: 70, height: 70,), //Logo de google desde la carpeta assets/images
-                      SizedBox(width: 9),
-                      Text("Registrate con Google", style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w200                         
-                      ),),
-                    ],
-                  ),
-                  ),
-              );
-  }
-
-  Container _LogoEncabezado(Size size, BuildContext context) { //METODO PARA EL ENCABEZADO CON EL LOGO
+Container _LogoEncabezado(Size size, BuildContext context) { //METODO PARA EL ENCABEZADO CON EL LOGO
     return Container(
               width: double.infinity,
               height: size.height * 0.82,
               child: Row(
-                children: <Widget>[
+                children:[
               Image.asset(
                 'assets/images/logo.png',
                 width: 120,
